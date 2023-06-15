@@ -3,6 +3,7 @@ import bodyparser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import morgan from 'morgan';
 import dbconnect from "./Config/dbconnect.js";
 import authRouter from "./Routes/authRoute.js";
 import { errorHandler, notFound } from "./Middlewares/errorHandler.js";
@@ -22,6 +23,9 @@ app.use(cors());
 
 //For refreshing the token 
 app.use(cookieParser());
+
+//Using Morgan 
+app.use(morgan('dev'));
 
 const PORT = process.env.PORT;
 

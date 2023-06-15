@@ -10,6 +10,7 @@ import {
   unblockAUserController,
   getRefreshTokenController,
   logoutUserController,
+  changePasswordController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -23,6 +24,7 @@ authRouter.post("/login",loginUserController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
 authRouter.get("/logout", logoutUserController);
+authRouter.put('/change-password',authMiddleware, changePasswordController)
 authRouter.get("/:id", authMiddleware , isAdminMiddleware ,getAUserController);
 authRouter.delete("/:id",deleteAUserController);
 authRouter.put("/edit-user",authMiddleware,updateAUserController);

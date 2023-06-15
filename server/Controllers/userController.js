@@ -144,7 +144,7 @@ export const updateAUserController = async(req , res) => {
                 new : true,
             }
         );
-        res.json({updatedUser});
+        res.json(updatedUser);
 
     } catch (error) {
         throw new Error(error);
@@ -180,5 +180,22 @@ export const unblockAUserController = async(req , res) => {
       res.json(unblockUser);
     } catch (error) {
       throw new Error(error);
+    }
+}
+
+//Updating Password
+export const changePasswordController = async (req , res) => {
+    const {_id} = req.user;
+    const {password} = req.body;
+    validateMongodbId(_id);
+    const user = await userModel.findById(_id);
+
+    if(password){
+        user.password = password;
+        const updatedPassword = await user.save();
+        res.json(updatedPassword);
+    }
+    else{
+        res.json(user);
     }
 }

@@ -3,6 +3,8 @@ import { generateRefreshToken } from "../Config/refreshToken.js";
 import userModel from "../Models/userModel.js";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import { sendEmail } from "./emailController.js";
 
 //Create A User
 export const createUserController = async(req,res) => {
@@ -198,4 +200,47 @@ export const changePasswordController = async (req , res) => {
     else{
         res.json(user);
     }
+}
+
+//Generate Token when user want to reset his password and clicks on reset password after entering email in the field
+export const getForgotPasswordTokenController = async(req , res) => {
+    const {email} = req.body;
+    const foundUser = await userModel.findOne({email});
+    if(!foundUser){
+        throw new Error("User not found with this Email ID");
+    }
+    try {
+        const token = await foundUser.createPasswordResetToken();
+        await foundUser.save();
+        const resetURL = `Hi follow this Link to reset your password . This link is valid for 10 minutes from now . <a href=http://localhost:3001/api/user/reset-password/${token}>Click Here</a>`
+        const data = {
+            to : email,
+            text : "Hey , User",
+            subject : "Forgot password Link",
+            htm : resetURL, 
+        }
+        sendEmail(data);
+        res.json(token);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//This will reset password when user clicks on link which is sent to him through email and enters new password
+export const resetPasswordController = async (req , res) => {
+    const {password} = req.body;
+    const {token} = req.params;
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const foundUser = await userModel.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+    if(!foundUser){
+        throw new Error("Token Expired , Please try again Later");
+    }
+    foundUser.password = password;
+    foundUser.passwordResetToken = undefined;
+    foundUser.passwordResetExpires = undefined;
+    await foundUser.save();
+    res.json(foundUser);
 }

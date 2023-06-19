@@ -8,9 +8,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    images: {
-      type: Array,
-    },
+    images: [],
     slug: {
       type: String,
       required: true,

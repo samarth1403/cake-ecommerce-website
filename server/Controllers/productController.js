@@ -2,6 +2,8 @@ import productModel from "../Models/productModel.js";
 import slugify from "slugify";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
 import userModel from "../Models/userModel.js";
+import { cloudinaryUploadImage } from "../Utils/cloudinary.js";
+import fs from 'fs';
 
 export const createProductController = async (req, res) => {
   if (req.body.title) {
@@ -200,6 +202,41 @@ export const rateAProductController = async (req, res) => {
     
     res.json(finalProduct);
   
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+//Uploading Images of Products
+export const uploadProdImgController = async (req, res) => {
+  const { id } = req.params;
+  validateMongodbId(id);
+  try {
+    const uploader = (path) => cloudinaryUploadImage(path, "images");
+    const urls = [];
+    const files = req.files;
+
+    //looping on files
+    for (const file of files) {
+      const { path } = file;
+      const newPath = await uploader(path);
+      urls.push(newPath);
+      fs.unlinkSync(path);
+    }
+
+    //Updating the Product
+    const updatedProduct = await productModel.findByIdAndUpdate(
+      id,
+      {
+        images: urls.map((file) => {
+          return file;
+        }),
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updatedProduct);
   } catch (error) {
     throw new Error(error);
   }

@@ -1,5 +1,7 @@
 import blogModel from "../Models/blogModel.js";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
+import { cloudinaryUploadImage } from "../Utils/cloudinary.js";
+import fs from 'fs';
 
 export const createBlogController = async(req , res) => {
     try {
@@ -172,4 +174,39 @@ export const dislikeABlogController = async (req, res) => {
     );
   }
     res.json(newblog);
+};
+
+//Uploading blog images 
+export const uploadBlogImgController = async (req, res) => {
+  const { id } = req.params;
+  validateMongodbId(id);
+  try {
+    const uploader = (path) => cloudinaryUploadImage(path, "images");
+    const urls = [];
+    const files = req.files;
+
+    //looping on files
+    for (const file of files) {
+      const { path } = file;
+      const newPath = await uploader(path);
+      urls.push(newPath);
+      fs.unlinkSync(path);
+    }
+
+    //Updating the Product
+    const updatedBlog = await blogModel.findByIdAndUpdate(
+      id,
+      {
+        images: urls.map((file) => {
+          return file;
+        }),
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updatedBlog);
+  } catch (error) {
+    throw new Error(error);
+  }
 };

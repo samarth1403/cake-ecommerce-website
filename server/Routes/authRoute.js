@@ -14,6 +14,7 @@ import {
   getForgotPasswordTokenController,
   resetPasswordController,
   loginAdminController,
+  getWishListController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -27,6 +28,7 @@ authRouter.post("/login/user",loginUserController);
 authRouter.get("/login/admin",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
+authRouter.get("/wishList", authMiddleware, getWishListController);
 authRouter.get("/logout", logoutUserController);
 authRouter.put('/change-password',authMiddleware, changePasswordController);
 authRouter.post('/forgot-password-token',getForgotPasswordTokenController);
@@ -34,7 +36,10 @@ authRouter.put('/reset-password/:token',resetPasswordController);
 authRouter.get("/:id", authMiddleware , isAdminMiddleware ,getAUserController);
 authRouter.delete("/:id",deleteAUserController);
 authRouter.put("/edit-user",authMiddleware,updateAUserController);
+
 authRouter.put("/block-user/:id", authMiddleware, isAdminMiddleware, blockAUserController);
+
 authRouter.put("/unblock-user/:id", authMiddleware, isAdminMiddleware, unblockAUserController);
 
+authRouter.get("/wishList", authMiddleware, getWishListController);
 export default authRouter;

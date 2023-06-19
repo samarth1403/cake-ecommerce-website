@@ -282,3 +282,14 @@ export const resetPasswordController = async (req , res) => {
     await foundUser.save();
     res.json(foundUser);
 }
+
+//Get a wishlist
+export const getWishListController = async (req , res) => {
+    const {_id} = req.user;
+    try {
+        const foundUser = await userModel.findById(_id).populate("wishList");
+        res.json(foundUser);
+    } catch (error) {
+        throw new Error(error);
+    }
+}

@@ -11,6 +11,7 @@ import productRouter from "./Routes/productRoute.js";
 import blogRouter from "./Routes/blogRoute.js";
 import prodCategoryRouter from "./Routes/prodCategoryRoute.js";
 import blogCategoryRouter from "./Routes/blogCategoryRoute.js";
+import occasionCategoryRouter from "./Routes/occasionCategoryRoute.js";
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/api/product',productRouter);
 app.use('/api/blog',blogRouter);
 app.use("/api/prodCategory", prodCategoryRouter);
 app.use("/api/blogCategory",blogCategoryRouter);
+app.use("/api/occasionCategory",occasionCategoryRouter);
 
 //Using Middlewares
 app.use(notFound);

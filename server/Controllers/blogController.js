@@ -62,58 +62,60 @@ export const deleteABlogController = async(req , res) => {
 }
 
 export const likeABlogController = async(req , res) => {
-    const {blogId} = req.body;
-    validateMongodbId(blogId);
+  const { blogId } = req.body;
+  validateMongodbId(blogId);
 
-    //finding the blog which you want to be liked
-    const blog = await blogModel.findById(blogId);
-    //finding the login user because only registered user can like
-    const loginUserId = req?.user?._id;
-    //finding if the user liked the blog
-    const isLiked = blog?.isLiked;
-    //finding if the user already disliked the blog
-    const alreadyDisliked = blog?.dislikes?.find(
-      (userId) => userId?.toString() === loginUserId.toString()
+  //finding the blog which you want to be liked
+  const blog = await blogModel.findById(blogId);
+  //finding the login user because only registered user can like
+  const loginUserId = req?.user?._id;
+  //finding if the user liked the blog
+  const isLiked = blog?.isLiked;
+  //finding if the user already disliked the blog
+  const alreadyDisliked = blog?.dislikes?.find(
+    (userId) => userId?.toString() === loginUserId.toString()
+  );
+
+  //Getting a updated blog
+  let newblog;
+
+  if (alreadyDisliked) {
+    newblog = await blogModel.findByIdAndUpdate(
+      blogId,
+      {
+        $pull: { dislikes: loginUserId },
+        isDisliked: false,
+      },
+      {
+        new: true,
+      }
     );
+  }
 
-    if(alreadyDisliked){
-        const newblog = await blogModel.findByIdAndUpdate(blogId,{
-            $pull : {dislikes : loginUserId},
-            isDisliked : false,
-        },
-        {
-            new : true
-        },);
-        res.json(newblog);
-    }
-
-    if(isLiked){
-        const newblog = await blogModel.findByIdAndUpdate(
-          blogId,
-          {
-            $pull: { likes: loginUserId },
-            isLiked: false,
-          },
-          {
-            new: true,
-          }
-        );
-        res.json(newblog);
-    }
-    else {
-        const newblog = await blogModel.findByIdAndUpdate(
-          blogId,
-          {
-            $push: { likes: loginUserId },
-            isLiked: true,
-          },
-          {
-            new: true,
-          }
-        );
-        res.json(newblog);
-    }
-    
+  if (isLiked) {
+    newblog = await blogModel.findByIdAndUpdate(
+      blogId,
+      {
+        $pull: { likes: loginUserId },
+        isLiked: false,
+      },
+      {
+        new: true,
+      }
+    );
+  } else {
+    newblog = await blogModel.findByIdAndUpdate(
+      blogId,
+      {
+        $push: { likes: loginUserId },
+        isLiked: true,
+      },
+      {
+        new: true,
+      }
+    );
+  }
+  res.json(newblog);
 }
 
 export const dislikeABlogController = async (req, res) => {
@@ -131,8 +133,10 @@ export const dislikeABlogController = async (req, res) => {
     (userId) => userId?.toString() === loginUserId.toString()
   );
 
+  //Getting a updated blog
+  let newblog;
   if (alreadyLiked) {
-    const newblog = await blogModel.findByIdAndUpdate(
+    newblog = await blogModel.findByIdAndUpdate(
       blogId,
       {
         $pull: { likes: loginUserId },
@@ -142,11 +146,10 @@ export const dislikeABlogController = async (req, res) => {
         new: true,
       }
     );
-    res.json(newblog)
   }
 
   if (isDisliked) {
-    const newblog = await blogModel.findByIdAndUpdate(
+    newblog = await blogModel.findByIdAndUpdate(
       blogId,
       {
         $pull: { dislikes: loginUserId },
@@ -156,9 +159,8 @@ export const dislikeABlogController = async (req, res) => {
         new: true,
       }
     );
-    res.json(newblog);
   } else {
-    const newblog = await blogModel.findByIdAndUpdate(
+    newblog = await blogModel.findByIdAndUpdate(
       blogId,
       {
         $push: { dislikes: loginUserId },
@@ -168,7 +170,6 @@ export const dislikeABlogController = async (req, res) => {
         new: true,
       }
     );
-    res.json(newblog);
   }
-  
+    res.json(newblog);
 };

@@ -9,6 +9,7 @@ import authRouter from "./Routes/authRoute.js";
 import { errorHandler, notFound } from "./Middlewares/errorHandler.js";
 import productRouter from "./Routes/productRoute.js";
 import blogRouter from "./Routes/blogRoute.js";
+import prodCategoryRouter from "./Routes/prodCategoryRoute.js";
 
 const app = express();
 
@@ -36,6 +37,7 @@ dbconnect();
 app.use('/api/user',authRouter);
 app.use('/api/product',productRouter);
 app.use('/api/blog',blogRouter);
+app.use("/api/prodCategory", prodCategoryRouter);
 
 //Using Middlewares
 app.use(notFound);

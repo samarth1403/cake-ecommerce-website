@@ -99,7 +99,7 @@ export const logoutUserController = async(req , res) => {
 //Get All Users
 export const getAllUsersController = async(req , res) => {
     try {
-        const allUsers = await userModel.find();
+        const allUsers = await userModel.find().populate("wishList");
         res.json(allUsers);
     } catch (error) {
         throw new Error(error);
@@ -111,7 +111,7 @@ export const getAUserController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        const user = await userModel.findById(id);
+        const user = await userModel.findById(id).populate("wishList");
         res.json(user);
     } catch (error) {
         throw new Error(error);

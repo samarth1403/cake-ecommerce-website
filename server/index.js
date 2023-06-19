@@ -10,6 +10,7 @@ import { errorHandler, notFound } from "./Middlewares/errorHandler.js";
 import productRouter from "./Routes/productRoute.js";
 import blogRouter from "./Routes/blogRoute.js";
 import prodCategoryRouter from "./Routes/prodCategoryRoute.js";
+import blogCategoryRouter from "./Routes/blogCategoryRoute.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/api/user',authRouter);
 app.use('/api/product',productRouter);
 app.use('/api/blog',blogRouter);
 app.use("/api/prodCategory", prodCategoryRouter);
+app.use("/api/blogCategory",blogCategoryRouter);
 
 //Using Middlewares
 app.use(notFound);

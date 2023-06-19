@@ -1,4 +1,4 @@
-import prodCategoryModel from "../Models/ProdCategoryModel.js";
+import prodCategoryModel from "../Models/prodCategoryModel.js";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
 
 export const createCategoryController = async(req , res) => {

@@ -8,6 +8,7 @@ import dbconnect from "./Config/dbconnect.js";
 import authRouter from "./Routes/authRoute.js";
 import { errorHandler, notFound } from "./Middlewares/errorHandler.js";
 import productRouter from "./Routes/productRoute.js";
+import blogRouter from "./Routes/blogRoute.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ dbconnect();
 
 app.use('/api/user',authRouter);
 app.use('/api/product',productRouter);
+app.use('/api/blog',blogRouter);
 
 //Using Middlewares
 app.use(notFound);

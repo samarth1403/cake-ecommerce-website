@@ -3,53 +3,55 @@ import bcrypt from "bcrypt";
 import crypto from 'crypto';
 
 // Declare the Schema of the Mongo model
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      default: "user",
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    cart: {
+      type: Array,
+      default: [],
+    },
+    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+    wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product"}],
+    refreshToken: {
+      type: String,
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  mobile: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    default : "user",
-  },
-  cart: {
-    type:Array,
-    default:[],
-  },
-  address: [
-    { type : mongoose.Schema.Types.ObjectId , ref : "Address"},
-  ],
-  isBlocked: {
-    type:Boolean,
-    default:false,
-  },
-  refreshToken:{
-    type:String,
-  },
-  passwordChangedAt:Date,
-  passwordResetToken:String,
-  passwordResetExpires:Date,
-},{
-  timestamps:true,
-});
+  {
+    timestamps: true,
+  }
+);
 
 //Encrypting the password using bcrypt
 userSchema.pre("save",async function(next){

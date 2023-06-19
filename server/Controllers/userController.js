@@ -31,7 +31,8 @@ export const loginUserController = async(req , res) => {
     //check wheather user exists or not
     const foundUser = await userModel.findOne({email});
 
-    //Refresh Token 
+    if(foundUser && await foundUser.isPasswordMatched(password)){
+        //Refresh Token 
     const refreshToken = await generateRefreshToken(foundUser?._id);
     const updateUser = await userModel.findByIdAndUpdate(
       foundUser?._id,
@@ -39,8 +40,7 @@ export const loginUserController = async(req , res) => {
       { new: true }
     );
     res.cookie('refreshToken',refreshToken,{httpOnly:true,maxAge:72*60*60*1000})
-
-    if(foundUser && await foundUser.isPasswordMatched(password)){
+    
         res.json({
           _id : foundUser?._id,
           firstName : foundUser?.firstName,
@@ -54,6 +54,44 @@ export const loginUserController = async(req , res) => {
         throw new Error("Invalid Credentials");
     }
 }
+
+//Login for Admin
+export const loginAdminController = async (req, res) => {
+  const { email, password } = req.body;
+
+  //check wheather Admin exists or not
+  const foundAdmin = await userModel.findOne({ email });
+
+  if(foundAdmin.role !== "admin"){
+    throw new Error("Not Authorized");
+  }
+  
+
+  if (foundAdmin && (await foundAdmin.isPasswordMatched(password))) {
+    //Refresh Token
+  const refreshToken = await generateRefreshToken(foundAdmin?._id);
+  const updateAdmin = await userModel.findByIdAndUpdate(
+    foundAdmin?._id,
+    { refreshToken: refreshToken },
+    { new: true }
+  );
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: 72 * 60 * 60 * 1000,
+  });
+
+    res.json({
+      _id: foundAdmin?._id,
+      firstName: foundAdmin?.firstName,
+      lastName: foundAdmin?.lastName,
+      email: foundAdmin?.email,
+      mobile: foundAdmin?.mobile,
+      Token: generateToken(foundAdmin?._id),
+    });
+  } else {
+    throw new Error("Invalid Credentials");
+  }
+};
 
 //Refresh Token handler
 export const getRefreshTokenController = async(req , res) => {

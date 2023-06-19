@@ -13,6 +13,7 @@ import {
   changePasswordController,
   getForgotPasswordTokenController,
   resetPasswordController,
+  loginAdminController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -22,7 +23,8 @@ import {
 const authRouter = express.Router();
 
 authRouter.post("/register", createUserController);
-authRouter.post("/login",loginUserController);
+authRouter.post("/login/user",loginUserController);
+authRouter.get("/login/admin",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
 authRouter.get("/logout", logoutUserController);

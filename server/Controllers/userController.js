@@ -293,3 +293,21 @@ export const getWishListController = async (req , res) => {
         throw new Error(error);
     }
 }
+
+//Save the address
+export const saveUserAddressController = async(req , res) => {
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        const updatedAddress = await userModel.findByIdAndUpdate(_id,{
+            address:req?.body?.address,
+        },
+        {
+            new : true,
+        },
+        )
+        res.json(updatedAddress);
+    } catch (error) {
+        throw new Error(error);
+    }
+}

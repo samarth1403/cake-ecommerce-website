@@ -15,6 +15,7 @@ import {
   resetPasswordController,
   loginAdminController,
   getWishListController,
+  saveUserAddressController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -43,3 +44,5 @@ authRouter.put("/unblock-user/:id", authMiddleware, isAdminMiddleware, unblockAU
 
 authRouter.get("/wishList", authMiddleware, getWishListController);
 export default authRouter;
+
+authRouter.put("/save-address",authMiddleware , saveUserAddressController);

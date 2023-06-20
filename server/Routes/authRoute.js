@@ -20,6 +20,9 @@ import {
   getACartController,
   emptyCartController,
   applyCouponController,
+  createOrderController,
+  getOrdersController,
+  updateOrderStatusController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -56,3 +59,7 @@ authRouter.get("/cart/get",authMiddleware, getACartController);
 authRouter.delete("/cart/empty",authMiddleware, emptyCartController);
 
 authRouter.post("/cart/apply-coupon",authMiddleware , applyCouponController);
+
+authRouter.post("/cart/create-order",authMiddleware , createOrderController);
+authRouter.get("/cart/get-order",authMiddleware , getOrdersController);
+authRouter.put("/cart/update-order/:id",authMiddleware , updateOrderStatusController);

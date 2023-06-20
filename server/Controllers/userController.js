@@ -8,6 +8,8 @@ import { sendEmail } from "./emailController.js";
 import cartModel from "../Models/cartModel.js";
 import productModel from "../Models/productModel.js";
 import couponModel from "../Models/couponModel.js";
+import orderModel from "../Models/orderModel.js";
+import uniqid from 'uniqid';
 
 //Create A User
 export const createUserController = async(req,res) => {
@@ -327,6 +329,7 @@ export const userCartController = async(req , res) => {
         const user = await userModel.findById(_id);
         //checking if user hava that product in cart
         let alreadyExistInCart = await cartModel.findOne({orderBy:user._id});
+        //let alreadyExistInCart = await cartModel.deleteMany({orderBy:user._id}); Its mine
         if(alreadyExistInCart){
             //alreadyExistInCart.remove();
             alreadyExistInCart = null;
@@ -365,6 +368,7 @@ export const getACartController = async(req , res) => {
     const {_id} = req.user;
     validateMongodbId(_id);
     try {
+         //const cart = await cartModel.find({ orderBy: _id }.populate("products.product");Its mine
         const cart = await cartModel.findOne({orderBy:_id}).populate("products.product");
         res.json(cart);
     } catch (error) {
@@ -406,6 +410,94 @@ export const applyCouponController = async(req , res) => {
         await cartModel.findOneAndUpdate({orderBy:user._id},{totalAfterDiscount},{new : true},);
 
         res.json(totalAfterDiscount);
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Creating an Order
+export const createOrderController = async(req , res) => {
+    const {COD , couponApplied} = req.body;
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        if(!COD){
+            throw new Error("Create Cash order failed")
+        }
+        const user = await userModel.findOne({_id});
+        let userCart = await cartModel.findOne({orderBy:user?._id});
+
+        let finalAmount = 0;
+        if(couponApplied && userCart.totalAfterDiscount){
+            finalAmount = userCart.totalAfterDiscount;
+        }
+        else {
+            finalAmount = userCart.cartTotal;
+        }
+
+        //Creating new Order
+        let newOrder = await new orderModel({
+          products: userCart.products,
+          paymentIntent: {
+            id: uniqid(),
+            method: "COD",
+            amount: finalAmount,
+            status: "Cash On Delivery",
+            created: Date.now(),
+            currency: "usd",
+          },
+          orderBy: user._id,
+          orderStatus: "Cash On Delivery",
+        }).save();
+
+        let update = userCart.products.map((item) => {
+            return {
+                updateOne : {
+                    filter : { _id : item.product._id },
+                    update : { $inc : { quantity : -item.count , sold : +item.count } }
+                }
+            }
+        });
+        const updated = await productModel.bulkWrite(update , {});
+        res.json({message : "Success"});
+        
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Getting orders
+export const getOrdersController = async(req , res) => {
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        const userOrders = await orderModel.findOne({orderBy : _id}).populate('products.product').exec();
+        res.json(userOrders);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Updating order status Only admin can do this
+export const updateOrderStatusController = async(req , res) => {
+    const { id } = req.params;
+    const {status} = req.body;
+    validateMongodbId(id);
+    try {
+        const updateOrderStatus = await orderModel.findByIdAndUpdate(
+          id,
+          {
+            orderStatus: status,
+            paymentIntent: {
+              status: status,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+        res.json(updateOrderStatus);
 
     } catch (error) {
         throw new Error(error);

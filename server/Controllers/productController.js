@@ -2,7 +2,7 @@ import productModel from "../Models/productModel.js";
 import slugify from "slugify";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
 import userModel from "../Models/userModel.js";
-import { cloudinaryUploadImage } from "../Utils/cloudinary.js";
+import { cloudinaryDeleteImage, cloudinaryUploadImage } from "../Utils/cloudinary.js";
 import fs from 'fs';
 
 export const createProductController = async (req, res) => {
@@ -209,8 +209,6 @@ export const rateAProductController = async (req, res) => {
 
 //Uploading Images of Products
 export const uploadProdImgController = async (req, res) => {
-  const { id } = req.params;
-  validateMongodbId(id);
   try {
     const uploader = (path) => cloudinaryUploadImage(path, "images");
     const urls = [];
@@ -223,20 +221,22 @@ export const uploadProdImgController = async (req, res) => {
       urls.push(newPath);
       fs.unlinkSync(path);
     }
-
-    //Updating the Product
-    const updatedProduct = await productModel.findByIdAndUpdate(
-      id,
-      {
-        images: urls.map((file) => {
+    
+    const images = urls.map((file) => {
           return file;
-        }),
-      },
-      {
-        new: true,
-      }
-    );
-    res.json(updatedProduct);
+    });
+    res.json(images);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+//Deleting Images of Products which are uploaded on cloud
+export const deleteProdImgController = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const deleted = cloudinaryDeleteImage(id, "images");
+    res.json({message:"Deleted"});
   } catch (error) {
     throw new Error(error);
   }

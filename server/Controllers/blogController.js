@@ -1,6 +1,6 @@
 import blogModel from "../Models/blogModel.js";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
-import { cloudinaryUploadImage } from "../Utils/cloudinary.js";
+import { cloudinaryDeleteImage, cloudinaryUploadImage } from "../Utils/cloudinary.js";
 import fs from 'fs';
 
 export const createBlogController = async(req , res) => {
@@ -178,8 +178,6 @@ export const dislikeABlogController = async (req, res) => {
 
 //Uploading blog images 
 export const uploadBlogImgController = async (req, res) => {
-  const { id } = req.params;
-  validateMongodbId(id);
   try {
     const uploader = (path) => cloudinaryUploadImage(path, "images");
     const urls = [];
@@ -192,20 +190,23 @@ export const uploadBlogImgController = async (req, res) => {
       urls.push(newPath);
       fs.unlinkSync(path);
     }
-
-    //Updating the Product
-    const updatedBlog = await blogModel.findByIdAndUpdate(
-      id,
-      {
-        images: urls.map((file) => {
+ 
+    const images = urls.map((file) => {
           return file;
-        }),
-      },
-      {
-        new: true,
-      }
-    );
-    res.json(updatedBlog);
+    });
+    res.json(images);
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+//Uploading blog images 
+export const deleteBlogImgController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = cloudinaryDeleteImage(id, "images");
+    res.json({message:"Deleted"});
   } catch (error) {
     throw new Error(error);
   }

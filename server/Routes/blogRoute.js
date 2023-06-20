@@ -2,6 +2,7 @@ import express from "express";
 import {
   createBlogController,
   deleteABlogController,
+  deleteBlogImgController,
   dislikeABlogController,
   getAllBlogsController,
   getBlogController,
@@ -38,13 +39,20 @@ blogRouter.get("/:id", getBlogController);
 blogRouter.get("/", getAllBlogsController);
 
 blogRouter.put(
-  "/uploadImg/:id",
+  "/uploadImg",
   authMiddleware,
   isAdminMiddleware,
   uploadPhotoMiddleware.array("images", 3),
   blogImgResizeMiddleware,
   uploadBlogImgController,
 );
+
+blogRouter.delete(
+  "/deleteImg/:id",
+  authMiddleware,
+  isAdminMiddleware,
+  deleteBlogImgController
+)
 
 blogRouter.delete(
   "/:id",

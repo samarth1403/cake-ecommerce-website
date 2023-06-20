@@ -3,6 +3,7 @@ import {
   addToWishListController,
   createProductController,
   deleteAProductController,
+  deleteProdImgController,
   getAllProductsController,
   getAProductController,
   rateAProductController,
@@ -45,12 +46,19 @@ productRouter.put("/wishList", authMiddleware, addToWishListController);
 productRouter.put("/ratings", authMiddleware, rateAProductController);
 
 productRouter.put(
-  "/uploadImg/:id",
+  "/uploadImg",
   authMiddleware,
   isAdminMiddleware,
   uploadPhotoMiddleware.array("images", 10),
   productImgResizeMiddleware,
   uploadProdImgController,
 );
+
+productRouter.delete(
+  "/deleteImg/:id",
+  authMiddleware,
+  isAdminMiddleware,
+  deleteProdImgController
+)
 
 export default productRouter;

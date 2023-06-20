@@ -16,6 +16,9 @@ import {
   loginAdminController,
   getWishListController,
   saveUserAddressController,
+  userCartController,
+  getACartController,
+  emptyCartController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -46,3 +49,7 @@ authRouter.get("/wishList", authMiddleware, getWishListController);
 export default authRouter;
 
 authRouter.put("/save-address",authMiddleware , saveUserAddressController);
+
+authRouter.post("/cart/create",authMiddleware,userCartController);
+authRouter.get("/cart/get",authMiddleware, getACartController);
+authRouter.delete("/cart/empty",authMiddleware, emptyCartController);

@@ -5,6 +5,8 @@ import { validateMongodbId } from "../Utils/validateMongodbId.js";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { sendEmail } from "./emailController.js";
+import cartModel from "../Models/cartModel.js";
+import productModel from "../Models/productModel.js";
 
 //Create A User
 export const createUserController = async(req,res) => {
@@ -149,7 +151,9 @@ export const getAUserController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        const user = await userModel.findById(id).populate("wishList");
+        const user = await userModel
+          .findById(id)
+          .populate("wishList");
         res.json(user);
     } catch (error) {
         throw new Error(error);
@@ -307,6 +311,74 @@ export const saveUserAddressController = async(req , res) => {
         },
         )
         res.json(updatedAddress);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Add to Cart Controller 
+export const userCartController = async(req , res) => {
+    const {cart} = req.body;
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        let products = [];
+        const user = await userModel.findById(_id);
+        //checking if user hava that product in cart
+        let alreadyExistInCart = await cartModel.findOne({orderBy:user._id});
+        if(alreadyExistInCart){
+            //alreadyExistInCart.remove();
+            alreadyExistInCart = null;
+        }
+
+        for(let i=0; i < cart.length; i++){
+            let object = {};
+            object.product = cart[i]._id;
+            object.count = cart[i].count;
+            object.color = cart[i].color;
+            let getPrice = await productModel.findById(cart[i]._id).select("price").exec();
+            object.price = getPrice.price;
+            products.push(object);
+        }
+
+        let cartTotal = 0;
+        for(let i=0; i<products.length; i++){
+            cartTotal = cartTotal + products[i].price * products[i].count;
+        }
+        
+        //Add New Cart
+        let newCart = await new cartModel({
+            products,
+            cartTotal,
+            orderBy: user?._id,
+        }).save();
+        res.json(newCart);
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Get A Cart Controller
+export const getACartController = async(req , res) => {
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        const cart = await cartModel.findOne({orderBy:_id}).populate("products.product");
+        res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//empty the cart
+export const emptyCartController = async(req , res) => {
+    const {_id} = req.user;
+    validateMongodbId(_id);
+    try {
+        const user = await userModel.findOne({_id});
+        const cart = await cartModel.findOneAndRemove({orderBy:user._id});
+        res.json(cart);
     } catch (error) {
         throw new Error(error);
     }

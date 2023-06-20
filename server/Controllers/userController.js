@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import { sendEmail } from "./emailController.js";
 import cartModel from "../Models/cartModel.js";
 import productModel from "../Models/productModel.js";
+import couponModel from "../Models/couponModel.js";
 
 //Create A User
 export const createUserController = async(req,res) => {
@@ -379,6 +380,33 @@ export const emptyCartController = async(req , res) => {
         const user = await userModel.findOne({_id});
         const cart = await cartModel.findOneAndRemove({orderBy:user._id});
         res.json(cart);
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+//Applying Coupon
+export const applyCouponController = async(req , res) => {
+    const {_id} = req.user;
+    const {couponName} = req.body;
+    validateMongodbId(_id);
+    try {
+        const validCoupon = await couponModel.findOne({name:couponName});
+        if(validCoupon === null){
+            throw new Error("Invalid Coupon");
+        }
+
+        const user = await userModel.findOne({_id});
+        const {products , cartTotal} = await cartModel.findOne({orderBy:user._id}).populate("products.product");
+
+        //Finding total price after applying coupon
+        let totalAfterDiscount = ( cartTotal - (cartTotal * validCoupon.discount)/100 ).toFixed(2);
+
+        //Updating the total cost after applying coupon
+        await cartModel.findOneAndUpdate({orderBy:user._id},{totalAfterDiscount},{new : true},);
+
+        res.json(totalAfterDiscount);
+
     } catch (error) {
         throw new Error(error);
     }

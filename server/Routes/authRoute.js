@@ -19,6 +19,7 @@ import {
   userCartController,
   getACartController,
   emptyCartController,
+  applyCouponController,
 } from "../Controllers/userController.js";
 import {
   authMiddleware,
@@ -53,3 +54,5 @@ authRouter.put("/save-address",authMiddleware , saveUserAddressController);
 authRouter.post("/cart/create",authMiddleware,userCartController);
 authRouter.get("/cart/get",authMiddleware, getACartController);
 authRouter.delete("/cart/empty",authMiddleware, emptyCartController);
+
+authRouter.post("/cart/apply-coupon",authMiddleware , applyCouponController);

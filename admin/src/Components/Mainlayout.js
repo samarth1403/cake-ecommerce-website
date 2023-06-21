@@ -1,50 +1,141 @@
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import { useState } from "react";
+import { useState  } from "react";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaBloggerB } from "react-icons/fa";
+import { BsListUl } from "react-icons/bs";
+import { IoMdNotifications } from "react-icons/io";
+import {
+  AiOutlineUser,
+  AiOutlineShoppingCart,
+  AiOutlineAppstoreAdd,
+} from "react-icons/ai";
+import {Outlet, useNavigate} from 'react-router-dom';
+import userPhoto from '../images/cake.jpeg';
+
 const { Header, Sider, Content } = Layout;
+
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const navigate = useNavigate()
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div className="flex justify-center items-center logo">
+          <h2 className="text-white text-center text-lg font-bold py-3">
+            <span className="sm-logo">Cake</span>
+            <span className="lg-logo">Cake Website</span>
+          </h2>
+        </div>
         <Menu
+          className="font-roboto font-bold text-[16px]"
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
+          onClick={({ key }) => {
+            if (key === "signout") {
+            } else {
+              navigate(key);
+            }
+          }}
           items={[
             {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "nav 1",
+              key: "",
+              icon: <LuLayoutDashboard />,
+              label: "Dashboard",
             },
             {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              key: "customers",
+              icon: <AiOutlineUser />,
+              label: "Customers",
             },
             {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
+              key: "catalog",
+              icon: <AiOutlineShoppingCart />,
+              label: "Catalog",
+              children: [
+                {
+                  key: "add-product",
+                  icon: <AiOutlineAppstoreAdd />,
+                  label: "Add Product",
+                },
+                {
+                  key: "product-list",
+                  icon: <AiOutlineShoppingCart />,
+                  label: "Product List",
+                },
+                {
+                  key: "add-category",
+                  icon: <AiOutlineAppstoreAdd />,
+                  label: "Add Category",
+                },
+                {
+                  key: "category-list",
+                  icon: <BiCategoryAlt />,
+                  label: "Category List",
+                },
+                {
+                  key: "add-occasion",
+                  icon: <AiOutlineAppstoreAdd />,
+                  label: "Add Occasion",
+                },
+                {
+                  key: "occasion-list",
+                  icon: <BiCategoryAlt />,
+                  label: "Occasion List",
+                },
+                {
+                  key: "add-color",
+                  icon: <AiOutlineAppstoreAdd />,
+                  label: "Add Color",
+                },
+                {
+                  key: "color-list",
+                  icon: <BiCategoryAlt />,
+                  label: "Color List",
+                },
+              ],
+            },
+            {
+              key: "orders",
+              icon: <BsListUl />,
+              label: "Orders",
+            },
+            {
+              key: "blogs",
+              icon: <FaBloggerB />,
+              label: "Blogs",
+              children: [
+                {
+                  key: "add-blog",
+                  icon: <FaBloggerB />,
+                  label: "Add Blog",
+                },
+                {
+                  key: "blog-list",
+                  icon: <FaBloggerB />,
+                  label: "Blog List",
+                },
+              ],
+            },
+            {
+              key: "enquiries",
+              icon: <BsListUl />,
+              label: "Enquiries",
             },
           ]}
         />
       </Sider>
       <Layout>
         <Header
+          className="flex flex-row flex-wrap justify-between items-center"
           style={{
-            padding: 0,
-            background: colorBgContainer,
+            padding: "12px",
           }}
         >
           <Button
@@ -55,18 +146,34 @@ const MainLayout = () => {
               fontSize: "16px",
               width: 64,
               height: 64,
+              color: "#fff",
             }}
           />
+          <div className="flex flex-row flex-wrap justify-center items-center">
+            <div className="relative">
+              <IoMdNotifications className="text-[#fff] text-3xl m-3" />
+              <div className="absolute inset-x-9 inset-y-2 font-bold text-md text-[#fff]">
+                1
+              </div>
+            </div>
+            
+            <img
+              src={userPhoto}
+              alt="user"
+              className="w-[50px] h-[50px] rounded-full m-2"
+            />
+            <div className="flex flex-col flex-wrap justify-center items-start">
+              <p className="text-[#fff] font-roboto font-bold text-[16px] mx-2 my-1">
+                Samarth Ikkalaki
+              </p>
+              <p className="text-[#fff] font-roboto text-[14px] mx-2 my-1">
+                samarthikkalaki@gmail.com
+              </p>
+            </div>
+          </div>
         </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
-          Content
+        <Content>
+          <Outlet className="h-[100vh]" />
         </Content>
       </Layout>
     </Layout>

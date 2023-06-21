@@ -2,18 +2,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .trigger {
   padding: 0px 24px;
-  font-size: 18px;
-  line-height: 64px;
+  font-size: 32px;
   cursor: pointer;
-  transition: color 0.3;
+  transition: color 0.2;
 }
 
 .trigger:hover {
@@ -29,3 +29,59 @@ body {
 .ant-layout {
   min-height: 100vh;
 }
+
+.ant-layout-sider {
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  width: 250px !important;
+}
+
+.ant-layout-sider-collapsed {
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
+}
+
+
+.sm-logo {
+  display: none;
+}
+
+.ant-layout-sider-collapsed .sm-logo {
+  display: block;
+}
+
+.ant-layout-sider-collapsed .lg-logo {
+  display: none;
+}
+
+.logo {
+  background-color: #0D103C;
+  margin : 0;
+  height: 90px;
+}
+
+.ant-menu-title-content {
+  font-size: 16px;
+}
+
+.ant-layout-header {
+  
+  height: auto;
+}
+
+:where(.css-dev-only-do-not-override-1wazalj).ant-layout-header {
+  background-color: #0D103C;
+  line-height: normal;
+  padding: 20px;
+}
+
+/* :where(.css-dev-only-do-not-override-1wazalj).ant-layout-header {
+  height: 64px;
+  padding-inline: 50px;
+  color: rgba(0, 0, 0, 0.88);
+  line-height: 64px;
+  background: #001529;
+} */

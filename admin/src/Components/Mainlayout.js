@@ -8,7 +8,7 @@ import {
 import { Button, Layout, Menu, theme } from "antd";
 import { useState } from "react";
 const { Header, Sider, Content } = Layout;
-const Mainlayout = () => {
+const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -72,4 +72,4 @@ const Mainlayout = () => {
     </Layout>
   );
 };
-export default Mainlayout;
+export default MainLayout;

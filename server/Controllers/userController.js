@@ -63,12 +63,13 @@ export const loginUserController = async(req , res) => {
 //Login for Admin
 export const loginAdminController = async (req, res) => {
   const { email, password } = req.body;
-
-  //check wheather Admin exists or not
+  try {
+      //check wheather Admin exists or not
   const foundAdmin = await userModel.findOne({ email });
 
   if(foundAdmin.role !== "admin"){
-    throw new Error("Not Authorized");
+    // throw new Error("You are not an Admin");
+    res.json({ message: "You are not an Admin", success: false });
   }
   
 
@@ -93,8 +94,10 @@ export const loginAdminController = async (req, res) => {
       mobile: foundAdmin?.mobile,
       Token: generateToken(foundAdmin?._id),
     });
-  } else {
-    throw new Error("Invalid Credentials");
+  }
+  } catch (error) {
+    // throw new Error("You are not an Admin");
+    res.json({ message: "You are not an Admin", success: false });
   }
 };
 

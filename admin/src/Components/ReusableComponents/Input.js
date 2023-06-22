@@ -5,7 +5,7 @@ const Input = ({ className, ...rest }) => {
     className,
     "font-roboto font-[400] text-xl rounded-[15px]"
   );
-  return <input className={finalClass} {...rest} />;
+  return <input {...rest}  className={finalClass} />;
 };
 
 export default Input;

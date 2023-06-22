@@ -10,13 +10,20 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const dispatch = useDispatch();
 
+  
+  const { user, isLoading, isSuccess, isError, message } = useSelector(
+    (state) => {
+      return state.auth;
+    }
+  );
+
   let schema = Yup.object().shape({
     email: Yup.string()
       .email("Email should be Valid")
       .required("Email is Required"),
     password: Yup.string().required("Password is Required"),
   });
-
+  
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,24 +31,26 @@ const LoginPage = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(loginAdmin(values));
+    dispatch(loginAdmin(values));
       // alert(JSON.stringify(values, null, 2));
     },
   });
 
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
-    (state) => {
-      return state.auth;
-    }
-  );
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user==null || isSuccess) {
-      navigate("admin");
-    }
-  }, [user, isLoading, isSuccess, isError, message]);
+  // useEffect(() => {
+  //   if (!user==null || isSuccess) {
+  //     navigate("admin");
+  //   }
+  // }, [user, isLoading, isSuccess, isError, message]);
+
+  //The follwing is my code
+   useEffect(() => {
+     if (formik.values.email === user.email && isSuccess) {
+       navigate("admin");
+     }
+   }, [user, isLoading, isSuccess, isError, message]);
+ 
 
   return (
     <div className="bg-[#0D103C] h-[100vh] w-[100vw] flex flex-row flex-wrap justify-center items-start">

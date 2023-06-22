@@ -29,6 +29,14 @@ const productSchema = new mongoose.Schema(
       default: true,
       required: true,
     },
+    category: {
+      type: String,
+      required: true,
+    },
+    subCategory: {
+      type: String,
+      required: true,
+    },
     shape: {
       type: String,
       default: "circular",
@@ -43,10 +51,6 @@ const productSchema = new mongoose.Schema(
       default: 0,
       //select:false,//hidding permanantly from user
     },
-    category: {
-      type: String,
-      required: true,
-    },
     ratings: [
       {
         star: Number,
@@ -54,12 +58,12 @@ const productSchema = new mongoose.Schema(
         postedBy: { type: mongoose.Schema.Types.ObjectId },
       },
     ],
-    totalRating : {
-        type : String,
-        default : 0,
+    totalRating: {
+      type: String,
+      default: 0,
     },
-    color:[],
-    tags:[],
+    color: [],
+    tags: [],
   },
   { timestamps: true }
 );

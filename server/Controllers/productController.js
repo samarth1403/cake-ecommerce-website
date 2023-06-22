@@ -77,9 +77,12 @@ export const getAllProductsController = async (req, res) => {
       }
     }
     const allProducts = await query;
-    res.json(allProducts);
+    res.json({ products: allProducts , res : {message : "Successfully Fetched" , success :true}});
   } catch (error) {
-    throw new Error(error);
+    // throw new Error(error);
+    res.json({
+      res: { message: "Not Fetched", success: false },
+    });
   }
 };
 

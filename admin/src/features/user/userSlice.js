@@ -29,7 +29,7 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.isError = false;
-            state.users = action.payload;
+            state.users = action.payload.users;
             state.res = action.payload.res;
         })
         builder.addCase(getAllUsers.rejected, (state, action) => {

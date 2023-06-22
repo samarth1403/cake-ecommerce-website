@@ -21,14 +21,17 @@ import {
 
 const productRouter = express.Router();
 
+
 productRouter.post(
-  "/",
+  "/create",
   authMiddleware,
   isAdminMiddleware,
   createProductController
 );
-productRouter.get("/:id", getAProductController);
-productRouter.get("/", getAllProductsController);
+
+productRouter.get("/get/:id", getAProductController);
+productRouter.get("/all-products", getAllProductsController);
+
 productRouter.put(
   "/edit-product/:id",
   authMiddleware,

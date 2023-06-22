@@ -8,6 +8,6 @@ prodCategoryRouter.get('/category/:id',getACategoryController);
 prodCategoryRouter.post('/create',authMiddleware,isAdminMiddleware,createCategoryController);
 prodCategoryRouter.put('/update/:id',authMiddleware,isAdminMiddleware,updateCategoryController);
 prodCategoryRouter.delete("/delete/:id",authMiddleware,isAdminMiddleware,deleteCategoryController);
-prodCategoryRouter.get("/all", getAllCategoryController);
+prodCategoryRouter.get("/all-product-categories", getAllCategoryController);
 
 export default prodCategoryRouter;

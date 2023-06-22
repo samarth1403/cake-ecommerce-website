@@ -46,8 +46,14 @@ export const getACategoryController = async(req , res) => {
 export const getAllCategoryController = async(req , res) => {
     try {
         const allCategorys = await prodCategoryModel.find();
-        res.json(allCategorys);
+        res.json({
+          prodCategories: allCategorys,
+          res: { message: "Successfully Fetched", success: true },
+        });
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
+        res.json({
+          res: { message: "Not Fetched", success: false },
+        });
     }
 }

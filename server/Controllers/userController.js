@@ -150,9 +150,12 @@ export const logoutUserController = async(req , res) => {
 export const getAllUsersController = async(req , res) => {
     try {
         const allUsers = await userModel.find().populate("wishList");
-        res.json(allUsers);
+        res.json({users:allUsers,res:{message:"Success",success:true}});
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
+        res.json({
+          res: { message: "Not Fetched", success: false },
+        });
     }
 }
 

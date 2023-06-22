@@ -65,19 +65,19 @@ const MainLayout = () => {
                   label: "Add Product",
                 },
                 {
-                  key: "product-list",
+                  key: "all-products",
                   icon: <AiOutlineShoppingCart />,
                   label: "Product List",
                 },
                 {
-                  key: "add-category",
+                  key: "add-product-category",
                   icon: <AiOutlineAppstoreAdd />,
                   label: "Add Category",
                 },
                 {
-                  key: "category-list",
+                  key: "all-product-categories",
                   icon: <BiCategoryAlt />,
-                  label: "Category List",
+                  label: "Product Category List",
                 },
                 {
                   key: "add-occasion",
@@ -156,7 +156,7 @@ const MainLayout = () => {
                 1
               </div>
             </div>
-            
+
             <img
               src={userPhoto}
               alt="user"

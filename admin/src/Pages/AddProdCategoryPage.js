@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "../Components/ReusableComponents/Input";
-const AddCategoryPage = () => {
+const AddProdCategoryPage = () => {
   return (
     <div className="bg-[#0D103C] flex flex-col flex-wrap justify-center items-center">
       <p className="font-roboto font-bold text-[#fff] text-center leading-normal text-4xl m-6">
@@ -35,4 +35,4 @@ const AddCategoryPage = () => {
   );
 };
 
-export default AddCategoryPage;
+export default AddProdCategoryPage;

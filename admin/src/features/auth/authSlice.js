@@ -1,21 +1,15 @@
 import {createSlice , createAsyncThunk} from '@reduxjs/toolkit';
 import authService from './authService';
 
-const userDefaultState = {
-    firstName : null,
-    lastName : null,
-    mobile : null,
-    email : null,
-    Toke : null,
-}
+const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
 const initialState = {
-    user : userDefaultState,
-    isError : false,
-    isLoading : false,
-    isSuccess : false,
-    message : "",
-}
+  user: getUserFromLocalStorage,
+  isError: false,
+  isLoading: false,
+  isSuccess: false,
+  res:{},
+};
 
 //Creating Reducers
 export const loginAdmin = createAsyncThunk("auth/admin-login",
@@ -40,12 +34,14 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.res = action.payload.res;
     })
     builder.addCase(loginAdmin.rejected,(state , action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.user = null;
+        state.res = action.payload.res;
     })
     }
 })

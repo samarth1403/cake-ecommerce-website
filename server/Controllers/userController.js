@@ -69,7 +69,7 @@ export const loginAdminController = async (req, res) => {
 
   if(foundAdmin.role !== "admin"){
     // throw new Error("You are not an Admin");
-    res.json({ message: "You are not an Admin", success: false });
+    res.json({ res: { message: "You are not an Admin", success: false } });
   }
   
 
@@ -93,11 +93,15 @@ export const loginAdminController = async (req, res) => {
       email: foundAdmin?.email,
       mobile: foundAdmin?.mobile,
       Token: generateToken(foundAdmin?._id),
+      res: {
+        message: "You are an Admin",
+        success: true,
+      },
     });
   }
   } catch (error) {
     // throw new Error("You are not an Admin");
-    res.json({ message: "You are not an Admin", success: false });
+    res.json({res:{ message: "You are not an Admin", success: false }});
   }
 };
 

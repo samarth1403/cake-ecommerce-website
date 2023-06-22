@@ -11,7 +11,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
+  const { user, isLoading, isSuccess, isError, res } = useSelector(
     (state) => {
       return state.auth;
     }
@@ -38,24 +38,31 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!user==null || isSuccess) {
-  //     navigate("admin");
-  //   }
-  // }, [user, isLoading, isSuccess, isError, message]);
+  useEffect(() => {
+    if (res.success && isSuccess) {
+      navigate("admin");
+    }
+    else {
+      navigate("");
+    }
+  }, [user, isLoading, isSuccess, isError]);
 
   //The follwing is my code
-   useEffect(() => {
-     if (formik.values.email === user.email && isSuccess) {
-       navigate("admin");
-     }
-   }, [user, isLoading, isSuccess, isError, message]);
+  //  useEffect(() => {
+  //    if (formik.values.email === user.email && isSuccess) {
+  //      navigate("admin");
+  //    }
+  //  }, [user, isLoading, isSuccess, isError]);
  
 
   return (
     <div className="bg-[#0D103C] h-[100vh] w-[100vw] flex flex-row flex-wrap justify-center items-start">
       <div className="flex flex-col flex-no-wrap justify-center items-center mx-8">
         <p className="font-roboto font-bold text-[#fff] text-4xl m-6">Log In</p>
+        <p className="font-roboto font-bold text-[#fff] text-2xl m-2">
+          Log In to your Account to Continue
+        </p>
+        <div className="text-red-500 text-lg">{res.success === false ? "You are not an Admin" : ""}</div>
         <form
           style={{
             background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",

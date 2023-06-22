@@ -33,7 +33,7 @@ const authRouter = express.Router();
 
 authRouter.post("/register", createUserController);
 authRouter.post("/login/user",loginUserController);
-authRouter.get("/login/admin",loginAdminController);
+authRouter.post("/admin-login",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
 authRouter.get("/wishList", authMiddleware, getWishListController);

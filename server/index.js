@@ -44,7 +44,7 @@ app.use('/api/product',productRouter);
 app.use('/api/blog',blogRouter);
 app.use("/api/prodCategory", prodCategoryRouter);
 app.use("/api/blogCategory",blogCategoryRouter);
-app.use("/api/occasionCategory",occasionCategoryRouter);
+app.use("/api/occasion",occasionCategoryRouter);
 app.use("/api/coupon",couponRouter);
 app.use("/api/colorCategory",colorCategoryRouter);
 app.use("/api/enquiry",enquiryRouter);

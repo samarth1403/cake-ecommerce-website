@@ -31,7 +31,6 @@ const prodCategorySlice = createSlice({
          state.isError = false;
          state.prodCategories = action.payload.prodCategories;
          state.res = action.payload.res;
-         console.log(action.payload.prodCategories);
        });
        builder.addCase(getAllprodCategories.rejected, (state, action) => {
          state.isLoading = false;

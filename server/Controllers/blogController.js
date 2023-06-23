@@ -46,9 +46,15 @@ export const getBlogController = async(req , res) => {
 export const getAllBlogsController = async(req , res) => {
     try {
         const allBlogs = await blogModel.find();
-        res.json(allBlogs);
+        res.json({
+          blogs: allBlogs,
+          res: { message: "Successfully Fetched", success: true },
+        });
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
+        res.json({
+          res: { message: "Not Fetched", success: false },
+        });
     }
 }
 

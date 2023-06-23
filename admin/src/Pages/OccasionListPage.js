@@ -1,33 +1,57 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
 import { Table } from "antd";
+import { getAllOccasions } from "../features/occasion/occasionSlice";
 
 const OccasionListPage = () => {
+  const dispatch = useDispatch();
+
+  const { occasions } = useSelector((state) => {
+    return state.occasion;
+  });
+
+  useEffect(() => {
+    dispatch(getAllOccasions());
+  }, []);
+
   const columns = [
     {
-      title: "SNo",
+      title: "Sr. No",
       dataIndex: "key",
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Occasion Name",
+      dataIndex: "occasion",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.occasion.length - b.occasion.length,
     },
     {
-      title: "Product",
-      dataIndex: "product",
+      title: "Edit",
+      dataIndex: "actionEdit",
     },
     {
-      title: "Status",
-      dataIndex: "staus",
+      title: "Delete",
+      dataIndex: "actionDelete",
     },
   ];
   const data1 = [];
-  for (let i = 0; i < 46; i++) {
+  for (let i = 0; i < occasions.length; i++) {
     data1.push({
-      key: i,
-      name: `Edward King ${i}`,
-      product: 32,
-      staus: `London, Park Lane no. ${i}`,
+      key: i + 1,
+      occasion: occasions[i].occasionName,
+      actionEdit: (
+        <Link to="/" className="flex justify-start items-center">
+          <BiEdit className="text-2xl" />
+        </Link>
+      ),
+      actionDelete: (
+        <Link to="/" className="flex justify-start items-center">
+          <AiFillDelete className="text-2xl text-red-600" />
+        </Link>
+      ),
     });
   }
   return (

@@ -1,33 +1,63 @@
-import React from "react";
-
+import React,{useEffect} from "react";
+import { useDispatch , useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Table } from "antd";
+import {AiFillDelete} from 'react-icons/ai';
+import { getAllEnquiries } from "../features/enquiry/enquirySlice";
 
 const EnquiriesPage = () => {
-    const columns = [
-      {
-        title: "SNo",
-        dataIndex: "key",
-      },
-      {
-        title: "Name",
-        dataIndex: "name",
-      },
-      {
-        title: "Product",
-        dataIndex: "product",
-      },
-      {
-        title: "Status",
-        dataIndex: "staus",
-      },
-    ];
+
+  const dispatch = useDispatch();
+
+  const {enquiries} = useSelector((state)=>{
+    return state.enquiry;
+  })
+
+  useEffect(()=>{
+    dispatch(getAllEnquiries());
+  },[])
+  
+  const columns = [
+    {
+      title: "SNo",
+      dataIndex: "key",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+    },
+    {
+      title: "Delete",
+      dataIndex: "actionDelete",
+    },
+  ];
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < enquiries.length; i++) {
       data1.push({
-        key: i,
-        name: `Edward King ${i}`,
-        product: 32,
-        staus: `London, Park Lane no. ${i}`,
+        key: i + 1,
+        name: enquiries[i].name,
+        email: enquiries[i].email,
+        mobile: enquiries[i].mobile,
+        status:<select name="" className="font-control form-select">
+          <option value="">Set Status</option>
+        </select>,
+        actionDelete: (
+        <Link to="/" className="flex flex-row justify-start items-center">
+          <AiFillDelete className="text-2xl text-red-600" />
+        </Link>
+      ),
       });
     }
 
@@ -37,14 +67,6 @@ const EnquiriesPage = () => {
         <div className="m-4">
           <Table columns={columns} dataSource={data1} />
         </div>
-      {/* <CustomModal
-        hideModal={hideModal}
-        open={open}
-        performAction={() => {
-          deleteEnq(enqId);
-        }}
-        title="Are you sure you want to delete this enquiry?"
-      /> */}
     </div>
   );
 }

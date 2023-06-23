@@ -13,7 +13,7 @@ import {
 
 const colorCategoryRouter = express.Router();
 
-colorCategoryRouter.get("/category/:id", getACategoryController);
+colorCategoryRouter.get("/get/:id", getACategoryController);
 colorCategoryRouter.post(
   "/create",
   authMiddleware,
@@ -32,6 +32,6 @@ colorCategoryRouter.delete(
   isAdminMiddleware,
   deleteCategoryController
 );
-colorCategoryRouter.get("/all", getAllCategoryController);
+colorCategoryRouter.get("/all-color-categories", getAllCategoryController);
 
 export default colorCategoryRouter;

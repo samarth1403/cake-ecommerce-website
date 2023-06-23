@@ -35,8 +35,8 @@ blogRouter.put(
 blogRouter.put("/likes", authMiddleware, likeABlogController);
 blogRouter.put("/dislikes", authMiddleware, dislikeABlogController);
 
-blogRouter.get("/:id", getBlogController);
-blogRouter.get("/", getAllBlogsController);
+blogRouter.get("/get/:id", getBlogController);
+blogRouter.get("/all-blogs", getAllBlogsController);
 
 blogRouter.put(
   "/uploadImg",

@@ -25,9 +25,10 @@ export const getEnquiryController = async(req , res) => {
 export const getAllEnquiriesController = async(req , res) => {
     try {
         const allEnquiries = await enquiryModel.find();
-        res.json(allEnquiries);
+        res.json({ enquiries: allEnquiries , res : {message : "Successfully Fetched" , success : true}});
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
+        res.json({ res: { message: "Not Fetched", success: false } });
     }
 }
 

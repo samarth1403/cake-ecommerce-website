@@ -13,7 +13,8 @@ import {
 
 const blogCategoryRouter = express.Router();
 
-blogCategoryRouter.get("/category/:id", getACategoryController);
+blogCategoryRouter.get("/all-blog-categories", getAllCategoryController);
+blogCategoryRouter.get("/get/:id", getACategoryController);
 blogCategoryRouter.post(
   "/create",
   authMiddleware,
@@ -32,6 +33,6 @@ blogCategoryRouter.delete(
   isAdminMiddleware,
   deleteCategoryController
 );
-blogCategoryRouter.get("/all", getAllCategoryController);
+
 
 export default blogCategoryRouter;

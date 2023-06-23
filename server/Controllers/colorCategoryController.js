@@ -49,9 +49,15 @@ export const getACategoryController = async (req, res) => {
 
 export const getAllCategoryController = async (req, res) => {
   try {
-    const allCategorys = await colorCategoryModel.find();
-    res.json(allCategorys);
+    const allCategories = await colorCategoryModel.find();
+    res.json({
+      colorCategories: allCategories,
+      res: { message: "Successfully Fetched", success: true },
+    });
   } catch (error) {
-    throw new Error(error);
+    // throw new Error(error);
+    res.json({
+      res: { message: "Not Fetched", success: false },
+    });
   }
 };

@@ -46,8 +46,11 @@ export const deleteACouponController = async(req , res) => {
 export const getAllCouponsController = async(req , res) => {
     try {
         const allCoupons = await couponModel.find();
-        res.json(allCoupons);
+        res.json({ coupons: allCoupons , res : {message : "Successfully Fetched",success : true}});
     } catch (error) {
-        throw new Error(error);
+        // throw new Error(error);
+        res.json({
+          res: { message: "Not Fetched", success: false },
+        });
     }
 }

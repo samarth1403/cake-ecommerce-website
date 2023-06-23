@@ -1,23 +1,21 @@
 import React, { useEffect } from "react";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Table } from "antd";
-import { getAllprodCategories } from "../features/prodCategory/prodCategorySlice";
+import { getAllBlogCategories } from "../features/blogCategory/blogCategorySlice";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
-const ProdCategoryListPage = () => {
-
+const BlogCategoryListPage = () => {
   const dispatch = useDispatch();
 
-  const { prodCategories } = useSelector((state) => {
-    return state.prodCategory;
+  const { blogCategories } = useSelector((state) => {
+    return state.blogCategory;
   });
-
+console.log(blogCategories);
   useEffect(() => {
-    dispatch(getAllprodCategories())
+    dispatch(getAllBlogCategories());
   }, []);
-
 
   const columns = [
     {
@@ -31,12 +29,6 @@ const ProdCategoryListPage = () => {
       sorter: (a, b) => a.category.length - b.category.length,
     },
     {
-      title: "SubCategory",
-      dataIndex: "subCategory",
-      defaultSortOrder: "descend",
-      sorter: (a, b) => a.subCategory.length - b.subCategory.length,
-    },
-    {
       title: "Edit",
       dataIndex: "actionEdit",
     },
@@ -46,11 +38,10 @@ const ProdCategoryListPage = () => {
     },
   ];
   const data1 = [];
-  for (let i = 0; i < prodCategories.length; i++) {
+  for (let i = 0; i < blogCategories.length; i++) {
     data1.push({
       key: i + 1,
-      category: prodCategories[i].categoryName,
-      subCategory: prodCategories[i].subCategoryName,
+      category: blogCategories[i].categoryName,
       actionEdit: (
         <Link to="/" className="flex flex-row justify-start items-center">
           <BiEdit className="text-2xl" />
@@ -65,7 +56,7 @@ const ProdCategoryListPage = () => {
   }
   return (
     <div className="my-4">
-      <p className="font-bold text-2xl my-8 mx-4">Category List</p>
+      <p className="font-bold text-2xl my-8 mx-4">Blog Category List</p>
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -73,4 +64,4 @@ const ProdCategoryListPage = () => {
   );
 };
 
-export default ProdCategoryListPage;
+export default BlogCategoryListPage;

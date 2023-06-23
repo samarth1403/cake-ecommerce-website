@@ -8,6 +8,6 @@ couponRouter.post('/create' , authMiddleware , isAdminMiddleware , createCouponC
 couponRouter.get('/get/:id' , authMiddleware , isAdminMiddleware , getACouponController);
 couponRouter.put('/update/:id' , authMiddleware , isAdminMiddleware , updateACouponController);
 couponRouter.delete('/delete/:id' , authMiddleware , isAdminMiddleware , deleteACouponController);
-couponRouter.get('/all' , authMiddleware , isAdminMiddleware , getAllCouponsController);
+couponRouter.get('/all-coupons' , authMiddleware , isAdminMiddleware , getAllCouponsController);
 
 export default couponRouter;

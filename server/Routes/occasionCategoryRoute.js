@@ -32,6 +32,6 @@ occasionCategoryRouter.delete(
   isAdminMiddleware,
   deleteCategoryController
 );
-occasionCategoryRouter.get("/all", getAllCategoryController);
+occasionCategoryRouter.get("/all-occasions", getAllCategoryController);
 
 export default occasionCategoryRouter;

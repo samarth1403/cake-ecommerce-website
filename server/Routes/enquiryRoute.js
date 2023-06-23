@@ -6,7 +6,7 @@ const enquiryRouter = express.Router();
 
 enquiryRouter.post('/create',createEnquiryController);
 enquiryRouter.get('/get/:id',getEnquiryController)
-enquiryRouter.get('/all',getAllEnquiriesController);
+enquiryRouter.get('/all-enquiries',getAllEnquiriesController);
 enquiryRouter.put('/update/:id',authMiddleware,isAdminMiddleware,updateEnquiryController);
 enquiryRouter.delete("/delete/:id",authMiddleware,isAdminMiddleware,deleteEnquiryController);
 

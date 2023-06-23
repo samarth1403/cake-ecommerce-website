@@ -8,12 +8,6 @@ const blogCategorySchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    subCategoryName: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
   },
   {
     timestamps: true,

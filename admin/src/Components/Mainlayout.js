@@ -72,7 +72,7 @@ const MainLayout = () => {
                 {
                   key: "add-product-category",
                   icon: <AiOutlineAppstoreAdd />,
-                  label: "Add Category",
+                  label: "Add Product Category",
                 },
                 {
                   key: "all-product-categories",
@@ -85,7 +85,7 @@ const MainLayout = () => {
                   label: "Add Occasion",
                 },
                 {
-                  key: "occasion-list",
+                  key: "all-occasions",
                   icon: <BiCategoryAlt />,
                   label: "Occasion List",
                 },
@@ -95,7 +95,7 @@ const MainLayout = () => {
                   label: "Add Color",
                 },
                 {
-                  key: "color-list",
+                  key: "all-colors",
                   icon: <BiCategoryAlt />,
                   label: "Color List",
                 },
@@ -117,9 +117,19 @@ const MainLayout = () => {
                   label: "Add Blog",
                 },
                 {
-                  key: "blog-list",
+                  key: "all-blogs",
                   icon: <FaBloggerB />,
                   label: "Blog List",
+                },
+                {
+                  key: "add-blog-category",
+                  icon: <AiOutlineAppstoreAdd />,
+                  label: "Add Blog Category",
+                },
+                {
+                  key: "all-blog-categories",
+                  icon: <BiCategoryAlt />,
+                  label: "Blog Category List",
                 },
               ],
             },
@@ -128,6 +138,23 @@ const MainLayout = () => {
               icon: <BsListUl />,
               label: "Enquiries",
             },
+            {
+              key: "coupons",
+              icon: <BsListUl/>,
+              label: "Coupons",
+              children: [
+                {
+                  key:"add-coupon",
+                  icon:<AiOutlineAppstoreAdd />,
+                  label: "Add Coupon",
+                },
+                {
+                  key:"all-coupons",
+                  icon:<BiCategoryAlt/>,
+                  label: "Coupon List"
+                }
+              ]
+            }
           ]}
         />
       </Sider>

@@ -11,7 +11,6 @@ import BlogsListPage from './Pages/BlogsListPage';
 import OrdersPage from './Pages/OrdersPage';
 import CustomersPage from './Pages/CustomersPage';
 import ProductListPage from './Pages/ProductListPage';
-import ColorListPage from './Pages/ColorListPage';
 import ProdCategoryListPage from './Pages/ProdCategoryListPage';
 import OccasionListPage from './Pages/OccasionListPage';
 import AddBlogPage from './Pages/AddBlogPage';
@@ -19,6 +18,9 @@ import AddColorPage from './Pages/AddColorPage';
 import AddOccasionPage from './Pages/AddOccasionPage';
 import AddProdCategoryPage from "./Pages/AddProdCategoryPage";
 import AddProductPage from './Pages/AddProductPage';
+import BlogCategoryListPage from './Pages/BlogCategoryListPage';
+import ColorCategoryListPage from './Pages/ColorCategoryListPage';
+import CouponListPage from './Pages/CouponListPage';
 
 const App = () => {
   return (
@@ -30,20 +32,31 @@ const App = () => {
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
-          <Route path="blog-list" element={<BlogsListPage />} />
+          <Route path="all-blogs" element={<BlogsListPage />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="all-products" element={<ProductListPage />} />
-          <Route path="color-list" element={<ColorListPage />} />
           <Route
             path="all-product-categories"
-            element={<ProdCategoryListPage/>}
+            element={<ProdCategoryListPage />}
           />
-          <Route path="occasion-list" element={<OccasionListPage />} />
+          <Route
+            path="all-blog-categories"
+            element={<BlogCategoryListPage />}
+          />
+          <Route
+            path="all-colors"
+            element={<ColorCategoryListPage />}
+          />
+          <Route path='all-coupons' element={<CouponListPage/>}/>
+          <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
           <Route path="add-occasion" element={<AddOccasionPage />} />
-          <Route path="add-product-category" element={<AddProdCategoryPage />} />
+          <Route
+            path="add-product-category"
+            element={<AddProdCategoryPage />}
+          />
           <Route path="add-product" element={<AddProductPage />} />
         </Route>
       </Routes>

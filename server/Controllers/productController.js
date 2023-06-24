@@ -2,18 +2,18 @@ import productModel from "../Models/productModel.js";
 import slugify from "slugify";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
 import userModel from "../Models/userModel.js";
-import { cloudinaryDeleteImage, cloudinaryUploadImage } from "../Utils/cloudinary.js";
-import fs from 'fs';
+
 
 export const createProductController = async (req, res) => {
   if (req.body.title) {
     req.body.slug = slugify(req.body.title);
   }
+  
   try {
     const newProduct = await productModel.create(req.body);
     res.json(newProduct);
   } catch (error) {
-    throw new Error(error);
+    res.json({res:{message:"Product Not Created",success:false}});
   }
 };
 
@@ -205,41 +205,6 @@ export const rateAProductController = async (req, res) => {
     
     res.json(finalProduct);
   
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-//Uploading Images of Products
-export const uploadProdImgController = async (req, res) => {
-  try {
-    const uploader = (path) => cloudinaryUploadImage(path, "images");
-    const urls = [];
-    const files = req.files;
-
-    //looping on files
-    for (const file of files) {
-      const { path } = file;
-      const newPath = await uploader(path);
-      urls.push(newPath);
-      fs.unlinkSync(path);
-    }
-    
-    const images = urls.map((file) => {
-          return file;
-    });
-    res.json(images);
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-//Deleting Images of Products which are uploaded on cloud
-export const deleteProdImgController = async (req, res) => {
-  const {id} = req.params;
-  try {
-    const deleted = cloudinaryDeleteImage(id, "images");
-    res.json({message:"Deleted"});
   } catch (error) {
     throw new Error(error);
   }

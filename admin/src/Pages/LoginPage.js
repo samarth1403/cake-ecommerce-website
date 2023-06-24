@@ -62,7 +62,9 @@ const LoginPage = () => {
         <p className="font-roboto font-bold text-[#fff] text-2xl m-2">
           Log In to your Account to Continue
         </p>
-        <div className="text-red-500 text-lg">{res.success === false ? "You are not an Admin" : ""}</div>
+        <div className="text-red-500 text-lg">
+          {res.success === false ? "You are not an Admin" : ""}
+        </div>
         <form
           style={{
             background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",
@@ -78,9 +80,9 @@ const LoginPage = () => {
             placeholder="Email"
             value={formik.values.email}
             onChange={formik.handleChange("email")}
-            onBlur={formik.handleChange("email")}
+            onBlur={formik.handleBlur("email")}
           />
-          <div className="text-black">
+          <div className="text-black font-bold text-lg">
             {formik.touched.email && formik.errors.email ? (
               <div>{formik.errors.email}</div>
             ) : null}
@@ -93,9 +95,9 @@ const LoginPage = () => {
             placeholder="Password"
             value={formik.values.password}
             onChange={formik.handleChange("password")}
-            onBlur={formik.handleChange("password")}
+            onBlur={formik.handleBlur("password")}
           />
-          <div className="text-black">
+          <div className="text-black font-bold text-md">
             {formik.touched.password && formik.errors.password ? (
               <div>{formik.errors.password}</div>
             ) : null}

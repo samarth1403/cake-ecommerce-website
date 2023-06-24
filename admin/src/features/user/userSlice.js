@@ -37,7 +37,7 @@ const userSlice = createSlice({
           state.isSuccess = false;
           state.isError = true;
           state.users = null;
-          state.res = action.payload.res;
+          state.res = null;
         });
     }
 })

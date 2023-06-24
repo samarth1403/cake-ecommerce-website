@@ -8,10 +8,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    images: [],
+    images: [{
+      public_id:String,
+      url:String
+    }],
     slug: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
     },
@@ -22,12 +24,10 @@ const productSchema = new mongoose.Schema(
     weight: {
       type: String,
       default: "500 gm",
-      required: true,
     },
     isVeg: {
       type: Boolean,
       default: true,
-      required: true,
     },
     category: {
       type: String,
@@ -40,11 +40,9 @@ const productSchema = new mongoose.Schema(
     shape: {
       type: String,
       default: "circular",
-      required: true,
     },
     quantity: {
       type: Number,
-      required: true,
     },
     sold: {
       type: Number,

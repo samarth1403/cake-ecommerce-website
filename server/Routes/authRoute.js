@@ -30,7 +30,7 @@ import {
 } from "../Middlewares/authMiddleWare.js";
 
 const authRouter = express.Router();
-
+authRouter.get("/cart/get-order", authMiddleware, getOrdersController);
 authRouter.post("/register", createUserController);
 authRouter.post("/login/user",loginUserController);
 authRouter.post("/admin-login",loginAdminController);
@@ -61,5 +61,5 @@ authRouter.delete("/cart/empty",authMiddleware, emptyCartController);
 authRouter.post("/cart/apply-coupon",authMiddleware , applyCouponController);
 
 authRouter.post("/cart/create-order",authMiddleware , createOrderController);
-authRouter.get("/cart/get-order",authMiddleware , getOrdersController);
+
 authRouter.put("/cart/update-order/:id",authMiddleware ,isAdminMiddleware, updateOrderStatusController);

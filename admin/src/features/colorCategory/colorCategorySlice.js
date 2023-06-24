@@ -40,7 +40,7 @@ const colorCategorySlice = createSlice({
       state.isSuccess = false;
       state.isError = true;
       state.colorCategories = null;
-      state.res = action.payload.res;
+      state.res = null;
     });
   },
 });

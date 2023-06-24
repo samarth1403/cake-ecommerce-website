@@ -95,3 +95,74 @@ input[type="password"]::-webkit-password-suffix {
   /* Change the color value to your desired color */
   color: rgb(255, 255, 255);
 }
+
+/* className="bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] font-roboto font-[400] text-xl rounded-[15px]" */
+option {
+  background-color: #0D103C;
+  font-size: 20px;
+  width: auto;
+  color: white;
+  margin: 25px;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.rw-widget-input {
+  color: #ffffff;
+  background-color: #0D103C;
+  width: 400px;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.rw-multiselect-taglist{
+  background-color: #0D103C;
+  width: auto;
+  height: 75px;
+}
+
+.rw-picker-caret{
+  background-color: #0D103C;
+}
+
+.rw-btn{
+  color: #ffffff;
+ background: none;
+}
+
+.rw-multiselect-input {
+  color: #ffffff;
+  background-color: #0D103C;
+  width: 220px;
+  border-radius: 20px;
+  margin-top: 15px;
+  font-size: 20px;
+}
+
+.rw-multiselect-input {
+  padding: 5px;
+  border: none;
+  color: white;
+  /* box-shadow: none; */
+  /* background: none; */
+  /* font: inherit; */
+  line-height: inherit;
+  /* touch-action: manipulation; */
+  outline: 0;
+  height: calc(38px - 1px * 2);
+  padding: 0 0.857em;
+  /* max-width: 100%; */
+  text-align: left;
+}
+.rw-multiselect-tag {
+  display: inline-flex;
+  margin: 2px;
+  border-radius: 3px;
+  border: 1px solid #dee2e6;
+  cursor: default;
+  width: auto;
+  height: 60px;
+  align-items: center;
+  overflow: hidden;
+  font-size: 20px;
+}

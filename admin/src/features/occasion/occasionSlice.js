@@ -40,7 +40,7 @@ const occasionSlice = createSlice({
       state.isSuccess = false;
       state.isError = true;
       state.occasions = null;
-      state.res = action.payload.res;
+      state.res = null;
     });
   },
 });

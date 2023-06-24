@@ -40,7 +40,7 @@ const blogCategorySlice = createSlice({
       state.isSuccess = false;
       state.isError = true;
       state.blogucts = null;
-      state.res = action.payload.res;
+      state.res = null;
     });
   },
 });

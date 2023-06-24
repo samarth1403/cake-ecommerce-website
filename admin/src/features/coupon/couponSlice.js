@@ -37,7 +37,7 @@ const couponSlice = createSlice({
             state.isSuccess = false;
             state.isError = true;
             state.coupons = null;
-            state.res = action.payload.res;
+            state.res = null;
           });
     }
 })

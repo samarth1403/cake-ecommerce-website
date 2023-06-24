@@ -37,7 +37,7 @@ const enquirySlice = createSlice({
         state.isSuccess = false;
         state.isError = true;
         state.enquiries = null;
-        state.res = action.payload.res;
+        state.res = null;
       });
     }
 })

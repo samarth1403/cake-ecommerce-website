@@ -14,10 +14,10 @@ const CouponListPage = () => {
   });
 
   useEffect(() => {
-    //dispatch(getAllCoupons());
+    dispatch(getAllCoupons());
   }, []);
 
-  console.log(coupons);
+  // console.log(coupons);
 
   const columns = [
     {
@@ -31,6 +31,18 @@ const CouponListPage = () => {
       sorter: (a, b) => a.name.length - b.name.length,
     },
     {
+      title: "Discount",
+      dataIndex: "discount",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.discount.length - b.discount.length,
+    },
+    {
+      title: "Expiry",
+      dataIndex: "expiry",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.expiry.length - b.expiry.length,
+    },
+    {
       title: "Edit",
       dataIndex: "actionEdit",
     },
@@ -41,10 +53,11 @@ const CouponListPage = () => {
   ];
   const data1 = [];
   for (let i = 0; i < coupons.length; i++) {
+    const date = new Date(coupons[i].expiry)
     data1.push({
       key: i + 1,
       name: coupons[i].name,
-      expiry: coupons[i].expiry,
+      expiry: date.toUTCString(),
       discount: `${coupons[i].discount} %`,
       actionEdit: (
         <Link to="/" className="flex flex-row justify-start items-center">

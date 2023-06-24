@@ -12,11 +12,22 @@ export const authMiddleware = async(req , res , next) => {
                 next();
             }
         } catch (error) {
-            throw new Error("Not Authorized , Token Expired , Please Login Again");
+            // throw new Error("Not Authorized , Token Expired , Please Login Again");
+            res.json({
+              res: {
+                message: "Not Authorized , Token Expired , Please Login Again", success : false,
+              },
+            });
         }
     }
     else{
-        throw new Error("There is no token attached to the Header");
+        // throw new Error("There is no token attached to the Header");
+        res.json({
+          res: {
+            message: "There is no token attached to the Header",
+            success: false,
+          },
+        });
     }
 }
 
@@ -25,7 +36,8 @@ export const isAdminMiddleware = async (req , res , next) => {
     const adminUser = await userModel.findOne({email});
 
     if(adminUser.role !== "admin"){
-        throw new Error("You are not a Admin");
+        // throw new Error("You are not a Admin");
+        res.json({ res: { message: "You are not a Admin" , success : false} });
     }
     else {
         next();

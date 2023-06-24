@@ -15,6 +15,8 @@ import occasionCategoryRouter from "./Routes/occasionCategoryRoute.js";
 import couponRouter from "./Routes/couponRoute.js";
 import colorCategoryRouter from "./Routes/colorCategoryRoute.js";
 import enquiryRouter from "./Routes/enquiryRoute.js";
+import orderRouter from "./Routes/orderRoute.js";
+import uploadRouter from "./Routes/uploadRoute.js";
 
 const app = express();
 
@@ -48,6 +50,8 @@ app.use("/api/occasion",occasionCategoryRouter);
 app.use("/api/coupon",couponRouter);
 app.use("/api/colorCategory",colorCategoryRouter);
 app.use("/api/enquiry",enquiryRouter);
+app.use("/api/order",orderRouter);
+app.use("/api/upload",uploadRouter);
 
 //Using Middlewares
 app.use(notFound);

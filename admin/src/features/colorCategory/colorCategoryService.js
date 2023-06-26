@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../../utils/axiosConfig";
 import { base_url } from "../../utils/base_url";
 
 const getAllColorCategories = async () => {
@@ -8,8 +9,18 @@ const getAllColorCategories = async () => {
   return response.data;
 };
 
+const createColorCategory = async (data) => {
+  const response = await axios.post(
+    `${base_url}/colorCategory/create`,
+    data,
+    config
+  );
+  return response.data;
+};
+
 const colorCategoryService = {
   getAllColorCategories,
+  createColorCategory,
 };
 
 export default colorCategoryService;

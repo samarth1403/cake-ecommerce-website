@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import Input from "../Components/ReusableComponents/Input";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -13,18 +13,20 @@ const AddOccasionPage = () => {
   const state = useSelector((state) => {
     return state;
   });
-  const { isSuccess, res, isError , isLoading } = useSelector((state) => {
-    return state.occasion;
-  });
+  const { isSuccess, isError, isLoading, createdOccasion } = useSelector(
+    (state) => {
+      return state.occasion;
+    }
+  );
 
   useEffect(() => {
-    if (isSuccess && res.success) {
+    if (isSuccess && createdOccasion) {
       toast.success("Occasion Added Successfully");
     }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess,isLoading, isError]);
+  }, [isSuccess, isLoading, isError]);
 
   let schema = Yup.object().shape({
     occasionName: Yup.string().required("Occasion Name is Required"),

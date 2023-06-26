@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import colorCategoryService from "./colorCategoryService";
 
 const initialState = {
@@ -19,6 +19,19 @@ export const getAllColorCategories = createAsyncThunk(
     }
   }
 );
+
+export const createColorCategory = createAsyncThunk(
+  "colorCategory/create",
+  async (data, thunkAPI) => {
+    try {
+      return await colorCategoryService.createColorCategory(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetColorCategoryState = createAction("reset/colorCategoryState");
 
 const colorCategorySlice = createSlice({
   name: "colorCategory",
@@ -42,6 +55,26 @@ const colorCategorySlice = createSlice({
       state.colorCategories = null;
       state.res = null;
     });
+
+    builder.addCase(createColorCategory.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(createColorCategory.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.createdColor = action.payload.createdColor;
+      state.res = action.payload.res;
+    });
+    builder.addCase(createColorCategory.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.message = action.error;
+      state.res = null;
+    });
+
+    builder.addCase(resetColorCategoryState, () => initialState);
   },
 });
 

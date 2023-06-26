@@ -6,7 +6,6 @@ const blogCategorySchema = new mongoose.Schema(
     categoryName: {
       type: String,
       required: true,
-      index: true,
     },
   },
   {

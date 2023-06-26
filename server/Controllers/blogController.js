@@ -6,9 +6,11 @@ import fs from 'fs';
 export const createBlogController = async(req , res) => {
     try {
         const newBlog = await blogModel.create(req.body);
-        res.json(newBlog);
+        res.json({ createdBlog: newBlog , res : {message:"Blog Created Successfully",success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -53,7 +55,7 @@ export const getAllBlogsController = async(req , res) => {
     } catch (error) {
         // throw new Error(error);
         res.json({
-          res: { message: "Not Fetched", success: false },
+          res: { message: error, success: false },
         });
     }
 }

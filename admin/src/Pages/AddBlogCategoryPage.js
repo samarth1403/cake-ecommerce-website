@@ -1,79 +1,75 @@
-import React, { useEffect } from "react";
+import React,{useEffect} from "react";
 import Input from "../Components/ReusableComponents/Input";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createColorCategory,
-  resetColorCategoryState,
-} from "../features/colorCategory/colorCategorySlice";
+import { createBlogCategory, resetBlogCategoryState } from "../features/blogCategory/blogCategorySlice";
 
-const AddColorPage = () => {
+const AddBlogCategoryPage = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
+  const { isSuccess, isLoading, isError, createdCategory } = useSelector((state) => {
+    return state.blogCategory;
+  });
 
-  const { isSuccess, isError, isLoading, createdColor } = useSelector(
-    (state) => {
-      return state.colorCategory;
-    }
-  );
-  console.log(state.colorCategory);
   useEffect(() => {
-    if (isSuccess && createdColor) {
-      toast.success("Color Added Successfully");
+    if (isSuccess && createdCategory) {
+      toast.success("Blog Category Added Successfully");
     }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError, createdColor]);
+  }, [isSuccess, isLoading, isError, createdCategory]);
 
   let schema = Yup.object().shape({
-    colorName: Yup.string().required("Color Name is Required"),
+    categoryName: Yup.string().required("Category is Required"),
   });
+
+  // console.log(state.prodCategory);
 
   const formik = useFormik({
     initialValues: {
-      colorName: "",
+      categoryName: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createColorCategory(values));
+      dispatch(createBlogCategory(values));
       formik.resetForm();
       setTimeout(() => {
-        dispatch(resetColorCategoryState());
+        dispatch(resetBlogCategoryState());
       }, 2000);
     },
   });
+  
 
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-4xl m-6">Add Color</p>
+      <p className="font-roboto font-bold text-center leading-normal text-4xl m-6">
+        Add Blog Category
+      </p>
       <form
         onSubmit={formik.handleSubmit}
         style={{
           background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",
         }}
-        className="flex flex-col flex-no-wrap justify-center items-center w-[300px] md:w-[450px] lg:w-[700px] rounded-[25px] m-4 pt-6"
+        className="flex flex-col flex-no-wrap justify-center items-center w-[300px] md:w-[450px] lg:w-[700px] rounded-[25px] m-4 pt-6 "
       >
-        <p className="font-roboto font-bold text-3xl m-6">
-          Click on following box to Select Color
-        </p>
         <Input
           className="bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] px-4 m-4"
-          id="colorName"
-          type="color"
-          placeholder="Enter Color"
-          name="colorName"
-          value={formik.values.colorName}
-          onChange={formik.handleChange("colorName")}
-          onBlur={formik.handleBlur("colorName")}
+          id="categoryName"
+          type="text"
+          placeholder="Enter Category"
+          name="categoryName"
+          value={formik.values.categoryName}
+          onChange={formik.handleChange("categoryName")}
+          onBlur={formik.handleBlur("categoryName")}
         />
         <div className="text-black font-bold text-lg">
-          {formik.touched.colorName && formik.errors.colorName ? (
-            <div>{formik.errors.colorName}</div>
+          {formik.touched.categoryName && formik.errors.categoryName ? (
+            <div>{formik.errors.categoryName}</div>
           ) : null}
         </div>
         <button
@@ -88,4 +84,4 @@ const AddColorPage = () => {
   );
 };
 
-export default AddColorPage;
+export default AddBlogCategoryPage;

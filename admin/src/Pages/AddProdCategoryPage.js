@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Input from "../Components/ReusableComponents/Input";
 import * as Yup from 'yup';
 import { useFormik } from "formik";
@@ -9,7 +9,20 @@ const AddProdCategoryPage = () => {
 
   const dispatch = useDispatch();
   const state = useSelector((state)=>{return state})
-  const {isSuccess , res , isError} = useSelector((state)=>{return state.prodCategory;});
+  const { isSuccess, isError, isLoading, createdCategory } = useSelector(
+    (state) => {
+      return state.prodCategory;
+    }
+  );
+
+  useEffect(() => {
+    if (isSuccess && createdCategory) {
+      toast.success("Product Category Added Successfully");
+    }
+    if (isError) {
+      toast.error("Something went Wrong");
+    }
+  }, [isSuccess, isError,isLoading, createdCategory]);
 
     let schema = Yup.object().shape({
       categoryName: Yup.string().required("Category is Required"),
@@ -27,15 +40,9 @@ const AddProdCategoryPage = () => {
       onSubmit: (values) => {
         dispatch(createProdCategory(values));
         formik.resetForm();
-        if(isSuccess && res.success){
-          toast.success("Product Category Added Successfully");
-        }
-        if(isError){
-          toast.error("Something went Wrong");
-        }
         setTimeout(()=>{
           dispatch(resetProdCategoryState())
-        },6000)
+        },2000)
       },
     });
 

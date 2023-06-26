@@ -26,7 +26,7 @@ const AddOccasionPage = () => {
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError]);
+  }, [isSuccess, isLoading, isError, createdOccasion]);
 
   let schema = Yup.object().shape({
     occasionName: Yup.string().required("Occasion Name is Required"),
@@ -42,7 +42,7 @@ const AddOccasionPage = () => {
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetOccasionState());
-      }, 6000);
+      }, 2000);
     },
   });
 
@@ -66,6 +66,11 @@ const AddOccasionPage = () => {
           onChange={formik.handleChange("occasionName")}
           onBlur={formik.handleBlur("occasionName")}
         />
+        <div className="text-black font-bold text-lg">
+          {formik.touched.occasionName && formik.errors.occasionName ? (
+            <div>{formik.errors.occasionName}</div>
+          ) : null}
+        </div>
         <button
           type="submit"
           style={{ boxShadow: "8px 8px 4px #0D103C" }}

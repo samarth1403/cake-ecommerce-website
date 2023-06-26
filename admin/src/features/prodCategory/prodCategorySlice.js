@@ -3,7 +3,6 @@ import prodCategoryService from "./prodCategoryService";
 
 const initialState = {
   prodCategories: [],
-  createdCategory:{},
   isLoading: false,
   isSuccess: false,
   isError: false,

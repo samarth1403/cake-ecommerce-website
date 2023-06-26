@@ -4,9 +4,11 @@ import { validateMongodbId } from "../Utils/validateMongodbId.js";
 export const createCategoryController = async (req, res) => {
   try {
     const newCategory = await blogCategoryModel.create(req.body);
-    res.json(newCategory);
+    res.json({ createdCategory: newCategory , res : {message : "Created Successfully", success : true}});
   } catch (error) {
-    throw new Error(error);
+    res.json({
+      res: { message: error, success: false },
+    });
   }
 };
 
@@ -57,7 +59,7 @@ export const getAllCategoryController = async (req, res) => {
   } catch (error) {
     // throw new Error(error);
     res.json({
-      res: { message: "Not Fetched", success: false },
+      res: { message: error, success: false },
     });
   }
 };

@@ -3,7 +3,6 @@ import occasionService from "./occasionService";
 
 const initialState = {
   occasions: [],
-  createdOccasion: {},
   isLoading: false,
   isError: false,
   isSuccess: false,

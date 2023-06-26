@@ -17,13 +17,22 @@ import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 const AddProductPage = () => {
-    const dispatch = useDispatch();
-    const [colorArray, setColorArray] = useState([]);
-    const img = [];
+  const dispatch = useDispatch();
+  const [colorArray, setColorArray] = useState([]);
+  const img = [];
   const state = useSelector((state) => {return state});
-  const { isSuccess, res, isError } = useSelector((state) => {
+  const { isSuccess, isLoading, isError, createdProduct } = useSelector((state) => {
     return state.product;
   });
+
+  useEffect(() => {
+    if (isSuccess && createdProduct) {
+      toast.success("Product added Successfully");
+    }
+    if (isError) {
+      toast.error("Something went Wrong");
+    }
+  }, [isSuccess, isLoading, isError, createdProduct]);
 
   let schema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
@@ -35,8 +44,6 @@ const AddProductPage = () => {
       .required("Color is Required"),
     tags: Yup.string().required("Tag is Also required"),
   });
-
-  
 
   const formik = useFormik({
     initialValues: {
@@ -53,13 +60,10 @@ const AddProductPage = () => {
       dispatch(createAProduct(values));
       console.log(state.product);
       formik.resetForm();
-      if (isSuccess && res.success) {
-        toast.success("Product added Successfully");
-      }
       setColorArray([]);
       setTimeout(()=>{
         dispatch(resetProductState());
-      },6000)
+      },2000)
     },
   });
 

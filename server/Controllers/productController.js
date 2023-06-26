@@ -12,7 +12,7 @@ export const createProductController = async (req, res) => {
     const newProduct = await productModel.create(req.body);
     res.json({ createdProduct : newProduct , res : { message : "Product Created", success : true}});
   } catch (error) {
-    res.json({res:{message:"Product Not Created",success:false}});
+    res.json({res:{message:error,success:false}});
   }
 };
 
@@ -80,7 +80,7 @@ export const getAllProductsController = async (req, res) => {
   } catch (error) {
     // throw new Error(error);
     res.json({
-      res: { message: "Not Fetched", success: false },
+      res: { message: error, success: false },
     });
   }
 };

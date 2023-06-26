@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 // Declare the Schema of the Mongo model
-const occasionCategorySchema = new mongoose.Schema(
+const occasionSchema = new mongoose.Schema(
   {
     occasionName: {
       type: String,
@@ -16,5 +16,5 @@ const occasionCategorySchema = new mongoose.Schema(
 );
 
 //Export the model
-const occasionCategoryModel = mongoose.model("OccasionCategory", occasionCategorySchema);
-export default occasionCategoryModel;
+const occasionModel = mongoose.model("Occasion", occasionSchema);
+export default occasionModel;

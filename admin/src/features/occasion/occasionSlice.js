@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import occasionService from "./occasionService";
 
 const initialState = {
   occasions: [],
+  createdOccasion: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -19,6 +20,19 @@ export const getAllOccasions = createAsyncThunk(
     }
   }
 );
+
+export const createOccasion = createAsyncThunk(
+  "occasion/create",
+  async (data, thunkAPI) => {
+    try {
+      return await occasionService.createOccasion(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetOccasionState = createAction("reset/occasionState");
 
 const occasionSlice = createSlice({
   name: "occasion",
@@ -42,6 +56,26 @@ const occasionSlice = createSlice({
       state.occasions = null;
       state.res = null;
     });
+
+    builder.addCase(createOccasion.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(createOccasion.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.createdOccasion = action.payload.createdOccasion;
+      state.res = action.payload.res;
+    });
+    builder.addCase(createOccasion.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.message = action.error;
+      state.res = null;
+    });
+
+    builder.addCase(resetOccasionState, () => initialState);
   },
 });
 

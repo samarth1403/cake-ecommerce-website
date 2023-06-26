@@ -6,7 +6,7 @@ export const createCategoryController = async(req , res) => {
         const newCategory = await prodCategoryModel.create(req.body);
         res.json({ createdCategory: newCategory , res : {message : "Created Successfully" , success : true}});
     } catch (error) {
-        res.json({res : {message : "Not Created" , success : false}})
+        res.json({ res: { message: error, success: false } });
     }
 }
 
@@ -53,7 +53,7 @@ export const getAllCategoryController = async(req , res) => {
     } catch (error) {
         // throw new Error(error);
         res.json({
-          res: { message: "Not Fetched", success: false },
+          res: { message: error, success: false },
         });
     }
 }

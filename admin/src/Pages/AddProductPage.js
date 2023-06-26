@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Input from "../Components/ReusableComponents/Input";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { useNavigate } from 'react-router-dom';
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {Select} from 'antd';
 import Dropzone from "react-dropzone";
-import { createAProduct, resetState } from "../features/product/productSlice";
+import { createAProduct, resetProductState, } from "../features/product/productSlice";
 import { getAllColorCategories } from "../features/colorCategory/colorCategorySlice";
 import { getAllprodCategories } from "../features/prodCategory/prodCategorySlice";
 import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
-import {toast} from 'react-toastify'
+
 
 
 const AddProductPage = () => {
@@ -29,11 +29,8 @@ const AddProductPage = () => {
 
   const dispatch = useDispatch();
   const [colorArray, setColorArray] = useState([]);
-  const navigate = useNavigate();
 
   const state = useSelector((state) => state);
-  const newProduct = state.product;
-  const {isSuccess , isLoading , isError , res} = newProduct
 
   useEffect(() => {
       dispatch(getAllColorCategories());
@@ -79,15 +76,15 @@ const AddProductPage = () => {
         dispatch(createAProduct(values));
         formik.resetForm();
         setColorArray(null);
-        if (isSuccess && res.success) {
+        if (state.product.isSuccess && state.product.res.success) {
           toast.success("Product added Successfully");
         }
-        if (isError) {
+        if (state.product.isError) {
           toast.error("Something Went Wrong!");
         }
-        setTimeout(() => {
-          dispatch(resetState());
-        }, 3000);
+        // setTimeout(() => {
+        //   dispatch(resetProductState());
+        // }, 6000);
       },
     });
 

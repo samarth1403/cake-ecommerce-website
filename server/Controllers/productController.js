@@ -8,10 +8,9 @@ export const createProductController = async (req, res) => {
   if (req.body.title) {
     req.body.slug = slugify(req.body.title);
   }
-  
   try {
     const newProduct = await productModel.create(req.body);
-    res.json(newProduct);
+    res.json({ createdProduct : newProduct , res : { message : "Product Created", success : true}});
   } catch (error) {
     res.json({res:{message:"Product Not Created",success:false}});
   }

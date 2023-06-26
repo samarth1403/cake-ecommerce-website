@@ -3,6 +3,7 @@ import productService from "./productService";
 
 const initialState = {
   products: [],
+  createdProduct: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -21,7 +22,7 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 
-export const resetState = createAction("Reset_all");
+export const resetProductState = createAction("reset/productState");
 
 export const createAProduct = createAsyncThunk(
   "product/create",
@@ -65,7 +66,7 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.createdProduct = action.payload;
+      state.createdProduct = action.payload.createdProduct;
       state.res = action.payload.res;
     });
     builder.addCase(createAProduct.rejected, (state, action) => {
@@ -75,7 +76,8 @@ const productSlice = createSlice({
       state.message = action.error;
       state.res = null;
     });
-    builder.addCase(resetState, () => initialState);
+
+    builder.addCase(resetProductState, () => initialState);
   },
 });
 

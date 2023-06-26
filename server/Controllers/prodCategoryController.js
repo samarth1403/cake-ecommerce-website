@@ -4,9 +4,9 @@ import { validateMongodbId } from "../Utils/validateMongodbId.js";
 export const createCategoryController = async(req , res) => {
     try {
         const newCategory = await prodCategoryModel.create(req.body);
-        res.json(newCategory);
+        res.json({ createdCategory: newCategory , res : {message : "Created Successfully" , success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({res : {message : "Not Created" , success : false}})
     }
 }
 

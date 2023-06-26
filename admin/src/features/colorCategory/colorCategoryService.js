@@ -5,7 +5,6 @@ const getAllColorCategories = async () => {
   const response = await axios.get(
     `${base_url}/colorCategory/all-color-categories`
   );
-  console.log(response.data);
   return response.data;
 };
 

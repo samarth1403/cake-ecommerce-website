@@ -51,12 +51,15 @@ const AddProductPage = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(createAProduct(values));
+      console.log(state.product);
       formik.resetForm();
       if (isSuccess && res.success) {
         toast.success("Product added Successfully");
       }
       setColorArray([]);
-      
+      setTimeout(()=>{
+        dispatch(resetProductState());
+      },6000)
     },
   });
 
@@ -268,6 +271,7 @@ const AddProductPage = () => {
           </div>
         </div>
         <button
+        type="submit"
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >

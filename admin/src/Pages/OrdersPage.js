@@ -54,15 +54,15 @@ const OrdersPage = () => {
   ];
 
   const data1 = [];
-  for (let i = 0; i < orders.length; i++) {
+  for (let i = 0; i < orders?.length; i++) {
     const date = new Date(orders[i].createdAt);
     data1.push({
       key: i + 1,
       name: orders[i].orderBy.firstName + " " + orders[i].orderBy.lastName,
-      product: orders[i].products.map((i, j) => {
+      product: orders[i].products?.map((i, j) => {
         return (
           <ul key={j}>
-            <li>{i.product.title}</li>
+            <li>{i.product?.title}</li>
           </ul>
         );
       }),

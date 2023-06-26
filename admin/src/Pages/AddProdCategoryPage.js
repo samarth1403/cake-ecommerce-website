@@ -8,12 +8,15 @@ import { createProdCategory, resetProdCategoryState } from "../features/prodCate
 const AddProdCategoryPage = () => {
 
   const dispatch = useDispatch();
+  const state = useSelector((state)=>{return state})
   const {isSuccess , res , isError} = useSelector((state)=>{return state.prodCategory;});
 
     let schema = Yup.object().shape({
       categoryName: Yup.string().required("Category is Required"),
       subCategoryName: Yup.string().required("Sub Category is Required"),
     });
+
+    // console.log(state.prodCategory);
 
     const formik = useFormik({
       initialValues: {
@@ -32,7 +35,7 @@ const AddProdCategoryPage = () => {
         }
         setTimeout(()=>{
           dispatch(resetProdCategoryState())
-        },10000);
+        },6000)
       },
     });
 
@@ -79,6 +82,7 @@ const AddProdCategoryPage = () => {
           ) : null}
         </div>
         <button
+          type="submit"
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >

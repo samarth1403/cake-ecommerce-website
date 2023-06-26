@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import prodCategoryService from "./prodCategoryService";
 
 const initialState = {
@@ -26,6 +26,8 @@ export const createProdCategory = createAsyncThunk("prodCategory/create",async(d
     return thunkAPI.rejectWithValue(error);
   }
 })
+
+export const resetProdCategoryState = createAction("reset/prodCategoryState")
 
 const prodCategorySlice = createSlice({
     name:"prodCategory",
@@ -70,7 +72,7 @@ const prodCategorySlice = createSlice({
          state.res = null;
        });
 
-       
+       builder.addCase(resetProdCategoryState , ()=> initialState);
     }
 })
 

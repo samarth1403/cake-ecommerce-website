@@ -22,8 +22,6 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 
-export const resetProductState = createAction("reset/productState");
-
 export const createAProduct = createAsyncThunk(
   "product/create",
   async (data, thunkAPI) => {
@@ -34,6 +32,8 @@ export const createAProduct = createAsyncThunk(
     }
   }
 );
+
+export const resetProductState = createAction("reset/productState");
 
 const productSlice = createSlice({
   name: "product",
@@ -64,15 +64,15 @@ const productSlice = createSlice({
     });
     builder.addCase(createAProduct.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isError = false;
       state.isSuccess = true;
+      state.isError = false;
       state.createdProduct = action.payload.createdProduct;
       state.res = action.payload.res;
     });
     builder.addCase(createAProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.isError = true;
       state.isSuccess = false;
+      state.isError = true;
       state.message = action.error;
       state.res = null;
     });

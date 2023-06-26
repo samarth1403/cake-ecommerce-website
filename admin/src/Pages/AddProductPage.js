@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Input from "../Components/ReusableComponents/Input";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {Select} from 'antd';
+import { Select } from "antd";
 import Dropzone from "react-dropzone";
-import { createAProduct, resetProductState, } from "../features/product/productSlice";
+import {
+  createAProduct,
+  resetProductState,
+} from "../features/product/productSlice";
 import { getAllColorCategories } from "../features/colorCategory/colorCategorySlice";
 import { getAllprodCategories } from "../features/prodCategory/prodCategorySlice";
 import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
 
-
-
 const AddProductPage = () => {
+    const dispatch = useDispatch();
+    const [colorArray, setColorArray] = useState([]);
+    const img = [];
+  const state = useSelector((state) => {return state});
+  const { isSuccess, res, isError } = useSelector((state) => {
+    return state.product;
+  });
+
   let schema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
     price: Yup.number().required("Price is Required"),
@@ -27,74 +36,62 @@ const AddProductPage = () => {
     tags: Yup.string().required("Tag is Also required"),
   });
 
-  const dispatch = useDispatch();
-  const [colorArray, setColorArray] = useState([]);
+  
 
-  const state = useSelector((state) => state);
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      price: "",
+      category: "",
+      subCategory: "",
+      color: "",
+      images: "",
+      tags: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(createAProduct(values));
+      formik.resetForm();
+      if (isSuccess && res.success) {
+        toast.success("Product added Successfully");
+      }
+      setColorArray([]);
+      
+    },
+  });
 
   useEffect(() => {
-      dispatch(getAllColorCategories());
-      dispatch(getAllprodCategories());
-    }, []);
-
-
-    const img = [];
-    state.upload.images?.forEach((i) => {
-      img.push({
-        public_id: i.public_id,
-        url: i.url,
-      });
-    });
+    dispatch(getAllColorCategories());
+    dispatch(getAllprodCategories());
+  }, []);
 
   useEffect(() => {
     formik.values.color = colorArray ? colorArray : null;
     formik.values.images = img;
   }, [colorArray, img]);
 
-
-  const colorOptions = [];
-    state.colorCategory.colorCategories?.forEach((element) => {
-      colorOptions.push({
-        label: element.colorName,
-        value: element._id,
-      });
+  state.upload.images?.forEach((i) => {
+    img.push({
+      public_id: i.public_id,
+      url: i.url,
+    });
   });
 
-  
-    const formik = useFormik({
-      initialValues: {
-        title: "",
-        price: "",
-        category: "",
-        subCategory: "",
-        color: "",
-        images: "",
-        tags: "",
-      },
-      validationSchema: schema,
-      onSubmit: (values) => {
-        dispatch(createAProduct(values));
-        formik.resetForm();
-        setColorArray(null);
-        if (state.product.isSuccess && state.product.res.success) {
-          toast.success("Product added Successfully");
-        }
-        if (state.product.isError) {
-          toast.error("Something Went Wrong!");
-        }
-        // setTimeout(() => {
-        //   dispatch(resetProductState());
-        // }, 6000);
-      },
+  const colorOptions = [];
+  state.colorCategory.colorCategories?.forEach((element) => {
+    colorOptions.push({
+      label: element.colorName,
+      value: element._id,
     });
+  });
 
   const handleColorOptions = (e) => {
     setColorArray(e);
   };
 
   return (
-    <div className="bg-[#0D103C] flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-[#fff] text-4xl m-6">Add Blog</p>
+    <div className=" flex flex-col flex-wrap justify-center items-center">
+      <p className="font-roboto font-bold text-4xl m-6">Add Blog</p>
       <form
         onSubmit={formik.handleSubmit}
         style={{
@@ -183,6 +180,7 @@ const AddProductPage = () => {
             mode="multiple"
             allowClear
             className="absolute inset-0"
+            placeholder="Select Colors"
             defaultValue={colorArray}
             onChange={(i) => handleColorOptions(i)}
             options={colorOptions}
@@ -221,11 +219,10 @@ const AddProductPage = () => {
           onChange={formik.handleChange("tags")}
           onBlur={formik.handleBlur("tags")}
         >
-          <option disabled defaultValue>Select Tags</option>
+          <option defaultValue>Select Tags</option>
           <option value="featured">Featured</option>
           <option value="popular">Popular</option>
           <option value="special">Special</option>
-          
         </select>
         <div className="text-black font-bold text-lg">
           {formik.touched.tags && formik.errors.tags ? (

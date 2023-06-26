@@ -4,11 +4,11 @@ import * as Yup from 'yup';
 import { useFormik } from "formik";
 import {toast} from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
-import { createProdCategory } from "../features/prodCategory/prodCategorySlice";
+import { createProdCategory, resetProdCategoryState } from "../features/prodCategory/prodCategorySlice";
 const AddProdCategoryPage = () => {
 
   const dispatch = useDispatch();
-  const {prodCategory} = useSelector((state)=>{return state});
+  const {isSuccess , res , isError} = useSelector((state)=>{return state.prodCategory;});
 
     let schema = Yup.object().shape({
       categoryName: Yup.string().required("Category is Required"),
@@ -24,12 +24,15 @@ const AddProdCategoryPage = () => {
       onSubmit: (values) => {
         dispatch(createProdCategory(values));
         formik.resetForm();
-        if(prodCategory.isSuccess && prodCategory.res.success){
+        if(isSuccess && res.success){
           toast.success("Product Category Added Successfully");
         }
-        if(prodCategory.isError){
+        if(isError){
           toast.error("Something went Wrong");
         }
+        setTimeout(()=>{
+          dispatch(resetProdCategoryState())
+        },10000);
       },
     });
 

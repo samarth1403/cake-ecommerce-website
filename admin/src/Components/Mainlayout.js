@@ -1,18 +1,20 @@
+import "react-toastify/dist/ReactToastify.css";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import { useState  } from "react";
+import { useState } from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaBloggerB } from "react-icons/fa";
 import { BsListUl } from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
+import { ToastContainer } from "react-toastify";
 import {
   AiOutlineUser,
   AiOutlineShoppingCart,
   AiOutlineAppstoreAdd,
 } from "react-icons/ai";
-import {Outlet, useNavigate} from 'react-router-dom';
-import userPhoto from '../images/cake.jpeg';
+import { Outlet, useNavigate } from "react-router-dom";
+import userPhoto from "../images/cake.jpeg";
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,7 +24,7 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -140,21 +142,21 @@ const MainLayout = () => {
             },
             {
               key: "coupons",
-              icon: <BsListUl/>,
+              icon: <BsListUl />,
               label: "Coupons",
               children: [
                 {
-                  key:"add-coupon",
-                  icon:<AiOutlineAppstoreAdd />,
+                  key: "add-coupon",
+                  icon: <AiOutlineAppstoreAdd />,
                   label: "Add Coupon",
                 },
                 {
-                  key:"all-coupons",
-                  icon:<BiCategoryAlt/>,
-                  label: "Coupon List"
-                }
-              ]
-            }
+                  key: "all-coupons",
+                  icon: <BiCategoryAlt />,
+                  label: "Coupon List",
+                },
+              ],
+            },
           ]}
         />
       </Sider>
@@ -200,6 +202,17 @@ const MainLayout = () => {
           </div>
         </Header>
         <Content>
+            <ToastContainer
+            position="top-right"
+            autoClose={2500}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
           <Outlet className="h-[100vh]" />
         </Content>
       </Layout>

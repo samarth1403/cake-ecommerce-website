@@ -63,7 +63,7 @@ const LoginPage = () => {
           Log In to your Account to Continue
         </p>
         <div className="text-red-500 text-lg">
-          {res.success === false ? "You are not an Admin" : ""}
+          {res?.success === false ? "You are not an Admin" : ""}
         </div>
         <form
           style={{

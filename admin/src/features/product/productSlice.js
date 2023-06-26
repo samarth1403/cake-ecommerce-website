@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import productService from './productService';
 
 
@@ -17,6 +17,8 @@ export const getAllProducts = createAsyncThunk("product/all-products",async(thun
         return thunkAPI.rejectWithValue(error);
     }
 })
+
+export const resetState = createAction("Reset_all");
 
 export const createAProduct = createAsyncThunk("product/create",async(data,
     thunkAPI) =>{

@@ -4,9 +4,11 @@ import { validateMongodbId } from "../Utils/validateMongodbId.js";
 export const createCouponController =  async(req , res) => {
     try {
         const newCoupon = await couponModel.create(req.body);
-        res.json(newCoupon);
+        res.json({ createdCoupon: newCoupon , res : {message:"Coupon Added Successfully",success:true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -50,7 +52,7 @@ export const getAllCouponsController = async(req , res) => {
     } catch (error) {
         // throw new Error(error);
         res.json({
-          res: { message: "Not Fetched", success: false },
+          res: { message: error, success: false },
         });
     }
 }

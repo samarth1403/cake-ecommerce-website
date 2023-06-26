@@ -7,8 +7,14 @@ const getAllCoupons = async() => {
     return response.data;
 }
 
+const createCoupon = async(data) => {
+    const response =  await axios.post(`${base_url}/coupon/create`,data,config);
+    return response.data;
+}
+
 const couponService = {
-    getAllCoupons
+    getAllCoupons,
+    createCoupon,
 }
 
 export default couponService;

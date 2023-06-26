@@ -179,3 +179,19 @@ option {
 :where(.css-dev-only-do-not-override-1wazalj)[class*=" ant-select"] [class*=" ant-select"] {
   font-size: 20px;
 }
+
+#expiry {
+  position: relative;
+  color: white;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  padding-left: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

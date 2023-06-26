@@ -22,6 +22,7 @@ import BlogCategoryListPage from './Pages/BlogCategoryListPage';
 import ColorCategoryListPage from './Pages/ColorCategoryListPage';
 import CouponListPage from './Pages/CouponListPage';
 import AddBlogCategoryPage from './Pages/AddBlogCategoryPage';
+import AddCouponPage from './Pages/AddCouponPage';
 
 const App = () => {
   return (
@@ -62,6 +63,7 @@ const App = () => {
           path='add-blog-category'
           element={<AddBlogCategoryPage/>}/>
           <Route path="add-product" element={<AddProductPage />} />
+          <Route path="add-coupon" element={<AddCouponPage/>}/>
         </Route>
       </Routes>
     </Router>

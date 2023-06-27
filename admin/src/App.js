@@ -51,6 +51,7 @@ const App = () => {
           <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
+          <Route path="add-color/:id" element={<AddColorPage />} />
           <Route path="add-occasion" element={<AddOccasionPage />} />
           <Route
             path="add-product-category"

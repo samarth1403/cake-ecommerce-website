@@ -17,9 +17,11 @@ export const getACouponController = async(req , res) => {
     validateMongodbId(id);
     try {
         const getCoupon = await couponModel.findById(id);
-        res.json(getCoupon);
+        res.json({gotCoupon:getCoupon,res:{message : "Coupon Received Successfully",success:true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -28,9 +30,11 @@ export const updateACouponController = async(req , res) => {
     validateMongodbId(id);
     try {
       const updatedCoupon = await couponModel.findByIdAndUpdate(id,req.body,{new:true},);
-      res.json(updatedCoupon);
+      res.json({updatedCoupon,res:{message:"Coupon Updated" , success : true}});
     } catch (error) {
-      throw new Error(error);
+      res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -38,10 +42,12 @@ export const deleteACouponController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        await couponModel.findByIdAndDelete(id);
-        res.json({message:"Coupon Deleted"});
+        const deletedCoupon = await couponModel.findByIdAndDelete(id);
+        res.json({deletedCoupon,res : {message:"Coupon Deleted" , success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 

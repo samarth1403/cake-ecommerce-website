@@ -62,6 +62,7 @@ const AddOccasionPage = () => {
       if (occasionId !== undefined) {
         const data = { id: occasionId, occasionData: values };
         dispatch(updateOccasion(data));
+        dispatch(resetOccasionState());
       } else {
         dispatch(createOccasion(values));
         formik.resetForm();

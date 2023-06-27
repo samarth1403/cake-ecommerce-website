@@ -68,8 +68,7 @@ const OccasionListPage = () => {
       ),
       actionDelete: (
         <button
-          onClick={() => showModal(occasions[i]._id)}
-          to="/"
+          onClick={() => showModal(occasions[i])}
           className="flex justify-start items-center bg-transparent border-0 modalButton"
         >
           <AiFillDelete className="text-2xl text-red-600" />

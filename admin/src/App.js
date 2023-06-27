@@ -53,6 +53,8 @@ const App = () => {
           <Route path="add-color" element={<AddColorPage />} />
           <Route path="add-color/:id" element={<AddColorPage />} />
           <Route path="add-occasion" element={<AddOccasionPage />} />
+          {/* the following route is for update occasion */}
+          <Route path="add-occasion/:id" element={<AddOccasionPage />} />
           <Route
             path="add-product-category"
             element={<AddProdCategoryPage />}
@@ -64,11 +66,7 @@ const App = () => {
           <Route path="add-blog-category" element={<AddBlogCategoryPage />} />
           <Route path="add-product" element={<AddProductPage />} />
           <Route path="add-coupon" element={<AddCouponPage />} />
-
-          {/* Routes for Editing and Deleting */}
-
           <Route path="add-coupon/:id" element={<AddCouponPage />} />
-          <Route path="add-occasion/:id" element={<AddOccasionPage />} />
         </Route>
       </Routes>
     </Router>

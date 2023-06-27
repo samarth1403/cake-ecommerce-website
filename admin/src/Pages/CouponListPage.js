@@ -1,19 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Table } from "antd";
-import { getAllCoupons } from "../features/coupon/couponSlice";
+import { deleteCoupon, getAllCoupons, resetCouponState } from "../features/coupon/couponSlice";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "../Components/ReusableComponents/CustomModal";
+import {toast} from 'react-toastify';
 
 const CouponListPage = () => {
+  const [open, setOpen] = useState(false);
+  const [couponId, setCouponId] = useState("");
+  const [modalData, setModalData] = useState({});
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const showModal = (data) => {
+    setOpen(true);
+    setCouponId(data._id);
+    setModalData(data);
+  };
   const dispatch = useDispatch();
 
-  const { coupons } = useSelector((state) => {
+  const { coupons, isSuccess, isError, res } = useSelector((state) => {
     return state.coupon;
   });
 
   useEffect(() => {
+    dispatch(resetCouponState());
     dispatch(getAllCoupons());
   }, []);
 
@@ -52,7 +66,7 @@ const CouponListPage = () => {
     },
   ];
   const data1 = [];
-  for (let i = 0; i < coupons.length; i++) {
+  for (let i = 0; i < coupons?.length; i++) {
     const date = new Date(coupons[i].expiry)
     data1.push({
       key: i + 1,
@@ -60,23 +74,52 @@ const CouponListPage = () => {
       expiry: date.toUTCString(),
       discount: `${coupons[i].discount} %`,
       actionEdit: (
-        <Link to="/" className="flex flex-row justify-start items-center">
+        <Link
+          to={`/admin/add-coupon/${coupons[i]._id}`}
+          className="flex flex-row justify-start items-center"
+        >
           <BiEdit className="text-2xl" />
         </Link>
       ),
       actionDelete: (
-        <Link to="/" className="flex flex-row justify-start items-center">
+        <button
+          onClick={() => showModal(coupons[i])}
+          className="flex flex-row justify-start items-center"
+        >
           <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
+        </button>
       ),
     });
   }
+
+  const handleDeleteCoupon = (id) => {
+    setOpen(false);
+    dispatch(deleteCoupon(id));
+    setTimeout(() => {
+      dispatch(getAllCoupons());
+    }, 100);
+    if (isSuccess && res.success) {
+      toast.success("Occasion Deleted Successfully");
+    }
+    if (isError) {
+      toast.error("Something went Wrong");
+    }
+  };
   return (
     <div className="my-4">
       <p className="font-bold text-2xl my-8 mx-4">Color List</p>
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        performAction={() => {
+          return handleDeleteCoupon(couponId);
+        }}
+        open={open}
+        title="Are you sure to delete the following "
+        modalContent={`Coupon :- Coupon Name : ${modalData.name}`}
+      />
     </div>
   );
 };

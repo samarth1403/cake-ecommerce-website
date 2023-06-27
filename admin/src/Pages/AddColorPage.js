@@ -63,7 +63,8 @@ const AddColorPage = () => {
     onSubmit: (values) => {
       if(colorCategoryId !== undefined){
         const data = { id: colorCategoryId, colorCategoryData: values };
-        dispatch(updateColorCategory(data))
+        dispatch(updateColorCategory(data));
+        dispatch(resetColorCategoryState());
       }
       else {
         dispatch(createColorCategory(values));

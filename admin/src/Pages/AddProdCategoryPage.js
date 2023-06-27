@@ -63,6 +63,7 @@ const AddProdCategoryPage = () => {
         if(prodCategoryId !== undefined){
           const data = { id : prodCategoryId , prodCategoryData : values }
           dispatch(updateProdCategory(data));
+          dispatch(resetProdCategoryState());
         }
         else {
           dispatch(createProdCategory(values));

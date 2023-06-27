@@ -31,6 +31,29 @@ export const createOccasion = createAsyncThunk(
   }
 );
 
+export const getOccasion = createAsyncThunk(
+  "occasion/get",
+  async (id, thunkAPI) => {
+    try {
+      return await occasionService.getOccasion(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateOccasion = createAsyncThunk(
+  "occasion/update",
+  async (data, thunkAPI) => {
+    console.log(data);
+    try {
+      return await occasionService.updateOccasion(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetOccasionState = createAction("reset/occasionState");
 
 const occasionSlice = createSlice({
@@ -67,6 +90,42 @@ const occasionSlice = createSlice({
       state.res = action.payload.res;
     });
     builder.addCase(createOccasion.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.message = action.error;
+      state.res = null;
+    });
+
+    builder.addCase(getOccasion.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getOccasion.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.gotOccasion = action.payload.gotOccasion;
+      state.res = action.payload.res;
+    });
+    builder.addCase(getOccasion.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.message = action.error;
+      state.res = null;
+    });
+
+    builder.addCase(updateOccasion.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateOccasion.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.updatedOccasion = action.payload.updatedOccasion;
+      state.res = action.payload.res;
+    });
+    builder.addCase(updateOccasion.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;

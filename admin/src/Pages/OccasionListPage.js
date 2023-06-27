@@ -38,12 +38,12 @@ const OccasionListPage = () => {
     },
   ];
   const data1 = [];
-  for (let i = 0; i < occasions.length; i++) {
+  for (let i = 0; i < occasions?.length; i++) {
     data1.push({
       key: i + 1,
       occasion: occasions[i].occasionName,
       actionEdit: (
-        <Link to="/" className="flex justify-start items-center">
+        <Link to={`/admin/add-occasion/${occasions[i]._id}`} className="flex justify-start items-center">
           <BiEdit className="text-2xl" />
         </Link>
       ),

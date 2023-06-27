@@ -64,6 +64,12 @@ const App = () => {
           element={<AddBlogCategoryPage/>}/>
           <Route path="add-product" element={<AddProductPage />} />
           <Route path="add-coupon" element={<AddCouponPage/>}/>
+
+          {/* Routes for Editing and Deleting */}
+           
+           <Route path='add-coupon/:id' element={<AddCouponPage/>}/>
+           <Route path='add-occasion/:id' element={<AddOccasionPage/>}/>
+
         </Route>
       </Routes>
     </Router>

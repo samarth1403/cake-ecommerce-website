@@ -16,15 +16,15 @@ export const updateOccasionController = async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const updatedCategory = await occasionModel.findByIdAndUpdate(
+    const updatedOccasion = await occasionModel.findByIdAndUpdate(
       id,
       req.body,
       { new: true }
     );
-    res.json(updatedCategory);
+    res.json({ updatedOccasion , res : "Updated Successfully" , success : true});
   } catch (error) {
-    throw new Error(error);
-  }
+    res.json({res : error , success : false});
+  } 
 };
 
 export const deleteOccasionController = async (req, res) => {
@@ -43,9 +43,9 @@ export const getAOccasionController = async (req, res) => {
   validateMongodbId(id);
   try {
     const category = await occasionModel.findById(id);
-    res.json(category);
+    res.json({ gotOccasion : category , res : { message : "Occasion Got Successfully",success:true}});
   } catch (error) {
-    throw new Error(error);
+    res.json({ res: { message: error, success: false } });
   }
 };
 

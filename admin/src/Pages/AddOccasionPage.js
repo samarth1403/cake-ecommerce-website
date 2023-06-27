@@ -6,49 +6,77 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createOccasion,
+  getOccasion,
   resetOccasionState,
+  updateOccasion,
 } from "../features/occasion/occasionSlice";
+import { useLocation , useNavigate} from "react-router-dom";
 const AddOccasionPage = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => {
-    return state;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const occasionId = location.pathname.split("/")[3];
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdOccasion,
+    gotOccasion,
+    updatedOccasion,
+  } = useSelector((state) => {
+    return state.occasion;
   });
-  const { isSuccess, isError, isLoading, createdOccasion } = useSelector(
-    (state) => {
-      return state.occasion;
+
+  useEffect(() => {
+    if (occasionId !== undefined) {
+      dispatch(getOccasion(occasionId));
+    } else {
+      dispatch(resetOccasionState());
     }
-  );
+  }, [occasionId]);
 
   useEffect(() => {
     if (isSuccess && createdOccasion) {
       toast.success("Occasion Added Successfully");
     }
+    if (isSuccess && updatedOccasion) {
+      toast.success("Occasion Updated Successfully");
+      navigate("/admin/all-occasions")
+    }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError, createdOccasion]);
+  }, [isSuccess, isLoading, isError, createdOccasion, updatedOccasion]);
 
   let schema = Yup.object().shape({
     occasionName: Yup.string().required("Occasion Name is Required"),
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      occasionName: "",
+      occasionName: gotOccasion?.occasionName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createOccasion(values));
-      formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetOccasionState());
-      }, 2000);
+      if (occasionId !== undefined) {
+        const data = { id: occasionId, occasionData: values };
+        dispatch(updateOccasion(data));
+      } else {
+        dispatch(createOccasion(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetOccasionState());
+        }, 2000);
+      }
     },
   });
 
   return (
     <div className=" flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-4xl m-6">Add Occasion</p>
+      <p className="font-roboto font-bold text-4xl m-6">
+        {occasionId !== undefined ? "Edit" : "Add"} Occasion
+      </p>
       <form
         onSubmit={formik.handleSubmit}
         style={{
@@ -76,7 +104,7 @@ const AddOccasionPage = () => {
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >
-          Submit
+          {occasionId !== undefined ? "Edit" : "Add"} Occasion
         </button>
       </form>
     </div>

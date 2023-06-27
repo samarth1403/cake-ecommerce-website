@@ -13,7 +13,7 @@ import {
 
 const occasionRouter = express.Router();
 
-occasionRouter.get("/category/:id", getAOccasionController);
+occasionRouter.get("/get/:id", getAOccasionController);
 occasionRouter.post(
   "/create",
   authMiddleware,

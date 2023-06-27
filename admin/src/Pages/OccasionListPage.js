@@ -1,19 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Table } from "antd";
-import { getAllOccasions } from "../features/occasion/occasionSlice";
+import { deleteOccasion, getAllOccasions, resetOccasionState } from "../features/occasion/occasionSlice";
+import CustomModal from "../Components/ReusableComponents/CustomModal";
+import { toast } from "react-toastify";
 
 const OccasionListPage = () => {
+
+  const [open , setOpen] = useState(false);
+  const [occasionId , setOccasionId] = useState("")
+  const hideModal = () => {
+    setOpen(false);
+  }
+  const showModal = (id) => {
+    setOpen(true);
+    setOccasionId(id);
+  }
   const dispatch = useDispatch();
 
   const { occasions } = useSelector((state) => {
     return state.occasion;
   });
 
+  const {
+    isSuccess,
+    isError,
+    res
+  } = useSelector((state) => {
+    return state.occasion;
+  });
+
+
   useEffect(() => {
+    dispatch(resetOccasionState())
     dispatch(getAllOccasions());
   }, []);
 
@@ -43,16 +65,37 @@ const OccasionListPage = () => {
       key: i + 1,
       occasion: occasions[i].occasionName,
       actionEdit: (
-        <Link to={`/admin/add-occasion/${occasions[i]._id}`} className="flex justify-start items-center">
+        <Link
+          to={`/admin/add-occasion/${occasions[i]._id}`}
+          className="flex justify-start items-center"
+        >
           <BiEdit className="text-2xl" />
         </Link>
       ),
       actionDelete: (
-        <Link to="/" className="flex justify-start items-center">
+        <button
+          onClick={() => showModal(occasions[i]._id)}
+          to="/"
+          className="flex justify-start items-center bg-transparent border-0 modalButton"
+        >
           <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
+        </button>
       ),
     });
+  }
+
+  const handleDeleteOccasion = (id) => {
+    setOpen(false);
+    dispatch(deleteOccasion(id));
+    setTimeout(()=>{
+      dispatch(getAllOccasions());
+    },100)
+    if (isSuccess && res.success) {
+      toast.success("Occasion Deleted Successfully");
+    }
+    if (isError) {
+      toast.error("Something went Wrong");
+    }
   }
   return (
     <div className="my-4">
@@ -60,6 +103,7 @@ const OccasionListPage = () => {
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal hideModal={hideModal} performAction={()=> { return handleDeleteOccasion(occasionId);}} open={open} title = "Are you sure to delete this Occasion"/>
     </div>
   );
 };

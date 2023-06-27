@@ -211,7 +211,7 @@ const MainLayout = () => {
             rtl={false}
             pauseOnFocusLoss
             draggable
-            theme="light"
+            theme="dark"
           />
           <Outlet className="h-[100vh]" />
         </Content>

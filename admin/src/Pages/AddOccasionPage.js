@@ -67,7 +67,7 @@ const AddOccasionPage = () => {
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetOccasionState());
-        }, 2000);
+        }, 200);
       }
     },
   });

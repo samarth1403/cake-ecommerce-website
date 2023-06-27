@@ -45,9 +45,19 @@ export const getOccasion = createAsyncThunk(
 export const updateOccasion = createAsyncThunk(
   "occasion/update",
   async (data, thunkAPI) => {
-    console.log(data);
     try {
       return await occasionService.updateOccasion(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteOccasion = createAsyncThunk(
+  "occasion/delete",
+  async (id, thunkAPI) => {
+    try {
+      return await occasionService.deleteOccasion(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -126,6 +136,24 @@ const occasionSlice = createSlice({
       state.res = action.payload.res;
     });
     builder.addCase(updateOccasion.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.message = action.error;
+      state.res = null;
+    });
+
+    builder.addCase(deleteOccasion.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteOccasion.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.deletedOccasion = action.payload.deletedOccasion;
+      state.res = action.payload.res;
+    });
+    builder.addCase(deleteOccasion.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;

@@ -31,10 +31,12 @@ export const deleteOccasionController = async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    await occasionModel.findByIdAndDelete(id);
-    res.json({ message: "Occasion Name Deleted" });
+    const deletedOccasion = await occasionModel.findByIdAndDelete(id);
+    res.json({ deletedOccasion , res : {message : "Occasion Deleted Successfully", success : true}});
   } catch (error) {
-    throw new Error(error);
+     res.json({
+       res: { message: error, success: false },
+     });
   }
 };
 

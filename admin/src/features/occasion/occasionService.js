@@ -24,19 +24,23 @@ const getOccasion = async (id) => {
 const updateOccasion = async (data) => {
   const response = await axios.put(
     `${base_url}/occasion/update/${data.id}`,
-    {occasionName:data.occasionData.occasionName},
+    { occasionName: data.occasionData.occasionName },
     config
   );
   return response.data;
 };
 
-
+const deleteOccasion = async (id) => {
+  const response = await axios.delete(`${base_url}/occasion/delete/${id}`,config);
+  return response.data;
+};
 
 const occasionService = {
   getAllOccasions,
   createOccasion,
   getOccasion,
   updateOccasion,
+  deleteOccasion
 };
 
 export default occasionService;

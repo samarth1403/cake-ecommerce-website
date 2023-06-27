@@ -195,3 +195,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+:where(.css-dev-only-do-not-override-1wazalj).ant-modal .ant-modal-footer .ant-btn+.ant-btn:not(.ant-dropdown-trigger) {
+  margin-bottom: 0;
+  margin-inline-start: 8px;
+  background-color: blue;
+}

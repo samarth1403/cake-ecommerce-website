@@ -11,25 +11,19 @@ import { toast } from "react-toastify";
 const OccasionListPage = () => {
 
   const [open , setOpen] = useState(false);
-  const [occasionId , setOccasionId] = useState("")
+  const [occasionId , setOccasionId] = useState("");
+  const [modalData, setModalData] = useState({});
   const hideModal = () => {
     setOpen(false);
   }
-  const showModal = (id) => {
+  const showModal = (data) => {
     setOpen(true);
-    setOccasionId(id);
+    setOccasionId(data._id);
+    setModalData(data);
   }
   const dispatch = useDispatch();
 
-  const { occasions } = useSelector((state) => {
-    return state.occasion;
-  });
-
-  const {
-    isSuccess,
-    isError,
-    res
-  } = useSelector((state) => {
+  const { occasions, isSuccess, isError, res } = useSelector((state) => {
     return state.occasion;
   });
 
@@ -103,7 +97,15 @@ const OccasionListPage = () => {
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>
-      <CustomModal hideModal={hideModal} performAction={()=> { return handleDeleteOccasion(occasionId);}} open={open} title = "Are you sure to delete this Occasion"/>
+      <CustomModal
+        hideModal={hideModal}
+        performAction={() => {
+          return handleDeleteOccasion(occasionId);
+        }}
+        open={open}
+        title="Are you sure to delete the following "
+        modalContent={`Occasion :- Occasion Name : ${modalData.occasionName}`}
+      />
     </div>
   );
 };

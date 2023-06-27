@@ -46,11 +46,8 @@ const App = () => {
             path="all-blog-categories"
             element={<BlogCategoryListPage />}
           />
-          <Route
-            path="all-colors"
-            element={<ColorCategoryListPage />}
-          />
-          <Route path='all-coupons' element={<CouponListPage/>}/>
+          <Route path="all-colors" element={<ColorCategoryListPage />} />
+          <Route path="all-coupons" element={<CouponListPage />} />
           <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
@@ -59,17 +56,18 @@ const App = () => {
             path="add-product-category"
             element={<AddProdCategoryPage />}
           />
-          <Route 
-          path='add-blog-category'
-          element={<AddBlogCategoryPage/>}/>
+          <Route
+            path="add-product-category/:id"
+            element={<AddProdCategoryPage />}
+          />
+          <Route path="add-blog-category" element={<AddBlogCategoryPage />} />
           <Route path="add-product" element={<AddProductPage />} />
-          <Route path="add-coupon" element={<AddCouponPage/>}/>
+          <Route path="add-coupon" element={<AddCouponPage />} />
 
           {/* Routes for Editing and Deleting */}
-           
-           <Route path='add-coupon/:id' element={<AddCouponPage/>}/>
-           <Route path='add-occasion/:id' element={<AddOccasionPage/>}/>
 
+          <Route path="add-coupon/:id" element={<AddCouponPage />} />
+          <Route path="add-occasion/:id" element={<AddOccasionPage />} />
         </Route>
       </Routes>
     </Router>

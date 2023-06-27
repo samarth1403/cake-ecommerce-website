@@ -14,10 +14,15 @@ export const updateCategoryController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        const updatedCategory = await prodCategoryModel.findByIdAndUpdate(id,req.body,{new:true});
-        res.json(updatedCategory);
+        const updatedProdCategory = await prodCategoryModel.findByIdAndUpdate(id,req.body,{new:true});
+        res.json({
+          updatedProdCategory,
+          res: { message: "Category Updated", success: true },
+        });
     } catch (error) {
-        throw new Error(error);
+      res.json({
+        res: { message: error, success: false },
+      });
     }
 }
 
@@ -25,10 +30,12 @@ export const deleteCategoryController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        await prodCategoryModel.findByIdAndDelete(id);
-        res.json({message:"Category Deleted"});
+        const deletedProdCategory = await prodCategoryModel.findByIdAndDelete(id);
+        res.json({deletedProdCategory, res :{message:"Category Deleted", success : true}});
     } catch (error) {
-        throw new Error(error);
+      res.json({
+        res: {message:error, success: false},
+      });
     }
 }
 
@@ -37,9 +44,11 @@ export const getACategoryController = async(req , res) => {
     validateMongodbId(id);
     try {
         const category = await prodCategoryModel.findById(id);
-        res.json(category);
+        res.json({gotProdCategory:category , res : { message : "Category Got Successfully" , success : true}});
     } catch (error) {
-        throw new Error(error);
+       res.json({
+         res: { message: error, success: false },
+       });
     }
 }
 

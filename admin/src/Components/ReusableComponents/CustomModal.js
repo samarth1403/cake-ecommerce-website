@@ -2,17 +2,17 @@ import React from 'react'
 import { Modal } from "antd";
 
 const CustomModal = (props) => {
-  const { open, hideModal, performAction, title } = props;
+  const { open, hideModal, performAction, title, modalContent } = props;
   return (
     <Modal
-      title="Confirmation"
+      title={title}
       open={open}
       onOk={performAction}
       onCancel={hideModal}
       okText="Ok"
       cancelText="Cancel"
     >
-      <p>{title}</p>
+      <h3 className='font-roboto font-bold text-lg'>{modalContent}</h3>
     </Modal>
   );
 }

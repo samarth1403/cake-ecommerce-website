@@ -5,9 +5,11 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { createCoupon, resetCouponState } from "../features/coupon/couponSlice";
+import { useLocation } from "react-router-dom";
 
 const AddCouponPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const state = useSelector((state) => {
     return state;
   });

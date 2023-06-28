@@ -6,32 +6,56 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
-import { createBlog, resetBlogState } from "../features/blog/blogSlice";
+import { createBlog, getBlog, resetBlogState, updateBlog } from "../features/blog/blogSlice";
 import { getAllBlogCategories } from "../features/blogCategory/blogCategorySlice";
-import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
+import { deleteBlogImg, resetUploadState, uploadBlogImg } from "../features/upload/uploadSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddBlogPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const img = [];
+  const blogId = location.pathname.split('/')[3]
   const state = useSelector((state) => {
     return state;
   });
-  const { isSuccess, isLoading, isError, createdBlog } = useSelector(
+  const { isSuccess, isLoading, isError, createdBlog, gotBlog, updatedBlog } = useSelector(
     (state) => {
       return state.blog;
     }
   );
 
+  useEffect(() => {
+    if (blogId !== undefined) {
+      dispatch(getBlog(blogId));
+    } else {
+      dispatch(resetBlogState());
+    }
+  }, [blogId]);
+
+  useEffect(() => {
+    dispatch(resetBlogState());
+    dispatch(getAllBlogCategories());
+  }, []);
 
   useEffect(() => {
     if (isSuccess && createdBlog) {
       toast.success("Blog added Successfully");
     }
+    if (isSuccess && updatedBlog) {
+      toast.success("Blog Updated Successfullly!");
+      navigate("/admin/all-blogs");
+    }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError, createdBlog]);
+  }, [isSuccess, isLoading, isError, createdBlog, updatedBlog]);
+  
+
+  useEffect(() => {
+    formik.values.images = state.upload?.images ? state.upload?.images : null;
+  }, [state.upload?.images]);
 
   let schema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
@@ -40,40 +64,38 @@ const AddBlogPage = () => {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
-      category: "",
-      images: "",
+      title: gotBlog?.title || "",
+      description: gotBlog?.description || "",
+      category: gotBlog?.category || "",
+      images: state?.upload?.images || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlog(values));
-      formik.resetForm();
-      setTimeout(() => {
+      if (blogId !== undefined && state.upload.images !== []) {
+        const data = { id: blogId, blogData: values };
+        dispatch(updateBlog(data));
+        dispatch(resetUploadState());
         dispatch(resetBlogState());
-      }, 2000);
+      } else {
+        dispatch(createBlog(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetUploadState());
+          dispatch(resetBlogState());
+        }, 200);
+      }
     },
   });
 
-  useEffect(() => {
-    dispatch(getAllBlogCategories());
-  }, []);
-
-    useEffect(() => {
-      formik.values.images = img;
-    }, [img]);
-
-    state.upload.images?.forEach((i) => {
-      img.push({
-        public_id: i.public_id,
-        url: i.url,
-      });
-    });
+     
 
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-4xl m-6">Add Blog</p>
+      <p className="font-roboto font-bold text-4xl m-6">
+        {blogId !== undefined ? "Update" : "Add"} Blog
+      </p>
       <form
         onSubmit={formik.handleSubmit}
         style={{
@@ -121,7 +143,7 @@ const AddBlogPage = () => {
           onChange={formik.handleChange("category")}
           onBlur={formik.handleBlur("category")}
         >
-          <option defaultValue>Select Category</option>
+          <option value="">Select Category</option>
           {state.blogCategory.blogCategories?.map((i, j) => {
             return (
               <option value={i.categoryName} key={j}>
@@ -137,7 +159,7 @@ const AddBlogPage = () => {
         </div>
         <div className="flex justify-start items-center bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] font-roboto font-[400] text-xl rounded-[15px] px-4 pr-8 m-4">
           <Dropzone
-            onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            onDrop={(acceptedFiles) => dispatch(uploadBlogImg(acceptedFiles))}
           >
             {({ getRootProps, getInputProps }) => (
               <section>
@@ -153,32 +175,55 @@ const AddBlogPage = () => {
           <p className="font-bold text-2xl text-[#0D103C] m-2">
             Uploaded Images
           </p>
-          <div className="flex flex-row flex-wrap justify-center items-center">
-            {state.upload.images?.map((i, j) => {
-              return (
-                <div className="relative" key={j}>
-                  <button
-                    onClick={() => dispatch(deleteImg(i.public_id))}
-                    className="btn-close absolute top-0 right-0"
-                  >
-                    <AiFillCloseCircle className="text-3xl" />
-                  </button>
-                  <img
-                    src={i.url}
-                    alt=""
-                    className="w-[200px] h-[200px] rounded-[15px] m-2"
-                  />
-                </div>
-              );
-            })}
-          </div>
+          {state.upload?.images && (
+            <div className="flex flex-row flex-wrap justify-center items-center">
+              {state.upload.images?.map((i, j) => {
+                return (
+                  <div className="relative" key={j}>
+                    <button
+                      onClick={() => dispatch(deleteBlogImg(i.public_id))}
+                      className="btn-close absolute top-0 right-0"
+                    >
+                      <AiFillCloseCircle className="text-3xl" />
+                    </button>
+                    <img
+                      src={i.url}
+                      alt=""
+                      className="w-[200px] h-[200px] rounded-[15px] m-2"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {gotBlog?.images && (
+            <div className="flex flex-row flex-wrap justify-center items-center">
+              {gotBlog?.images?.map((i, j) => {
+                return (
+                  <div className="relative" key={j}>
+                    <button
+                      onClick={() => dispatch(deleteBlogImg(i.public_id))}
+                      className="btn-close absolute top-0 right-0"
+                    >
+                      <AiFillCloseCircle className="text-3xl" />
+                    </button>
+                    <img
+                      src={i.url}
+                      alt=""
+                      className="w-[200px] h-[200px] rounded-[15px] m-2"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <button
           type="submit"
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >
-          Submit
+          {blogId !== undefined ? "Update" : "Add"}
         </button>
       </form>
     </div>

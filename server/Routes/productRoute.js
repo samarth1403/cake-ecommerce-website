@@ -28,13 +28,13 @@ productRouter.get("/get/:id", getAProductController);
 productRouter.get("/all-products", getAllProductsController);
 
 productRouter.put(
-  "/edit-product/:id",
+  "/update/:id",
   authMiddleware,
   isAdminMiddleware,
   updateAProductController
 );
 productRouter.delete(
-  "/:id",
+  "/delete/:id",
   authMiddleware,
   isAdminMiddleware,
   deleteAProductController

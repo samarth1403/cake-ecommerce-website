@@ -6,6 +6,12 @@ cloudinary.config({
   api_secret: 'AGrOcz3xOPhwBfDwEk5ERQD4twM' 
 });
 
+cloudinary.v2.uploader.upload(
+  "my_image.jpg",
+  { timeout: 120000 },
+  function (error, result) {}
+);
+
 export const cloudinaryUploadImage = async(fileToUploads) => {
    return new Promise((resolve) => {
      cloudinary.uploader.upload(fileToUploads, (result) => {

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import uploadService from "./uploadService";
 
 const initialState = {
@@ -9,45 +9,74 @@ const initialState = {
   res: {},
 };
 
-export const uploadImg = createAsyncThunk(
-  "upload/image",
+export const uploadProductImg = createAsyncThunk(
+  "upload/product/image",
   async (data , thunkAPI) => {
     const formData = new FormData();
     for(let i=0; i<data.length; i++){
         formData.append("images",data[i]);
     }
     try {
-      return await uploadService.uploadImg(formData);
+      return await uploadService.uploadProductImg(formData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const deleteImg = createAsyncThunk("delete/img",async(id,thunkAPI)=>{
+export const uploadBlogImg = createAsyncThunk(
+  "upload/blog/image",
+  async (data, thunkAPI) => {
+    const formData = new FormData();
+    for (let i = 0; i < data.length; i++) {
+      formData.append("images", data[i]);
+    }
     try {
-        return await uploadService.deleteImg(id);
+      return await uploadService.uploadBlogImg(formData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteProductImg = createAsyncThunk("delete/product/img",async(id,thunkAPI)=>{
+    try {
+        return await uploadService.deleteProductImg(id);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
 })
+
+export const deleteBlogImg = createAsyncThunk(
+  "delete/blog/img",
+  async (id, thunkAPI) => {
+    console.log(id)
+    try {
+      return await uploadService.deleteBlogImg(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetUploadState = createAction("reset/uploadState");
 
 const uploadSlice = createSlice({
   name: "image",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(uploadImg.pending, (state, action) => {
+    builder.addCase(uploadProductImg.pending, (state, action) => {
       state.isLoading = true;
     });
-    builder.addCase(uploadImg.fulfilled, (state, action) => {
+    builder.addCase(uploadProductImg.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
       state.images = action.payload.images;
       state.res = action.payload.res;
     });
-    builder.addCase(uploadImg.rejected, (state, action) => {
+    builder.addCase(uploadProductImg.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -55,23 +84,58 @@ const uploadSlice = createSlice({
       state.res = null;
     });
 
+        builder.addCase(uploadBlogImg.pending, (state, action) => {
+          state.isLoading = true;
+        });
+        builder.addCase(uploadBlogImg.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          state.images = action.payload.images;
+          state.res = action.payload.res;
+        });
+        builder.addCase(uploadBlogImg.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = false;
+          state.isError = true;
+          state.images = null;
+          state.res = null;
+        });
 
-    builder.addCase(deleteImg.pending, (state, action) => {
+
+    builder.addCase(deleteProductImg.pending, (state, action) => {
       state.isLoading = true;
     });
-    builder.addCase(deleteImg.fulfilled, (state, action) => {
+    builder.addCase(deleteProductImg.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
-      state.images = [];
       state.res = action.payload.res;
     });
-    builder.addCase(deleteImg.rejected, (state, action) => {
+    builder.addCase(deleteProductImg.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
       state.res = null;
     });
+
+        builder.addCase(deleteBlogImg.pending, (state, action) => {
+          state.isLoading = true;
+        });
+        builder.addCase(deleteBlogImg.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          state.res = action.payload.res;
+        });
+        builder.addCase(deleteBlogImg.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = false;
+          state.isError = true;
+          state.res = null;
+        });
+
+        builder.addCase(resetUploadState, ()=>initialState);
   },
 });
 

@@ -78,6 +78,7 @@ const App = () => {
             element={<AddBlogCategoryPage />}
           />
           <Route path="add-product" element={<AddProductPage />} />
+          <Route path="add-product/:id" element={<AddProductPage />} />
           <Route path="add-coupon" element={<AddCouponPage />} />
           {/* the following route is for update coupon */}
           <Route path="add-coupon/:id" element={<AddCouponPage />} />

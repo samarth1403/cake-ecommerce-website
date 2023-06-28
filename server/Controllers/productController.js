@@ -21,10 +21,10 @@ export const getAProductController = async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const foundProduct = await productModel.findById(id);
-    res.json(foundProduct);
+    const gotProduct = await productModel.findById(id);
+    res.json({ gotProduct , res : {message : "Product Got Successfully" , success : true}});
   } catch (error) {
-    throw new Error(error);
+    res.json({ res: { message: error, success: false } });
   }
 };
 
@@ -94,14 +94,19 @@ export const updateAProductController = async (req, res) => {
     req.body.slug = slugify(req.body.title);
   }
   try {
-    const updatedUser = await productModel.findByIdAndUpdate(
+    const updatedProduct = await productModel.findByIdAndUpdate(
       { _id: id },
       req.body,
       { new: true }
     );
-    res.json(updatedUser);
+    res.json({
+      updatedProduct,
+      res: { message: "Product Updated Successfully", success: true },
+    });
   } catch (error) {
-    throw new Error(error);
+    res.json({
+      res: { message: error, success: false },
+    });
   }
 };
 
@@ -111,10 +116,12 @@ export const deleteAProductController = async (req, res) => {
   validateMongodbId(id);
 
   try {
-    await productModel.findByIdAndDelete(id);
-    res.json({ message: "Product is Deleted" });
+    const deletedProduct = await productModel.findByIdAndDelete(id);
+    res.json({deletedProduct , res : { message: "Product is Deleted" , success: true}});
   } catch (error) {
-    throw new Error(error);
+   res.json({
+     res: { message: error, success: false },
+   });
   }
 };
 

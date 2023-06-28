@@ -2,19 +2,17 @@ import express from "express";
 import {
   createBlogController,
   deleteABlogController,
-  deleteBlogImgController,
   dislikeABlogController,
   getAllBlogsController,
   getBlogController,
   likeABlogController,
   updateBlogController,
-  uploadBlogImgController,
 } from "../Controllers/blogController.js";
 import {
   authMiddleware,
   isAdminMiddleware,
 } from "../Middlewares/authMiddleware.js";
-import { blogImgResizeMiddleware, uploadPhotoMiddleware } from "../Middlewares/uploadImageMiddleware.js";
+
 
 const blogRouter = express.Router();
 
@@ -32,33 +30,17 @@ blogRouter.put(
   updateBlogController
 );
 
-blogRouter.put("/likes", authMiddleware, likeABlogController);
-blogRouter.put("/dislikes", authMiddleware, dislikeABlogController);
-
 blogRouter.get("/get/:id", getBlogController);
-blogRouter.get("/all-blogs", getAllBlogsController);
-
-blogRouter.put(
-  "/uploadImg",
-  authMiddleware,
-  isAdminMiddleware,
-  uploadPhotoMiddleware.array("images", 3),
-  blogImgResizeMiddleware,
-  uploadBlogImgController,
-);
-
 blogRouter.delete(
-  "/deleteImg/:id",
-  authMiddleware,
-  isAdminMiddleware,
-  deleteBlogImgController
-)
-
-blogRouter.delete(
-  "/:id",
+  "/delete/:id",
   authMiddleware,
   isAdminMiddleware,
   deleteABlogController
 );
+blogRouter.get("/all-blogs", getAllBlogsController);
+
+blogRouter.put("/likes", authMiddleware, likeABlogController);
+blogRouter.put("/dislikes", authMiddleware, dislikeABlogController);
+
 
 export default blogRouter;

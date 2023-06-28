@@ -1,7 +1,5 @@
 import blogModel from "../Models/blogModel.js";
 import { validateMongodbId } from "../Utils/validateMongodbId.js";
-import { cloudinaryDeleteImage, cloudinaryUploadImage } from "../Utils/cloudinary.js";
-import fs from 'fs';
 
 export const createBlogController = async(req , res) => {
     try {
@@ -19,9 +17,14 @@ export const updateBlogController = async(req , res) => {
     validateMongodbId(id);
     try {
         const updatedBlog = await blogModel.findByIdAndUpdate({_id:id},req.body,{new : true});
-        res.json(updatedBlog);
+        res.json({
+          updatedBlog,
+          res: { message: "Blog Updated Successfully", success: true },
+        });
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -29,7 +32,7 @@ export const getBlogController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        const getblog = await blogModel.findById(id)
+        const gotBlog = await blogModel.findById(id)
           .populate("likes")
           .populate("dislikes");
         await blogModel.findByIdAndUpdate(
@@ -39,9 +42,14 @@ export const getBlogController = async(req , res) => {
           },
           { new: true }
         );
-        res.json(getblog);
+        res.json({
+          gotBlog,
+          res: { message: "Blog Got Successfully", success: true },
+        });
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -64,10 +72,12 @@ export const deleteABlogController = async(req , res) => {
     const {id} = req.params;
     validateMongodbId(id);
     try {
-        await blogModel.findByIdAndDelete(id);
-        res.json({message:"Blog deleted Successfully"});
+        const deletedBlog = await blogModel.findByIdAndDelete(id);
+        res.json({deletedBlog, res : {message:"Blog deleted Successfully", success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -182,40 +192,4 @@ export const dislikeABlogController = async (req, res) => {
     );
   }
     res.json(newblog);
-};
-
-//Uploading blog images 
-export const uploadBlogImgController = async (req, res) => {
-  try {
-    const uploader = (path) => cloudinaryUploadImage(path, "images");
-    const urls = [];
-    const files = req.files;
-
-    //looping on files
-    for (const file of files) {
-      const { path } = file;
-      const newPath = await uploader(path);
-      urls.push(newPath);
-      fs.unlinkSync(path);
-    }
- 
-    const images = urls.map((file) => {
-          return file;
-    });
-    res.json(images);
-    
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-//Uploading blog images 
-export const deleteBlogImgController = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deleted = cloudinaryDeleteImage(id, "images");
-    res.json({message:"Deleted"});
-  } catch (error) {
-    throw new Error(error);
-  }
 };

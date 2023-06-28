@@ -1,22 +1,37 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import {useDispatch , useSelector} from 'react-redux';
 import { Table } from "antd";
-import { getAllProducts } from "../features/product/productSlice";
+import { deleteProduct, getAllProducts, resetProductState } from "../features/product/productSlice";
 import {Link} from 'react-router-dom';
 import {BiEdit} from 'react-icons/bi';
 import {AiFillDelete} from 'react-icons/ai';
+import {toast} from 'react-toastify'
+import CustomModal from "../Components/ReusableComponents/CustomModal";
 
 const ProductListPage = () => {
 
+  const [open, setOpen] = useState(false);
+  const [productId, setProductId] = useState("");
+  const [modalData, setModalData] = useState({});
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const showModal = (data) => {
+    setOpen(true);
+    setProductId(data._id);
+    setModalData(data);
+  };
+
   const dispatch = useDispatch();
 
-  const {products} = useSelector((state) => {
+  const { products, isSuccess, isError, res } = useSelector((state) => {
     return state.product;
-  })
+  });
 
   console.log(products);
 
   useEffect(()=>{
+    dispatch(resetProductState());
     dispatch(getAllProducts());
   },[])
 
@@ -76,23 +91,50 @@ const ProductListPage = () => {
       tags: products[i].tags,
       sold: products[i].sold,
       actionEdit: (
-        <Link to="/" className="flex justify-center items-center">
+        <Link
+          to={`/admin/add-product/${products[i]._id}`}
+          className="flex justify-center items-center"
+        >
           <BiEdit className="text-2xl" />
         </Link>
       ),
       actionDelete: (
-        <Link to="/" className="flex justify-center items-center">
+        <button
+          onClick={() => showModal(products[i])}
+          className="flex flex-row justify-start items-center"
+        >
           <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
+        </button>
       ),
     });
   }
+
+  const handleDeleteProduct = (id) => {
+    setOpen(false);
+    dispatch(deleteProduct(id));
+    setTimeout(() => {
+      dispatch(getAllProducts());
+    }, 100);
+    if (isSuccess && res.success) {
+      toast.success("Product Deleted Successfully");
+    }
+    if (isError) {
+      toast.error("Something went Wrong");
+    }
+  };
   return (
     <div className="my-4">
       <p className="font-bold text-2xl my-8 mx-4">Product List</p>
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        title="Are you sure to delete the following : "
+        modalContent={`Product :- Product Name : ${modalData.title}`}
+        open={open}
+        hideModal={hideModal}
+        performAction={() => handleDeleteProduct(productId)}
+      />
     </div>
   );
 };

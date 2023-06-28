@@ -9,30 +9,53 @@ import { Select } from "antd";
 import Dropzone from "react-dropzone";
 import {
   createAProduct,
+  getProduct,
   resetProductState,
+  updateProduct,
 } from "../features/product/productSlice";
 import { getAllColorCategories } from "../features/colorCategory/colorCategorySlice";
 import { getAllprodCategories } from "../features/prodCategory/prodCategorySlice";
-import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
+import { deleteProductImg, resetUploadState, uploadProductImg } from "../features/upload/uploadSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddProductPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const productId = location.pathname.split("/")[3];
   const [colorArray, setColorArray] = useState([]);
-  const img = [];
   const state = useSelector((state) => {return state});
-  const { isSuccess, isLoading, isError, createdProduct } = useSelector((state) => {
+  const { isSuccess, isLoading, isError, createdProduct, gotProduct , updatedProduct } = useSelector((state) => {
     return state.product;
   });
+
+  useEffect(() => {
+    if (productId !== undefined) {
+      dispatch(getProduct(productId));
+    } else {
+      dispatch(resetProductState());
+    }
+  }, [productId]);
 
   useEffect(() => {
     if (isSuccess && createdProduct) {
       toast.success("Product added Successfully");
     }
+    if (isSuccess && updatedProduct) {
+      toast.success("Product Updated Successfullly!");
+      navigate("/admin/all-products");
+    }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError, createdProduct]);
+  }, [isSuccess, isLoading, isError, createdProduct, updatedProduct]);
+
+    useEffect(() => {
+      formik.values.color = colorArray ? colorArray : null;
+      formik.values.images = state.upload?.images ? state.upload?.images : null;
+    }, [colorArray, state.upload?.images]);
+
 
   let schema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
@@ -46,24 +69,31 @@ const AddProductPage = () => {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      price: "",
-      category: "",
-      subCategory: "",
-      color: "",
-      images: "",
-      tags: "",
+      title: gotProduct?.title || "",
+      price: gotProduct?.price || "",
+      category: gotProduct?.category || "",
+      subCategory: gotProduct?.subCategory || "",
+      color: gotProduct?.color || "",
+      images: state?.upload?.images || [],
+      tags: gotProduct?.tags || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createAProduct(values));
-      console.log(state.product);
-      formik.resetForm();
-      setColorArray([]);
-      setTimeout(()=>{
+      if (productId !== undefined && state.upload.images !== []) {
+        const data = { id: productId, productData: values };
+        dispatch(updateProduct(data));
+        dispatch(resetUploadState());
         dispatch(resetProductState());
-      },2000)
+      } else {
+        dispatch(createAProduct(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetUploadState());
+          dispatch(resetProductState());
+        }, 200);
+      }
     },
   });
 
@@ -72,17 +102,6 @@ const AddProductPage = () => {
     dispatch(getAllprodCategories());
   }, []);
 
-  useEffect(() => {
-    formik.values.color = colorArray ? colorArray : null;
-    formik.values.images = img;
-  }, [colorArray, img]);
-
-  state.upload.images?.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
 
   const colorOptions = [];
   state.colorCategory.colorCategories?.forEach((element) => {
@@ -98,7 +117,9 @@ const AddProductPage = () => {
 
   return (
     <div className=" flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-4xl m-6">Add Blog</p>
+      <p className="font-roboto font-bold text-4xl m-6">
+        {productId !== undefined ? "Update" : "Add"} Product
+      </p>
       <form
         onSubmit={formik.handleSubmit}
         style={{
@@ -145,7 +166,7 @@ const AddProductPage = () => {
           onChange={formik.handleChange("category")}
           onBlur={formik.handleBlur("category")}
         >
-          <option defaultValue>Select Category</option>
+          <option value="">Select Category</option>
           {state.prodCategory.prodCategories.map((i, j) => {
             return (
               <option value={i.categoryName} key={j}>
@@ -168,7 +189,7 @@ const AddProductPage = () => {
           onChange={formik.handleChange("subCategory")}
           onBlur={formik.handleBlur("subCategory")}
         >
-          <option defaultValue>Select Sub Category</option>
+          <option value="">Select Sub Category</option>
           {state.prodCategory.prodCategories.map((i, j) => {
             return (
               <option value={i.subCategoryName} key={j}>
@@ -226,7 +247,7 @@ const AddProductPage = () => {
           onChange={formik.handleChange("tags")}
           onBlur={formik.handleBlur("tags")}
         >
-          <option defaultValue>Select Tags</option>
+          <option value="">Select Tags</option>
           <option value="featured">Featured</option>
           <option value="popular">Popular</option>
           <option value="special">Special</option>
@@ -238,7 +259,9 @@ const AddProductPage = () => {
         </div>
         <div className="flex justify-start items-center bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] font-roboto font-[400] text-xl rounded-[15px] px-4 pr-8 m-4">
           <Dropzone
-            onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            onDrop={(acceptedFiles) =>
+              dispatch(uploadProductImg(acceptedFiles))
+            }
           >
             {({ getRootProps, getInputProps }) => (
               <section>
@@ -254,32 +277,55 @@ const AddProductPage = () => {
           <p className="font-bold text-2xl text-[#0D103C] m-2">
             Uploaded Images
           </p>
-          <div className="flex flex-row flex-wrap justify-center items-center">
-            {state.upload.images?.map((i, j) => {
-              return (
-                <div className="relative" key={j}>
-                  <button
-                    onClick={() => dispatch(deleteImg(i.public_id))}
-                    className="btn-close absolute top-0 right-0"
-                  >
-                    <AiFillCloseCircle className="text-3xl" />
-                  </button>
-                  <img
-                    src={i.url}
-                    alt=""
-                    className="w-[200px] h-[200px] rounded-[15px] m-2"
-                  />
-                </div>
-              );
-            })}
-          </div>
+          {state.upload?.images && (
+            <div className="flex flex-row flex-wrap justify-center items-center">
+              {state.upload.images?.map((i, j) => {
+                return (
+                  <div className="relative" key={j}>
+                    <button
+                      onClick={() => dispatch(deleteProductImg(i.public_id))}
+                      className="btn-close absolute top-0 right-0"
+                    >
+                      <AiFillCloseCircle className="text-3xl" />
+                    </button>
+                    <img
+                      src={i.url}
+                      alt=""
+                      className="w-[200px] h-[200px] rounded-[15px] m-2"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {gotProduct?.images && (
+            <div className="flex flex-row flex-wrap justify-center items-center">
+              {gotProduct?.images?.map((i, j) => {
+                return (
+                  <div className="relative" key={j}>
+                    <button
+                      onClick={() => dispatch(deleteProductImg(i.public_id))}
+                      className="btn-close absolute top-0 right-0"
+                    >
+                      <AiFillCloseCircle className="text-3xl" />
+                    </button>
+                    <img
+                      src={i.url}
+                      alt=""
+                      className="w-[200px] h-[200px] rounded-[15px] m-2"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <button
-        type="submit"
+          type="submit"
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >
-          Submit
+          {productId !== undefined ? "Update" : "Add"}
         </button>
       </form>
     </div>

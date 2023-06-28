@@ -17,8 +17,16 @@ const getAllOrders = async () => {
   return response.data;
 };
 
+const getOrderByUserId = async (id) => {
+  const response = await axios.get(
+    `${base_url}/order/get-order-by-user-id/${id}`,config
+  );
+  return response.data;
+}
+
 const orderService = {
   getAllOrders,
+  getOrderByUserId,
 };
 
 export default orderService;

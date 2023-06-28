@@ -28,7 +28,15 @@ const OrdersPage = () => {
       dataIndex: "name",
     },
     {
-      title: "Product",
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+    },
+    {
+      title: "Products",
       dataIndex: "product",
     },
     {
@@ -59,13 +67,11 @@ const OrdersPage = () => {
     data1.push({
       key: i + 1,
       name: orders[i].orderBy.firstName + " " + orders[i].orderBy.lastName,
-      product: orders[i].products?.map((i, j) => {
-        return (
-          <ul key={j}>
-            <li>{i.product?.title}</li>
-          </ul>
-        );
-      }),
+      mobile: orders[i].orderBy.mobile,
+      email: orders[i].orderBy.email,
+      product: (
+        <Link to={`/admin/order/${orders[i].orderBy._id}`}>View Products</Link>
+      ),
       amount: orders[i].paymentIntent.amount,
       date: date.toUTCString(),
       status: orders[i].orderStatus,

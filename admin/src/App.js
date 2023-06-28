@@ -24,6 +24,7 @@ import CouponListPage from './Pages/CouponListPage';
 import AddBlogCategoryPage from './Pages/AddBlogCategoryPage';
 import AddCouponPage from './Pages/AddCouponPage';
 import ViewEnquiryPage from './Pages/ViewEnquiryPage';
+import ViewProducts from './Pages/ViewProducts';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="enquiries/:id" element={< ViewEnquiryPage/>} />
           <Route path="all-blogs" element={<BlogsListPage />} />
           <Route path="orders" element={<OrdersPage />} />
+          <Route path="order/:id" element={<ViewProducts/>} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="all-products" element={<ProductListPage />} />
           <Route

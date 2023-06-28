@@ -21,9 +21,13 @@ export const updateCategoryController = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.json(updatedCategory);
+    res.json({
+      updatedBlogCategory: updatedCategory,
+      res: "Blog Category Updated Successfully",
+      success: true,
+    });
   } catch (error) {
-    throw new Error(error);
+    res.json({ res: error, success: false });
   }
 };
 
@@ -32,9 +36,12 @@ export const deleteCategoryController = async (req, res) => {
   validateMongodbId(id);
   try {
     await blogCategoryModel.findByIdAndDelete(id);
-    res.json({ message: "Category Deleted" });
+  res.json({
+    deletedBlogCategory,
+    res: { message: "Blog Categoy Deleted Successfully", success: true },
+  });
   } catch (error) {
-    throw new Error(error);
+    res.json({ res: error, success: false });
   }
 };
 
@@ -43,9 +50,12 @@ export const getACategoryController = async (req, res) => {
   validateMongodbId(id);
   try {
     const category = await blogCategoryModel.findById(id);
-    res.json(category);
+    res.json({
+      gotBlogCategory: category,
+      res: { message: "BLog Category Got Successfully", success: true },
+    });
   } catch (error) {
-    throw new Error(error);
+    res.json({ res: error, success: false });
   }
 };
 

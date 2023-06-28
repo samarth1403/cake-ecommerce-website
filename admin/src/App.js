@@ -51,6 +51,7 @@ const App = () => {
           <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
+          {/* the following route is for update color */}
           <Route path="add-color/:id" element={<AddColorPage />} />
           <Route path="add-occasion" element={<AddOccasionPage />} />
           {/* the following route is for update occasion */}
@@ -59,13 +60,20 @@ const App = () => {
             path="add-product-category"
             element={<AddProdCategoryPage />}
           />
+          {/* the following route is for update product-category */}
           <Route
             path="add-product-category/:id"
             element={<AddProdCategoryPage />}
           />
           <Route path="add-blog-category" element={<AddBlogCategoryPage />} />
+          {/* the following route is for update blog-category */}
+          <Route
+            path="add-blog-category/:id"
+            element={<AddBlogCategoryPage />}
+          />
           <Route path="add-product" element={<AddProductPage />} />
           <Route path="add-coupon" element={<AddCouponPage />} />
+          {/* the following route is for update coupon */}
           <Route path="add-coupon/:id" element={<AddCouponPage />} />
         </Route>
       </Routes>

@@ -4,25 +4,47 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { createBlogCategory, resetBlogCategoryState } from "../features/blogCategory/blogCategorySlice";
+import { createBlogCategory, getBlogCategory, resetBlogCategoryState, updateBlogCategory } from "../features/blogCategory/blogCategorySlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddBlogCategoryPage = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => {
-    return state;
-  });
-  const { isSuccess, isLoading, isError, createdCategory } = useSelector((state) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const blogCategoryId = location.pathname.split("/")[3];
+
+  const {
+    isSuccess,
+    isLoading,
+    isError,
+    createdCategory,
+    updatedBlogCategory,
+    gotBlogCategory,
+  } = useSelector((state) => {
     return state.blogCategory;
   });
+
+  useEffect(() => {
+    if (blogCategoryId !== undefined) {
+      dispatch(getBlogCategory(blogCategoryId));
+    } else {
+      dispatch(resetBlogCategoryState());
+    }
+  }, [blogCategoryId]);
+
 
   useEffect(() => {
     if (isSuccess && createdCategory) {
       toast.success("Blog Category Added Successfully");
     }
+    if (isSuccess && updatedBlogCategory) {
+      toast.success("Blog Category Updated Successfully");
+      navigate("/admin/all-blog-categories");
+    }
     if (isError) {
       toast.error("Something went Wrong");
     }
-  }, [isSuccess, isLoading, isError, createdCategory]);
+  }, [isSuccess, isLoading, isError, createdCategory, updatedBlogCategory]);
 
   let schema = Yup.object().shape({
     categoryName: Yup.string().required("Category is Required"),
@@ -31,16 +53,24 @@ const AddBlogCategoryPage = () => {
   // console.log(state.prodCategory);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      categoryName: "",
+      categoryName: gotBlogCategory?.categoryName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlogCategory(values));
-      formik.resetForm();
-      setTimeout(() => {
+      if (blogCategoryId !== undefined) {
+        const data = { id: blogCategoryId, blogCategoryData: values };
+        dispatch(updateBlogCategory(data));
         dispatch(resetBlogCategoryState());
-      }, 2000);
+      }
+      else {
+        dispatch(createBlogCategory(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetBlogCategoryState());
+        }, 200);
+      }
     },
   });
   
@@ -48,7 +78,7 @@ const AddBlogCategoryPage = () => {
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">
       <p className="font-roboto font-bold text-center leading-normal text-4xl m-6">
-        Add Blog Category
+        {blogCategoryId !== undefined ? "Update" : "Add"} Blog Category
       </p>
       <form
         onSubmit={formik.handleSubmit}
@@ -77,7 +107,7 @@ const AddBlogCategoryPage = () => {
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[250px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
         >
-          Submit
+          {blogCategoryId !== undefined ? "Update" : "Add"}
         </button>
       </form>
     </div>

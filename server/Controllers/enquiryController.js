@@ -15,10 +15,10 @@ export const getEnquiryController = async(req , res) => {
     validateMongodbId(id);
 
     try {
-        const foundEnquiry = await enquiryModel.findById(id);
-        res.json(foundEnquiry);
+        const gotEnquiry = await enquiryModel.findById(id);
+        res.json({gotEnquiry, res : {message:"Enquiry Got Successfully", success : true}});
     } catch (error) {
-        throw new Error(error);
+         res.json({ res: { message: error, success: false } });
     }
 }
 
@@ -28,7 +28,7 @@ export const getAllEnquiriesController = async(req , res) => {
         res.json({ enquiries: allEnquiries , res : {message : "Successfully Fetched" , success : true}});
     } catch (error) {
         // throw new Error(error);
-        res.json({ res: { message: "Not Fetched", success: false } });
+        res.json({ res: { message: error, success: false } });
     }
 }
 
@@ -38,9 +38,12 @@ export const updateEnquiryController = async(req , res) => {
 
     try {
        const updatedEnquiry = await enquiryModel.findByIdAndUpdate(id,req.body,{new : true});
-       res.json(updatedEnquiry); 
+       res.json({
+         updatedEnquiry,
+         res: { message: "Enquiry Updated Successfully", success: true },
+       }); 
     } catch (error) {
-        throw new Error(error);
+        res.json({ res: { message: error, success: false } });
     }
 }
 
@@ -49,9 +52,9 @@ export const deleteEnquiryController = async(req , res) => {
     validateMongodbId(id);
 
     try {
-        await enquiryModel.findByIdAndDelete(id);
-        res.json({message:"Enquiry Deleted"});
+        const deletedEnquiry = await enquiryModel.findByIdAndDelete(id);
+        res.json({deletedEnquiry,res:{message:"Enquiry Deleted", success: true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({ res: { message: error, success: false } });
     }
 }

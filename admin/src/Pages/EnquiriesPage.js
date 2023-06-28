@@ -1,19 +1,34 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import { useDispatch , useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Table } from "antd";
-import {AiFillDelete} from 'react-icons/ai';
-import { getAllEnquiries } from "../features/enquiry/enquirySlice";
+import { AiFillDelete, AiFillEye } from "react-icons/ai";
+import { deleteEnquiry, getAllEnquiries, resetEnquiryState, updateEnquiry } from "../features/enquiry/enquirySlice";
+import CustomModal from "../Components/ReusableComponents/CustomModal";
+import { toast } from "react-toastify";
 
 const EnquiriesPage = () => {
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const {enquiries} = useSelector((state)=>{
+  const { enquiries, isSuccess, isError, res } = useSelector((state) => {
     return state.enquiry;
-  })
+  });
+
+  const [open, setOpen] = useState(false);
+  const [enquiryId, setEnquiryId] = useState("");
+  const [modalData, setModalData] = useState({});
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const showModal = (data) => {
+    setOpen(true);
+    setEnquiryId(data._id);
+    setModalData(data);
+  };
 
   useEffect(()=>{
+    dispatch(resetEnquiryState())
     dispatch(getAllEnquiries());
   },[])
   
@@ -39,6 +54,10 @@ const EnquiriesPage = () => {
       dataIndex: "status",
     },
     {
+      title: "View",
+      dataIndex: "actionView",
+    },
+    {
       title: "Delete",
       dataIndex: "actionDelete",
     },
@@ -50,23 +69,80 @@ const EnquiriesPage = () => {
         name: enquiries[i].name,
         email: enquiries[i].email,
         mobile: enquiries[i].mobile,
-        status:<select name="" className="font-control form-select">
-          <option value="">Set Status</option>
-        </select>,
+        status: (
+          <select
+            name=""
+            defaultValue={
+              enquiries[i]?.status ? enquiries[i]?.status : "Submitted"
+            }
+            className="form-control form-select bg-gray-500 mx-2 p-2"
+            id=""
+            onChange={(e) => setEnquiryStatus(e.target.value, enquiries[i]._id)}
+          >
+            <option value="Submitted">Submitted</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        ),
+        actionView: (
+          <Link
+            to={`/admin/enquiries/${enquiries[i]._id}`}
+            className="flex flex-row justify-start items-center"
+          >
+            <AiFillEye className="text-2xl" />
+          </Link>
+        ),
         actionDelete: (
-        <Link to="/" className="flex flex-row justify-start items-center">
-          <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
-      ),
+          <button
+            onClick={() => showModal(enquiries[i])}
+            className="flex flex-row justify-start items-center"
+          >
+            <AiFillDelete className="text-2xl text-red-600" />
+          </button>
+        ),
       });
     }
 
+    const setEnquiryStatus = (e,id) => {
+      // console.log(e);
+      const data = {id : id , enquiryData : { status : e }}
+      dispatch(updateEnquiry(data));
+      if (isSuccess && res.success) {
+        toast.success("Status of the Enquiry is Updated Successfully");
+      }
+      if (isError) {
+        toast.error("Something went wrong");
+      }
+    }
+
+    const handleDeleteColorCategory = (id) => {
+      setOpen(false);
+      dispatch(deleteEnquiry(id));
+      setTimeout(() => {
+        dispatch(getAllEnquiries());
+      }, 100);
+      if (isSuccess && res.success) {
+        toast.success("Enquiry Deleted Successfully");
+      }
+      if (isError) {
+        toast.error("Something went Wrong");
+      }
+    };
+
   return (
     <div className="my-4">
-        <p className="font-bold text-2xl my-8 mx-4">Enquiries</p>
-        <div className="m-4">
-          <Table columns={columns} dataSource={data1} />
-        </div>
+      <p className="font-bold text-2xl my-8 mx-4">Enquiries</p>
+      <div className="m-4">
+        <Table columns={columns} dataSource={data1} />
+      </div>
+      <CustomModal
+        title="Are you sure to delete the following : "
+        modalContent={`Color :- Name : ${modalData.name}`}
+        open={open}
+        hideModal={hideModal}
+        performAction={() => handleDeleteColorCategory(enquiryId)}
+      />
     </div>
   );
 }

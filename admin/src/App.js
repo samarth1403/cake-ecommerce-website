@@ -23,6 +23,7 @@ import ColorCategoryListPage from './Pages/ColorCategoryListPage';
 import CouponListPage from './Pages/CouponListPage';
 import AddBlogCategoryPage from './Pages/AddBlogCategoryPage';
 import AddCouponPage from './Pages/AddCouponPage';
+import ViewEnquiryPage from './Pages/ViewEnquiryPage';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
+          <Route path="enquiries/:id" element={< ViewEnquiryPage/>} />
           <Route path="all-blogs" element={<BlogsListPage />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="customers" element={<CustomersPage />} />
@@ -50,6 +52,8 @@ const App = () => {
           <Route path="all-coupons" element={<CouponListPage />} />
           <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
+       
+          <Route path="add-blog/:id" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
           {/* the following route is for update color */}
           <Route path="add-color/:id" element={<AddColorPage />} />

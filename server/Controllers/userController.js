@@ -10,6 +10,7 @@ import productModel from "../Models/productModel.js";
 import couponModel from "../Models/couponModel.js";
 import orderModel from "../Models/orderModel.js";
 import uniqid from 'uniqid';
+import { error } from "console";
 
 //Create A User
 export const createUserController = async(req,res) => {
@@ -46,17 +47,20 @@ export const loginUserController = async(req , res) => {
     );
     res.cookie('refreshToken',refreshToken,{httpOnly:true,maxAge:72*60*60*1000})
     
-        res.json({
+        res.json({userData:{
           _id : foundUser?._id,
           firstName : foundUser?.firstName,
           lastName : foundUser?.lastName,
           email : foundUser?.email,
           mobile : foundUser?.mobile,
           Token : generateToken(foundUser?._id),
-        });
+        },res:{
+            message:"Signed In Successfully"
+            , success : true
+        }});
     }
     else{
-        throw new Error("Invalid Credentials");
+        res.json({ res: { message: "Invalid Credentials", success: false } });
     }
 }
 
@@ -101,7 +105,7 @@ export const loginAdminController = async (req, res) => {
   }
   } catch (error) {
     // throw new Error("You are not an Admin");
-    res.json({res:{ message: "You are not an Admin", success: false }});
+    res.json({res:{ message: error, success: false }});
   }
 };
 

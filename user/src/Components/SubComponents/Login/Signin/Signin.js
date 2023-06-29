@@ -1,13 +1,51 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import Input from '../../../ReusableComponents/Input';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Input from "../../../ReusableComponents/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { loginUser, resetUserState } from "../../../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, userData, res } = useSelector((state) => state.user);
+  
+  useEffect(() => {
+    if (res.success && userData) {
+      navigate("/");
+    }
+  }, [user, userData]);
+
+  let schema = Yup.object().shape({
+    email: Yup.string()
+      .email("Email Should be Valid")
+      .required("Email is Required"),
+    password: Yup.string().required("Password is Required"),
+  });
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(loginUser(values));
+      formik.resetForm();
+      setTimeout(() => {
+        dispatch(resetUserState());
+      }, 200);
+    },
+  });
   return (
     <div className="flex flex-row flex-wrap justify-center items-start">
       <div className="flex flex-col flex-no-wrap justify-center items-center mx-8">
         <p className="font-roboto font-bold text-[#fff] text-4xl m-6">Log In</p>
         <form
+          onSubmit={formik.handleSubmit}
           style={{
             background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",
           }}
@@ -18,13 +56,31 @@ const Signin = () => {
             id="email"
             type="text"
             placeholder="Email"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange("email")}
+            onBlur={formik.handleBlur("email")}
           />
+          <div className="text-black font-bold text-lg">
+            {formik.touched.email && formik.errors.email ? (
+              <div>{formik.errors.email}</div>
+            ) : null}
+          </div>
           <Input
             className="bg-[#0D103C] w-[300px] h-[75px] text-[#fff] px-4 m-4"
-            id="phoneNumber"
-            type="number"
-            placeholder="Phone Number"
+            id="password"
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange("password")}
+            onBlur={formik.handleBlur("password")}
           />
+          <div className="text-black font-bold text-lg">
+            {formik.touched.password && formik.errors.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
+          </div>
           <div className="flex flex-row flex-no-wrap justify-between items-center">
             <button
               // style={{
@@ -88,6 +144,6 @@ const Signin = () => {
         </div> */}
     </div>
   );
-}
+};
 
-export default Signin
+export default Signin;

@@ -1,20 +1,15 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import Input from "../../../ReusableComponents/Input";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import { registerUser, resetUserState } from '../../../../features/user/userSlice';
-import {toast} from "react-toastify"
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
 
-  const dispatch = useDispatch()
-  // const { isSuccess , isError , isLoading , registeredUser, res } = useSelector((state)=>{return state.user});
-
-  // useEffect(() => {
-    
-    
-  // }, [isSuccess, isError, isLoading, registeredUser]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
     let schema = Yup.object().shape({
       firstName: Yup.string().required("First Name is Required"),

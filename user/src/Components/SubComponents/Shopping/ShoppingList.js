@@ -20,45 +20,6 @@ const ShoppingList = () => {
     dispatch(getAllProducts());
   }
 
-  // const shoppingList = [
-  //   {
-  //     cakeImage: Anniversary,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "500",
-  //     cakeRating: "5",
-  //   },
-  //   {
-  //     cakeImage: Birthday,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "600",
-  //     cakeRating: "4",
-  //   },
-  //   {
-  //     cakeImage: Cake,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "700",
-  //     cakeRating: "3",
-  //   },
-  //   {
-  //     cakeImage: Anniversary,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "500",
-  //     cakeRating: "5",
-  //   },
-  //   {
-  //     cakeImage: Birthday,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "600",
-  //     cakeRating: "4",
-  //   },
-  //   {
-  //     cakeImage: Cake,
-  //     cakeName: "Dairy Milk Delicious",
-  //     cakePrice: "700",
-  //     cakeRating: "3",
-  //   },
-  // ];
-
   const renderedShoppingList = products?.map((shoppingItem) => {
     return (
       <div key={shoppingItem._id}>

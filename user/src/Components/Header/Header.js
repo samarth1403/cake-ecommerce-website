@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <nav>
       <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4">
-        <div className="flex flex-row flex-wrap justify-between items-center w-[500px] h-[80px] ">
+        <div className="flex flex-row flex-wrap justify-between items-center w-[600px] h-[80px] ">
           <Link to="/about-page">
             <Navlink href="/something" className="text-2xl">
               About
@@ -24,8 +24,13 @@ const Header = () => {
               Shop
             </Navlink>
           </Link>
+          <Link to="/blog-page">
+            <Navlink href="/something" className="text-2xl">
+              Blogs
+            </Navlink>
+          </Link>
         </div>
-        <div className="flex flex-row flex-wrap justify-between items-center w-[300px] h-[80px] mx-2">
+        <div className="flex flex-row flex-wrap justify-between items-center w-[250px] h-[80px] mx-2">
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>

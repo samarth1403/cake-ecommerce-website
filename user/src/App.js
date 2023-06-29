@@ -20,6 +20,8 @@ import ProductDetail from "./Components/SubComponents/ProductDetail/ProductDetai
 import ProductDetailPage from "./Pages/ProductDetailPage";
 import ShoppingList from "./Components/SubComponents/Shopping/ShoppingList";
 import WishList from "./Components/SubComponents/Wishlist/WishList";
+import BlogList from "./Components/SubComponents/Blogs/BlogList";
+import Blog from "./Components/SubComponents/Blogs/Blog";
 
 const App = () => {
   return (
@@ -48,6 +50,8 @@ const App = () => {
               <Route path="make-payment" element={<MakePayment/>}/>
               <Route path="congratulation" element={<Congratulation/>}/>
             </Route>
+            <Route path="blog-page" element={<BlogList/>}/>
+            <Route path="blog-page/:id" element={<Blog/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

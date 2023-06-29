@@ -31,7 +31,7 @@ import {
 
 const authRouter = express.Router();
 authRouter.get("/cart/get-order", authMiddleware, getOrdersController);
-authRouter.post("/register", createUserController);
+authRouter.post("/register-user", createUserController);
 authRouter.post("/login/user",loginUserController);
 authRouter.post("/admin-login",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);

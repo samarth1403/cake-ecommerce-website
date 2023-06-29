@@ -20,12 +20,12 @@ export const createUserController = async(req,res) => {
     if(!findEmail){
         //Create New User
         const newUser = await userModel.create(req.body);
-        res.json(newUser);
+        res.json({registeredUser:newUser, res : {message:"User Registered Successfully", success : true}});
     }
     else{
         //User Already Exists
         // res.json({ message: "User Already Exists",success:false});//This will not allow the app to crash
-        throw new Error("User Already Exists");//This will directly crash the app
+        res.json({ res: { message: "User Already Exists", success: false } });
     }
 }
 

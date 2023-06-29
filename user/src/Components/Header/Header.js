@@ -3,7 +3,6 @@ import { Link} from 'react-router-dom';
 import Navlink from './ReusableComponent/Navlink';
 import person from '../../images/person.svg';
 import cart from '../../images/cart.svg';
-
 const Header = () => {
   return (
     <nav>
@@ -34,6 +33,7 @@ const Header = () => {
           </Link>
         </div>
       </div>
+      
     </nav>
   );
 }

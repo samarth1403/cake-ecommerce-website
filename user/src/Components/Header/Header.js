@@ -3,10 +3,11 @@ import { Link} from 'react-router-dom';
 import Navlink from './ReusableComponent/Navlink';
 import person from '../../images/person.svg';
 import cart from '../../images/cart.svg';
+import heart from '../../images/HeartIcon.svg';
 const Header = () => {
   return (
     <nav>
-      <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-8">
+      <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4">
         <div className="flex flex-row flex-wrap justify-between items-center w-[500px] h-[80px] ">
           <Link to="/about-page">
             <Navlink href="/something" className="text-2xl">
@@ -24,16 +25,18 @@ const Header = () => {
             </Navlink>
           </Link>
         </div>
-        <div className="flex flex-row flex-wrap justify-between items-center w-[200px] h-[80px] mx-8">
-          <Link to="/login-page" className="m-2">
+        <div className="flex flex-row flex-wrap justify-between items-center w-[300px] h-[80px] mx-2">
+          <Link to="/wishlist-page" className="my-2 mx-4">
+            <img src={heart} alt="heart icon" />
+          </Link>
+          <Link to="/login-page" className="my-2 mx-4">
             <img src={person} alt="person icon" />
           </Link>
-          <Link to="/cart-page" className="m-2">
+          <Link to="/cart-page" className="my-2 mx-4">
             <img src={cart} alt="cart icon" />
           </Link>
         </div>
       </div>
-      
     </nav>
   );
 }

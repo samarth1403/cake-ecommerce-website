@@ -304,17 +304,6 @@ export const resetPasswordController = async (req , res) => {
     res.json(foundUser);
 }
 
-//Get a wishlist
-export const getWishListController = async (req , res) => {
-    const {_id} = req.user;
-    try {
-        const foundUser = await userModel.findById(_id).populate("wishList");
-        res.json(foundUser);
-    } catch (error) {
-        throw new Error(error);
-    }
-}
-
 //Save the address
 export const saveUserAddressController = async(req , res) => {
     const {_id} = req.user;

@@ -19,6 +19,7 @@ import ResetPassword from "./Components/SubComponents/Login/ResetPassword/ResetP
 import ProductDetail from "./Components/SubComponents/ProductDetail/ProductDetail";
 import ProductDetailPage from "./Pages/ProductDetailPage";
 import ShoppingList from "./Components/SubComponents/Shopping/ShoppingList";
+import WishList from "./Components/SubComponents/Wishlist/WishList";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
             </Route>
             <Route path="shop-page" element={<ShopPage/>}/>
             <Route path="contact-page" element={<ContactUsPage/>}/>
+            <Route path="wishlist-page" element={<WishList/>}/>
             <Route path="cart-page" element={<CartPage/>}>
               <Route index element={<NonEmptyCart/>}/>
               <Route path="contact-details" element={<ContactDetails/>}/>

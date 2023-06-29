@@ -14,7 +14,6 @@ import {
   getForgotPasswordTokenController,
   resetPasswordController,
   loginAdminController,
-  getWishListController,
   saveUserAddressController,
   userCartController,
   getACartController,
@@ -24,6 +23,7 @@ import {
   getOrdersController,
   updateOrderStatusController,
 } from "../Controllers/userController.js";
+import { getWishListController } from '../Controllers/wishlistController.js';
 import {
   authMiddleware,
   isAdminMiddleware,
@@ -36,7 +36,7 @@ authRouter.post("/login-user",loginUserController);
 authRouter.post("/admin-login",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
-authRouter.get("/wishList", authMiddleware, getWishListController);
+
 authRouter.get("/logout", logoutUserController);
 authRouter.put('/change-password',authMiddleware, changePasswordController);
 authRouter.post('/forgot-password-token',getForgotPasswordTokenController);
@@ -49,9 +49,6 @@ authRouter.put("/block-user/:id", authMiddleware, isAdminMiddleware, blockAUserC
 
 authRouter.put("/unblock-user/:id", authMiddleware, isAdminMiddleware, unblockAUserController);
 
-authRouter.get("/wishList", authMiddleware, getWishListController);
-export default authRouter;
-
 authRouter.put("/save-address",authMiddleware , saveUserAddressController);
 
 authRouter.post("/cart/create",authMiddleware,userCartController);
@@ -63,3 +60,10 @@ authRouter.post("/cart/apply-coupon",authMiddleware , applyCouponController);
 authRouter.post("/cart/create-order",authMiddleware , createOrderController);
 
 authRouter.put("/cart/update-order/:id",authMiddleware ,isAdminMiddleware, updateOrderStatusController);
+
+//Wishlist Rotes
+authRouter.get("/wishlist/get", authMiddleware, getWishListController);
+
+
+
+export default authRouter;

@@ -1,26 +1,37 @@
-import React from "react";
-import ButtonRYG from '../../ReusableComponents/ButtonRYG';
+import React from 'react'
+import ButtonRYG from "../../ReusableComponents/ButtonRYG";
 import ReactStars from "react-rating-stars-component";
-import {AiOutlineHeart} from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../../features/product/productSlice";
+import { Link } from 'react-router-dom';
+import { AiFillCloseCircle } from "react-icons/ai";
+import { useDispatch } from 'react-redux';
+import {addToWishlist} from '../../../features/product/productSlice'
+import { getWishlistOfUser } from "../../../features/user/userSlice";
+const WishListItem = ({ wishlistItem }) => {
 
-const ShoppingItem = ({ shoppingItem }) => {
   const dispatch = useDispatch()
-  const handleAddToWishlist = (prodId) => {
-     dispatch(addToWishlist(prodId));
+
+  const removeFromWishlist = (id) => {
+    dispatch(addToWishlist(id));
+    setTimeout(() => {
+      dispatch(getWishlistOfUser());
+    }, 100);
   }
   return (
     <div
-      className="flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
+      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
       style={{
         background: "linear-gradient(180deg, #FAFAFA 46.2%, #101567 100%)",
       }}
     >
-      <Link to={`/product-details/${shoppingItem._id}`}>
+      <button
+        onClick={() => removeFromWishlist(wishlistItem._id)}
+        className="btn-close absolute top-4 right-4"
+      >
+        <AiFillCloseCircle className="text-4xl text-red-500" />
+      </button>
+      <Link to={`/product-details/${wishlistItem._id}`}>
         <img
-          src={shoppingItem?.images[0]?.url}
+          src={wishlistItem?.images[0]?.url}
           alt="Shopping Item"
           className="w-[310px] h-[310px] rounded-t-[33px] mb-2"
         />
@@ -28,16 +39,16 @@ const ShoppingItem = ({ shoppingItem }) => {
 
       <div className="flex flex-col flex-no-wrap">
         <p className="font-roboto font-bold text-[#0D103C] text-lg px-2 mt-3 m-1">
-          {shoppingItem.title}
+          {wishlistItem.title}
         </p>
         <p className="font-roboto font-bold text-[#0D103C] text-lg px-2 m-1">
-          Rs.{shoppingItem.price}/-
+          Rs.{wishlistItem.price}/-
         </p>
-        <div className="flex flex-row flex-no-wrap justify-between items-center mx-2">
+        <div className="mx-2">
           <ReactStars
             count={5}
             // onChange={ratingChanged}
-            value={shoppingItem.totalRating}
+            value={wishlistItem.totalRating}
             size={24}
             isHalf={true}
             edit={false}
@@ -47,12 +58,6 @@ const ShoppingItem = ({ shoppingItem }) => {
             fullIcon={<i className="fa fa-star"></i>}
             activeColor="#ECD400"
           />
-          <button
-            className="mr-6 my-1"
-            onClick={() => handleAddToWishlist(shoppingItem._id)}
-          >
-            <AiOutlineHeart className="text-4xl" />
-          </button>
         </div>
         <div className="flex flex-row flex-no-wrap justify-between px-2 pt-3 pb-6">
           <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
@@ -67,4 +72,4 @@ const ShoppingItem = ({ shoppingItem }) => {
   );
 };
 
-export default ShoppingItem;
+export default WishListItem

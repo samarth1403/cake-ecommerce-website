@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import Anniversary from "../../../images/Anniversary.jpeg";
 import Birthday from "../../../images/Birthday.webp";
 import Cake from "../../../images/cake.jpeg";
@@ -11,7 +11,6 @@ const ShoppingList = () => {
 
   const dispatch = useDispatch();
   const {products} = useSelector((state)=>{return state.product})
-  console.log(products);
 
   useEffect(()=>{
     getProducts();
@@ -62,9 +61,9 @@ const ShoppingList = () => {
 
   const renderedShoppingList = products?.map((shoppingItem) => {
     return (
-      <Link to={`/product-details/${shoppingItem._id}`} key={shoppingItem._id}>
+      <div key={shoppingItem._id}>
         <ShoppingItem shoppingItem={shoppingItem} />
-      </Link>
+      </div>
     );
   });
   return (

@@ -125,37 +125,6 @@ export const deleteAProductController = async (req, res) => {
   }
 };
 
-//Add to WishList
-export const addToWishListController = async (req, res) => {
-  const { _id } = req.user;
-  const { prodId } = req.body;
-  try {
-    const user = await userModel.findById(_id);
-    const alreadyAdded = user.wishList.find((id) => id.toString() === prodId);
-    if (alreadyAdded) {
-      let updatedUser = await userModel.findByIdAndUpdate(
-        _id,
-        {
-          $pull: { wishList: prodId },
-        },
-        { new: true }
-      );
-      res.json(updatedUser);
-    } else {
-      let updatedUser = await userModel.findByIdAndUpdate(
-        _id,
-        {
-          $push: { wishList: prodId },
-        },
-        { new: true }
-      );
-      res.json(updatedUser);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
 //Giving Rating to Product
 export const rateAProductController = async (req, res) => {
   const { _id } = req.user;

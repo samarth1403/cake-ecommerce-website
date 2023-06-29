@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  addToWishListController,
   createProductController,
   deleteAProductController,
   getAllProductsController,
@@ -8,6 +7,7 @@ import {
   rateAProductController,
   updateAProductController,
 } from "../Controllers/productController.js";
+import { addToWishListController } from "../Controllers/wishlistController.js";
 import {
   authMiddleware,
   isAdminMiddleware,
@@ -40,8 +40,10 @@ productRouter.delete(
   deleteAProductController
 );
 
-productRouter.put("/wishList", authMiddleware, addToWishListController);
+
 productRouter.put("/ratings", authMiddleware, rateAProductController);
+
+productRouter.put("/add-to-wishlist", authMiddleware, addToWishListController);
 
 
 export default productRouter;

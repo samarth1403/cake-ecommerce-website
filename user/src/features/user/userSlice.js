@@ -56,6 +56,17 @@ export const addToCart = createAsyncThunk("user/cart/create", async (data, thunk
   }
 });
 
+export const getCart = createAsyncThunk(
+  "user/cart/get",
+  async (thunkAPI) => {
+    try {
+      return await userService.getCart();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetUserState = createAction("reset/userState");
 
 const userSlice = createSlice({
@@ -151,6 +162,26 @@ const userSlice = createSlice({
       }
     });
     builder.addCase(addToCart.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+      if (state.isError) {
+        toast.success("Something Went Wrong");
+      }
+    });
+
+    builder.addCase(getCart.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getCart.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.gotCart = action.payload?.gotCart;
+      state.res = action.payload?.res;
+    });
+    builder.addCase(getCart.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

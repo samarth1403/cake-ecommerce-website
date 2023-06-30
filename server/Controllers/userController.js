@@ -388,10 +388,12 @@ export const getACartController = async(req , res) => {
     validateMongodbId(_id);
     try {
          //const cart = await cartModel.find({ orderBy: _id }.populate("products.product");Its mine
-        const cart = await cartModel.findOne({orderBy:_id}).populate("products.product");
-        res.json(cart);
+        const gotCart = await cartModel.find({userId:_id}).populate("productId").populate("color");
+        res.json({ gotCart , res : { message : "Cart Got Successfully", success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 

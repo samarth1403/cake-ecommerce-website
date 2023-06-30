@@ -1,8 +1,10 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import OrderSummaryList from '../OrderSummary/OrderSummaryList'
 import PincodeCheck from '../PincodeCheck/PincodeCheck'
 
+
 const NonEmptyCart = () => {
+
   return (
     <>
       <PincodeCheck />

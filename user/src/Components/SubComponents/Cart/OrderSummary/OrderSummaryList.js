@@ -1,13 +1,34 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Birthday from '../../../../images/Birthday.webp';
 import OrderSummaryItem from './OrderSummaryItem';
 import OrderSummaryTotal from './OrderSummaryTotal';
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from "../../../../features/user/userSlice";
 
 const OrderSummaryList = () => {
+  
+  const dispatch = useDispatch();
 
-    const renderedOrderSummaryList = orderSummaryList.map((orderSummaryItem)=>{
-        return <OrderSummaryItem key={orderSummaryItem.itemName} orderSummaryItem={orderSummaryItem}/>;
-    })
+  useEffect(() => {
+    getUserCart();
+  }, []);
+
+  const getUserCart = () => {
+    dispatch(getCart());
+  };
+
+  const {gotCart} = useSelector((state)=>{
+    return state.user
+  })
+
+    const renderedOrderSummaryList = gotCart?.map((productInCart) => {
+      return (
+        <OrderSummaryItem
+          key={productInCart._id}
+          productInCart={productInCart}
+        />
+      );
+    });
     
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">

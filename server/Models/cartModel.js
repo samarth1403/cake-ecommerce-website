@@ -33,7 +33,7 @@ const cartSchema = new mongoose.Schema({
   },
   color: {
     type: mongoose.Schema.Types.ObjectId,
-    ref : "Color"
+    ref : "ColorCategory"
   }
   // products: [
   //   {

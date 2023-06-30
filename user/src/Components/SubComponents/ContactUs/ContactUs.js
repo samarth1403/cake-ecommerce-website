@@ -4,7 +4,40 @@ import { MdLocationOn } from "react-icons/md";
 import {BsFillTelephoneFill} from "react-icons/bs";
 import { FiMail } from "react-icons/fi";
 import { MdAccessTimeFilled } from "react-icons/md";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { createEnquiry, resetContactState } from '../../../features/contact/contactSlice';
+
 const ContactUs = () => {
+  const dispatch = useDispatch();
+
+  let schema = Yup.object().shape({
+    name: Yup.string().required("Name is Required"),
+    email: Yup.string()
+      .email("Email Should be Valid")
+      .required("Email is Required"),
+    mobile: Yup.number().required("Mobile Number is Required"),
+    comment: Yup.string().required("Comment is Required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      mobile: "",
+      comment: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(createEnquiry(values));
+      formik.resetForm();
+      setTimeout(() => {
+        dispatch(resetContactState());
+      }, 200);
+    },
+  });
+  
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">
       <iframe
@@ -24,7 +57,8 @@ const ContactUs = () => {
             Contact Us
           </p>
 
-          <div
+          <form
+            onSubmit={formik.handleSubmit}
             style={{
               background: "linear-gradient(180deg, #FFD976 0%, #FF6464 100%)",
             }}
@@ -35,33 +69,70 @@ const ContactUs = () => {
               id="name"
               type="text"
               placeholder="Name"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange("name")}
+              onBlur={formik.handleBlur("name")}
             />
+            <div className="text-black font-bold text-lg">
+              {formik.touched.name && formik.errors.name ? (
+                <div>{formik.errors.name}</div>
+              ) : null}
+            </div>
             <Input
               className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
               id="email"
               type="text"
               placeholder="Email"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange("email")}
+              onBlur={formik.handleBlur("email")}
             />
+            <div className="text-black font-bold text-lg">
+              {formik.touched.email && formik.errors.email ? (
+                <div>{formik.errors.email}</div>
+              ) : null}
+            </div>
             <Input
               className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4 m-4"
-              id="phoneNumber"
+              id="mobile"
               type="number"
               placeholder="Phone Number"
+              name="mobile"
+              value={formik.values.mobile}
+              onChange={formik.handleChange("mobile")}
+              onBlur={formik.handleBlur("mobile")}
             />
+            <div className="text-black font-bold text-lg">
+              {formik.touched.mobile && formik.errors.mobile ? (
+                <div>{formik.errors.mobile}</div>
+              ) : null}
+            </div>
             <textarea
               className="font-roboto font-[400] text-xl rounded-[15px] bg-[#0D103C] w-[300px] lg:w-[400px] h-[150px] text-[#fff]
             text-start p-4 m-4"
               id="comment"
               type="text"
               placeholder="Comment"
+              name="comment"
+              value={formik.values.comment}
+              onChange={formik.handleChange("comment")}
+              onBlur={formik.handleBlur("comment")}
             />
+            <div className="text-black font-bold text-lg">
+              {formik.touched.comment && formik.errors.comment ? (
+                <div>{formik.errors.comment}</div>
+              ) : null}
+            </div>
             <button
+              type='submit'
               style={{ boxShadow: "8px 8px 4px #0D103C" }}
               className="bg-[#fff] w-[135px] h-[75px] font-roboto font-bold text-2xl text-[#0D103C] rounded-[20px]  px-4 mx-4 mt-4 mb-8 align-left"
             >
               Send
             </button>
-          </div>
+          </form>
         </div>
         <div className="flex flex-col flex-no-wrap justify-center items-center">
           <p className="font-roboto font-bold text-[#fff] text-3xl mx-2 my-8">

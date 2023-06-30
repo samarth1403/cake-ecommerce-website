@@ -19,13 +19,13 @@ const WishList = () => {
   };
 
 
-  const { wishList } = useSelector((state) => {
-    return state.user.gotWishlistOfUser;
+  const { gotWishlistOfUser } = useSelector((state) => {
+    return state.user;
   });
 
-  const renderedWishList = wishList?.map((wishlistItem) => {
+  const renderedWishList = gotWishlistOfUser?.wishList?.map((wishlistItem) => {
     return (
-      <div key={wishlistItem._id}>
+      <div key={wishlistItem?._id}>
         <WishListItem wishlistItem={wishlistItem} />
       </div>
     );
@@ -33,8 +33,8 @@ const WishList = () => {
   return (
     <>
       <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] f text-5xl m-4">
-        {wishList.length === 0 ? "No Data" : "Your WishList"}
-       </p>
+        {gotWishlistOfUser?.wishList?.length === 0 ? "No Data" : "Your WishList"}
+      </p>
       <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center p-6">
         {renderedWishList}
       </div>

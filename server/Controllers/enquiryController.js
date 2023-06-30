@@ -4,9 +4,9 @@ import { validateMongodbId } from "../Utils/validateMongodbId.js";
 export const createEnquiryController = async(req , res) => {
     try {
         const newEnquiry = await enquiryModel.create(req.body);
-        res.json(newEnquiry);
+        res.json({ createdEnquiry: newEnquiry , res : {message : "Enquiry Created", success : true}});
     } catch (error) {
-        throw new Error(error);
+         res.json({ res: { message: error, success: false } });
     }
 }
 

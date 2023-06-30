@@ -4,6 +4,7 @@ import Navlink from './ReusableComponent/Navlink';
 import person from '../../images/person.svg';
 import cart from '../../images/cart.svg';
 import heart from '../../images/HeartIcon.svg';
+import { BsTelephoneFill } from "react-icons/bs";
 const Header = () => {
   return (
     <nav>
@@ -30,7 +31,10 @@ const Header = () => {
             </Navlink>
           </Link>
         </div>
-        <div className="flex flex-row flex-wrap justify-between items-center w-[250px] h-[80px] mx-2">
+        <div className="flex flex-row flex-wrap justify-between items-center w-[350px] h-[80px] mx-2">
+          <Link to="/contact-us-page" className="my-2 mx-4">
+            <BsTelephoneFill className="text-4xl text-[#D9D9D9]" />
+          </Link>
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>

@@ -13,7 +13,7 @@ const ShoppingItem = ({ shoppingItem }) => {
   }
   return (
     <div
-      className="flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
+      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
       style={{
         background: "linear-gradient(180deg, #FAFAFA 46.2%, #101567 100%)",
       }}
@@ -48,7 +48,7 @@ const ShoppingItem = ({ shoppingItem }) => {
             activeColor="#ECD400"
           />
           <button
-            className="mr-6 my-1"
+            className="absolute top-4 right-4"
             onClick={() => handleAddToWishlist(shoppingItem._id)}
           >
             <AiOutlineHeart className="text-4xl" />

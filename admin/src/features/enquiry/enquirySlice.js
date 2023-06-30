@@ -72,7 +72,7 @@ const enquirySlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        state.enquiries = null;
+        state.message = action.error;
         state.res = null;
       });
 

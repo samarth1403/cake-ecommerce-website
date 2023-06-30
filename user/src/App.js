@@ -41,7 +41,7 @@ const App = () => {
               <Route path="reset-password" element={<ResetPassword/>}/>
             </Route>
             <Route path="shop-page" element={<ShopPage/>}/>
-            <Route path="contact-page" element={<ContactUsPage/>}/>
+            <Route path="contact-us-page" element={<ContactUsPage/>}/>
             <Route path="wishlist-page" element={<WishList/>}/>
             <Route path="cart-page" element={<CartPage/>}>
               <Route index element={<NonEmptyCart/>}/>

@@ -5,6 +5,7 @@ import SweetTalk from '../Components/SubComponents/SweetTalk/SweetTalk';
 import SocialPage from '../Components/SubComponents/SocialPage/SocialPage';
 import CakeMarquee from '../Components/SubComponents/CakeMarquee/CakeMarquee';
 import HelmetMeta from '../Components/ReusableComponents/HelmetMeta';
+import PopularProductList from '../Components/SubComponents/PopularProducts/PopularProductList';
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
       <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
+      <PopularProductList/>
       <CakeMarquee />
       <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />

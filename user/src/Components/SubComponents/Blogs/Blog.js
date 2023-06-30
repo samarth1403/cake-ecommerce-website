@@ -25,7 +25,7 @@ const Blog = () => {
       </p>
       <div className="flex flex-row flex-wrap justify-center items-start m-4">
         <img
-          src={gotBlog?.images[0].url}
+          src={gotBlog?.images[0]?.url}
           alt="blog"
           className="w-[350px] h-[350px] rounded-[25px] m-4"
         />

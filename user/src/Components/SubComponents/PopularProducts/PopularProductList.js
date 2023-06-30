@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../../features/product/productSlice";
 import PopularProduct from "./PopularProduct";
 
+
 const PopularProductList = () => {
   const dispatch = useDispatch();
+
   const { products } = useSelector((state) => {
     return state.product;
   });

@@ -5,9 +5,11 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../../features/product/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const PopularProduct = ({ shoppingItem }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleAddToWishlist = (prodId) => {
     dispatch(addToWishlist(prodId));
   };
@@ -18,13 +20,14 @@ const PopularProduct = ({ shoppingItem }) => {
         background: "linear-gradient(90deg, #53FFB8 0%, #ACE7FF 100%)",
       }}
     >
-      <Link to={`/product-details/${shoppingItem._id}`}>
-        <img
-          src={shoppingItem?.images[0]?.url}
-          alt="Shopping Item"
-          className="w-[320px] h-[320px] rounded-t-[15px] mb-2"
-        />
-      </Link>
+      <img
+        onClick={() => {
+          navigate(`/product-details/${shoppingItem._id}`);
+        }}
+        src={shoppingItem?.images[0]?.url}
+        alt="Shopping Item"
+        className="w-[320px] h-[320px] rounded-t-[15px] mb-2"
+      />
 
       <div className="flex flex-col flex-no-wrap">
         <p className="font-roboto font-bold text-[#0D103C] text-lg px-2 mt-3 m-1">

@@ -2,14 +2,19 @@ import React from "react";
 import ButtonRYG from '../../ReusableComponents/ButtonRYG';
 import ReactStars from "react-rating-stars-component";
 import {AiOutlineHeart} from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../../features/product/productSlice";
+import { addToWishlist, getProduct } from "../../../features/product/productSlice";
 
 const ShoppingItem = ({ shoppingItem }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const handleAddToWishlist = (prodId) => {
      dispatch(addToWishlist(prodId));
+  }
+  const handleClick = (id) => {
+    navigate(`/product-details/${shoppingItem._id}`);
+    dispatch(getProduct(id));
   }
   return (
     <div
@@ -18,14 +23,12 @@ const ShoppingItem = ({ shoppingItem }) => {
         background: "linear-gradient(180deg, #FAFAFA 46.2%, #101567 100%)",
       }}
     >
-      <Link to={`/product-details/${shoppingItem._id}`}>
-        <img
-          src={shoppingItem?.images[0]?.url}
-          alt="Shopping Item"
-          className="w-[310px] h-[310px] rounded-t-[33px] mb-2"
-        />
-      </Link>
-
+      <img
+        onClick={() => handleClick(shoppingItem._id)}
+        src={shoppingItem?.images[0]?.url}
+        alt="Shopping Item"
+        className="w-[310px] h-[310px] rounded-t-[33px] mb-2 cursor-pointer"
+      />
       <div className="flex flex-col flex-no-wrap">
         <p className="font-roboto font-bold text-[#0D103C] text-lg px-2 mt-3 m-1">
           {shoppingItem.title}

@@ -3,24 +3,28 @@ import Marquee from "react-fast-marquee";
 import Birthday from "../../../images/Birthday.webp";
 import Anniversary from "../../../images/Anniversary.jpeg";
 import Cake from "../../../images/cake.jpeg";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CakeMarquee = () => {
-    const cakeImagesList = [
-      Birthday,
-      Anniversary,
-      Cake,
-      Birthday,
-      Anniversary,
-      Cake,
-      Birthday,
-      Anniversary,
-      Cake,
-    ];
 
-    const renderedCakeImagesList = cakeImagesList.map((cakeImagesItem)=>{
-        return <div className='m-4' key={cakeImagesItem}>
-            <img src={cakeImagesItem} alt="Cake Images Item" className='w-[320px] h-[320px] rounded-[50px]'/>
-        </div>
+   const navigate = useNavigate();
+
+   const {products} = useSelector((state)=>{
+    return state.product
+   })
+
+    const renderedCakeImagesList = products && products?.map((product)=>{
+        return (
+          <div className="m-4" key={product}>
+            <img
+              onClick={()=>{navigate(`/product-details/${product._id}`)}}
+              src={product?.images[0]?.url}
+              alt="Cake Images Item"
+              className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
+            />
+          </div>
+        );
     })
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">

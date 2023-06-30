@@ -9,8 +9,18 @@ import Anniversary from "../../../images/Anniversary.jpeg";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../../features/product/productSlice";
+import minusIcon from "../../../images/minusIcon.svg";
+import plusIcon from "../../../images/plusIcon.svg";
+import {toast} from "react-toastify";
+import { addToCart } from "../../../features/user/userSlice";
 
 const SingleProductDetails = () => {
+  const [weight, setWeight] = useState(1);
+  const [color, setColor] = useState(1);
+  const [veg, setVeg] = useState(true);
+  const [shape, setShape] = useState("circular");
+  const [quantity, setQuantity] = useState(1);
+
   const location = useLocation();
   const dispatch = useDispatch();
   const productId = location.pathname.split("/")[2];
@@ -27,15 +37,33 @@ const SingleProductDetails = () => {
     return state.product;
   });
 
-  console.log(gotProduct);
-
   const [productImage, setProductImage] = useState();
-  const [flag , setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
 
   const handleClick = (image) => {
     setProductImage(image);
     setFlag(true);
   };
+
+  const handleAddToCart = () => {
+   if(color===null){
+    toast.error("Please Select Color")
+    return false;
+   }
+   else {
+    dispatch(
+      addToCart({
+        productId: gotProduct?._id,
+        weight,
+        color,
+        quantity,
+        shape,
+        veg,
+        price: gotProduct?.price * weight * quantity,
+      })
+    );
+   }
+  }
   return (
     <div>
       <div className="flex flex-row flex-wrap justify-center items-start">
@@ -82,9 +110,6 @@ const SingleProductDetails = () => {
           <p className="font-roboto font-bold text-[#0D103C] text-3xl text-center mx-8 my-4 mt-6">
             {gotProduct?.title}
           </p>
-          <p className="font-roboto font-bold text-[#0D103C] text-3xl mx-8 my-2 ">
-            Rs. {gotProduct?.price} /-
-          </p>
           <div className="flex flex-row flex-wrap justify-between items-center my-2">
             <p className="font-roboto font-bold text-[#0D103C] text-xl mx-8 my-2 ">
               Category : {gotProduct?.category}
@@ -93,59 +118,160 @@ const SingleProductDetails = () => {
               Sub Category : {gotProduct?.subCategory}
             </p>
           </div>
-          <p className="font-roboto font-bold text-[#0D103C] text-xl mx-8 my-2 ">
-            # {gotProduct?.tags}
-          </p>
-          <div className="mx-6">
-            <ReactStars
-              count={5}
-              // onChange={ratingChanged}
-              value={gotProduct?.totalRating}
-              size={36}
-              isHalf={true}
-              edit={false}
-              a11y={true}
-              emptyIcon={<i className="far fa-star"></i>}
-              halfIcon={<i className="fa fa-star-half-alt"></i>}
-              fullIcon={<i className="fa fa-star"></i>}
-              activeColor="#ECD400"
-            />
-          </div>
-          <div className="flex flex-row flex-wrap justify-center md:justify-start items-center m-4">
-            <p className="font-roboto font-bold text-[#0D103C] text-xl ml-4 my-2 ">
-              Select Weight :
+          <div className="flex flex-row flex-wrap justify-center items-center">
+            <p className="font-roboto font-bold text-[#0D103C] text-xl mx-8 my-2 ">
+              # {gotProduct?.tags}
             </p>
+            <div className="mx-6">
+              <ReactStars
+                count={5}
+                // onChange={ratingChanged}
+                value={gotProduct?.totalRating}
+                size={36}
+                isHalf={true}
+                edit={false}
+                a11y={true}
+                emptyIcon={<i className="far fa-star"></i>}
+                halfIcon={<i className="fa fa-star-half-alt"></i>}
+                fullIcon={<i className="fa fa-star"></i>}
+                activeColor="#ECD400"
+              />
+            </div>
+          </div>
 
-            {itemWeightList.map((itemWeightItem) => {
+          <div className="flex flex-row flex-wrap justify-center md:justify-start items-center">
+            <p className="font-roboto font-bold text-xl ml-8 my-2 mr-4">
+              Enter Weight :
+            </p>
+            <input
+              onChange={(e) => setWeight(e.target.value)}
+              value={weight}
+              type="number"
+              className="font-roboto font-bold text-xl text-center m-2 px-4 py-4 rounded-[20px] w-[100px]"
+              style={{
+                background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
+              }}
+            />{" "}
+            <p className="font-roboto font-bold text-xl mx-4 my-2">Kg</p>
+          </div>
+          <p className="font-roboto font-bold text-xl ml-8 my-2 ">
+            Select Color :
+          </p>
+          <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
+            {gotProduct?.color?.map((item, index) => {
               return (
-                <button
-                  style={{
-                    background:
-                      "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
-                  }}
-                  className="font-roboto font-bold text-xl text-center m-2 px-4 py-4 rounded-[20px]"
+                <div
+                  key={index}
+                  className="flex flex-row flex-no-wrap justify-center items-center mr-4"
                 >
-                  {itemWeightItem}
-                </button>
+                  <input
+                    onChange={() => setColor(item?._id)}
+                    type="radio"
+                    id={item?.colorName}
+                    name="color"
+                    value={color}
+                    className="mx-1 text-2xl cursor-pointer"
+                  />
+                  <label
+                    htmlFor={item?.colorName}
+                    className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: `${item?.colorName}`,
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "5px",
+                      }}
+                    ></div>
+                  </label>
+                </div>
               );
             })}
           </div>
-
           <div className="flex flex-row flex-wrap justify-start items-center m-4">
-            <RadioButton className="m-2">With Egg</RadioButton>
-            <RadioButton className="m-2">Without Egg</RadioButton>
+            <input
+              onChange={() => setVeg(true)}
+              type="radio"
+              id="withoutEgg"
+              name="veg"
+              value={veg}
+              className="mx-2 text-2xl cursor-pointer"
+            />
+            <label
+              htmlFor="withoutEgg"
+              className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+            >
+              Without Egg
+            </label>
+            <input
+              onChange={() => setVeg(false)}
+              type="radio"
+              id="withEgg"
+              name="veg"
+              value={veg}
+              className="mx-2 text-2xl cursor-pointer"
+            />
+            <label
+              htmlFor="withEgg"
+              className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+            >
+              With Egg
+            </label>
           </div>
-          <div className="flex flex-row flex-wrap justify-start items-center mx-4">
-            {itemShapeList.map((itemShapeItem) => {
-              return <RadioButton className="m-2">{itemShapeItem}</RadioButton>;
+          <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
+            {itemShapeList.map((item, index) => {
+              return (
+                <div key={index} className="mr-1">
+                  <input
+                    onChange={() => setShape(item)}
+                    type="radio"
+                    id={item}
+                    name="shape"
+                    value={shape}
+                    className="mx-2 text-2xl cursor-pointer"
+                  />
+                  <label
+                    htmlFor={item}
+                    className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+                  >
+                    {item}
+                  </label>
+                </div>
+              );
             })}
           </div>
+          <div className="flex flex-row justify-center items-center mx-4 my-4">
+            <p className="font-roboto font-bold text-xl mx-6">Quantity :</p>
+            <img
+              src={minusIcon}
+              alt="Minus Icon"
+              className="ml-2 cursor-pointer"
+              onClick={() => setQuantity(quantity - 1)}
+            />
+            <input
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              id="quantity"
+              className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
+            />
+            <img
+              onClick={() => setQuantity(quantity + 1)}
+              src={plusIcon}
+              alt="Minus Icon"
+              className=" cursor-pointer"
+            />
+          </div>
+          <p className="font-roboto font-bold  text-3xl mx-8 mt-6 ">
+            {`Price  :  Rs. ${gotProduct?.price * quantity * weight} /-`}
+          </p>
           <div className="flex flex-row flex-wrap justify-center items-center m-8">
             <button
               style={{
                 background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
+              onClick={()=>handleAddToCart()}
             >
               Add to Cart
             </button>
@@ -166,17 +292,6 @@ const SingleProductDetails = () => {
 
 export default SingleProductDetails;
 
-const itemWeightList = [
-  "500 gm",
-  "1 Kg",
-  "1.5 Kg",
-  "2 Kg",
-  "2.5 Kg",
-  "3 Kg",
-  "3.5 Kg",
-  "4 Kg",
-  "4.5 Kg",
-  "5 Kg",
-];
+const itemWeightList = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
 const itemShapeList = ["Circular", "Heart Shape", "Square Shape"];

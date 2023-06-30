@@ -50,7 +50,7 @@ const AddColorPage = () => {
   }, [isSuccess, isLoading, isError, createdColor, updatedColorCategory]);
 
   let schema = Yup.object().shape({
-    colorName: Yup.string().required("Color Name is Required"),
+    colorName: Yup.string().required("Color Name is Required").lowercase(),
   });
   console.log(gotColorCategory)
   const formik = useFormik({
@@ -89,12 +89,12 @@ const AddColorPage = () => {
         className="flex flex-col flex-no-wrap justify-center items-center w-[300px] md:w-[450px] lg:w-[700px] rounded-[25px] m-4 pt-6"
       >
         <p className="font-roboto font-bold text-3xl m-6">
-          Click on following box to Select Color
+          Enter color name in small case
         </p>
         <Input
           className="bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] px-4 m-4"
           id="colorName"
-          type="color"
+          type="text"
           placeholder="Enter Color"
           name="colorName"
           value={formik.values.colorName}

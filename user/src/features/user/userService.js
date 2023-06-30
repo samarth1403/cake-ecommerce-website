@@ -22,10 +22,20 @@ const getWishlistOfUser = async() => {
     }
 }
 
+const addToCart = async (cartData) => {
+  const response = await axios.post(
+    `${base_url}/user/cart/create`,
+    cartData,
+    config
+  );
+  return response.data;
+};
+
 const userService = {
     registerUser,
     loginUser,
     getWishlistOfUser,
+    addToCart,
 }
 
 export default userService;

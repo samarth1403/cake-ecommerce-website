@@ -21,7 +21,7 @@ export const getAProductController = async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const gotProduct = await productModel.findById(id);
+    const gotProduct = await productModel.findById(id).populate("color")
     res.json({ gotProduct , res : {message : "Product Got Successfully" , success : true}});
   } catch (error) {
     res.json({ res: { message: error, success: false } });
@@ -70,7 +70,6 @@ export const getAllProductsController = async (req, res) => {
 
     if (req.query.page) {
       const productCount = await productModel.countDocuments();
-      console.log(productCount);
       if (skip >= productCount) {
         throw new Error("This page does not Exists");
       }

@@ -51,7 +51,7 @@ authRouter.put("/unblock-user/:id", authMiddleware, isAdminMiddleware, unblockAU
 
 authRouter.put("/save-address",authMiddleware , saveUserAddressController);
 
-authRouter.post("/cart/create",authMiddleware,userCartController);
+
 authRouter.get("/cart/get",authMiddleware, getACartController);
 authRouter.delete("/cart/empty",authMiddleware, emptyCartController);
 
@@ -64,6 +64,6 @@ authRouter.put("/cart/update-order/:id",authMiddleware ,isAdminMiddleware, updat
 //Wishlist Rotes
 authRouter.get("/wishlist/get", authMiddleware, getWishListController);
 
-
+authRouter.post("/cart/create", authMiddleware, userCartController);
 
 export default authRouter;

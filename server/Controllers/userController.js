@@ -324,46 +324,62 @@ export const saveUserAddressController = async(req , res) => {
 
 //Add to Cart Controller 
 export const userCartController = async(req , res) => {
-    const {cart} = req.body;
+    const {productId , color , price , quantity , veg , weight, shape} = req.body;
     const {_id} = req.user;
     validateMongodbId(_id);
     try {
-        let products = [];
-        const user = await userModel.findById(_id);
-        //checking if user hava that product in cart
-        let alreadyExistInCart = await cartModel.findOne({orderBy:user._id});
-        //let alreadyExistInCart = await cartModel.deleteMany({orderBy:user._id}); Its mine
-        if(alreadyExistInCart){
-            //alreadyExistInCart.remove();
-            alreadyExistInCart = null;
-        }
-
-        for(let i=0; i < cart.length; i++){
-            let object = {};
-            object.product = cart[i]._id;
-            object.count = cart[i].count;
-            object.color = cart[i].color;
-            let getPrice = await productModel.findById(cart[i]._id).select("price").exec();
-            object.price = getPrice.price;
-            products.push(object);
-        }
-
-        let cartTotal = 0;
-        for(let i=0; i<products.length; i++){
-            cartTotal = cartTotal + products[i].price * products[i].count;
-        }
-        
-        //Add New Cart
         let newCart = await new cartModel({
-            products,
-            cartTotal,
-            orderBy: user?._id,
+          userId: _id,
+          productId,
+          color,
+          price,
+          quantity,
+          veg,
+          weight,
+          shape
         }).save();
-        res.json(newCart);
-
+        res.json({createdCart:newCart, res : {message : "Cart Created Successfully", success: true}})
     } catch (error) {
-        throw new Error(error);
+        res.json({res:{message:error, success : false}})
     }
+    // try {
+    //     let products = [];
+    //     const user = await userModel.findById(_id);
+    //     //checking if user hava that product in cart
+    //     let alreadyExistInCart = await cartModel.findOne({orderBy:user._id});
+    //     //let alreadyExistInCart = await cartModel.deleteMany({orderBy:user._id}); Its mine
+    //     if(alreadyExistInCart){
+    //         //alreadyExistInCart.remove();
+    //         alreadyExistInCart = null;
+    //     }
+
+    //     for(let i=0; i < cart.length; i++){
+    //         let object = {};
+    //         object.product = cart[i]._id;
+    //         object.count = cart[i].count;
+    //         object.color = cart[i].color;
+    //         let getPrice = await productModel.findById(cart[i]._id).select("price").exec();
+    //         object.price = getPrice.price;
+    //         products.push(object);
+    //     }
+
+    //     let cartTotal = 0;
+    //     for(let i=0; i<products.length; i++){
+    //         cartTotal = cartTotal + products[i].price * products[i].count;
+    //     }
+        
+    //     //Add New Cart
+    //     let newCart = await new cartModel({
+    //         products,
+    //         cartTotal,
+    //         orderBy: user?._id,
+    //     }).save();
+    //     res.json(newCart);
+
+    // } catch (error) {
+    //     throw new Error(error);
+    // }
+
 }
 
 //Get A Cart Controller

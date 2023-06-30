@@ -8,10 +8,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    images: [{
-      public_id:String,
-      url:String
-    }],
+    images: [
+      {
+        public_id: String,
+        url: String,
+      },
+    ],
     slug: {
       type: String,
       unique: true,
@@ -60,7 +62,12 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: 0,
     },
-    color: [],
+    color: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ColorCategory",
+      },
+    ],
     tags: String,
   },
   { timestamps: true }

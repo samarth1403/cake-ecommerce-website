@@ -4,8 +4,11 @@ import {Link} from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { onContactDetailsSubmit } from '../../../../features/order/orderSlice';
 
 const ContactDetails = () => {
+  const dispatch = useDispatch()
     const navigate = useNavigate();
   let schema = Yup.object().shape({
     firstName: Yup.string().required("First Name is Required"),
@@ -25,7 +28,7 @@ const ContactDetails = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values))
+      dispatch(onContactDetailsSubmit(values))
       navigate("/cart-page/shipping-details")
     },
   });

@@ -1,4 +1,5 @@
 import express from 'express';
+import { checkoutController, paymentVerificationController } from '../Controllers/paymentController.js';
 import {
   createUserController,
   deleteAUserController,
@@ -77,5 +78,10 @@ authRouter.put("/cart/update-cart/:cartProductId/:quantityFromCart",authMiddlewa
 
 //Order Routes
 authRouter.post("/cart/create-order", authMiddleware, createOrderController);
+
+//Payment Routes
+
+authRouter.post("/order/payment-verification",authMiddleware,paymentVerificationController);
+authRouter.post("/order/checkout", authMiddleware, checkoutController);
 
 export default authRouter;

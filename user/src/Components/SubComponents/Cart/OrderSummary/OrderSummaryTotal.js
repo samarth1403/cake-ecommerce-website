@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { onSubmitTotalPrice } from "../../../../features/order/orderSlice";
 
 const OrderSummaryTotal = () => {
   const [totalPriceWithoutDiscount, setTotalPriceWithoutDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const dispatch = useDispatch()
   const { gotCart } = useSelector((state) => {
     return state.user;
   });
@@ -29,7 +30,8 @@ const OrderSummaryTotal = () => {
       );
     }
     setTotalPrice(totalPrice);
-    setTotalPriceWithoutDiscount(totalSumWithoutDiscount); 
+    setTotalPriceWithoutDiscount(totalSumWithoutDiscount);
+     dispatch(onSubmitTotalPrice(totalPrice));
   }, [gotCart]);
 
   return (

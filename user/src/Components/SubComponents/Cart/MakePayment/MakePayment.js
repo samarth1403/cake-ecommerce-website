@@ -1,66 +1,185 @@
-import React,{useEffect, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getCart } from '../../../../features/user/userSlice';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { createOrder, getCart } from "../../../../features/user/userSlice";
+import { config } from "../../../../utils/axiosConfig";
 
 const MakePayment = () => {
+  const [totalCost, setTotalCost] = useState();
+  const [orderedProducts , setOrderedProducts] = useState();
+  const [paymentInfo, setPaymentInfo] = useState({
+    razorpayPaymentId: "",
+    razorpayOrderId: "",
+  });
 
-    const [totalCost , setTotalCost] = useState();
+  const { contactInfo, shippingInfo, totalPrice } = useSelector((state) => {
+    return state.order;
+  });
+ console.log({contactInfo, shippingInfo, totalPrice, paymentInfo, totalPriceAfterDiscount : totalPrice , orderItems:orderedProducts})
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCart());
+  }, []);
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(getCart())
-    }, []);
+  const { gotCart } = useSelector((state) => {
+    return state.user;
+  });
 
-    const {gotCart} = useSelector((state)=>{
-      return state.user
-    })
+  useEffect(() => {
+    let totalPrice = 0;
+    let items = [];
+    for (let index = 0; index < gotCart?.length; index++) {
+      totalPrice += Number(
+        gotCart[index].price * gotCart[index].weight * gotCart[index].quantity
+      );
+      items.push({
+        product: gotCart[index]?.productId?._id,
+        quantity: gotCart[index]?.quantity,
+        color: gotCart[index].color._id,
+        price: gotCart[index]?.price,
+        weight: gotCart[index]?.weight,
+        shape: gotCart[index]?.shape,
+        veg: gotCart[index]?.veg,
+      });
+    }
+    setTotalCost(totalPrice);
+    setOrderedProducts(items);
+  }, [gotCart]);
 
-    useEffect(() => {
-      let totalPrice = 0;
-      for (let index = 0; index < gotCart?.length; index++) {
-        totalPrice += Number(
-          gotCart[index].price * gotCart[index].weight * gotCart[index].quantity
-        );
+
+
+  //For Razorpay
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true)
       }
-      setTotalCost(totalPrice)
-    }, [gotCart]);
+      script.onerror = () => {
+        resolve(false)
+      }
+      document.body.appendChild(script);
+    });
+  };
 
-    const renderedOrderSummaryList = gotCart?.map((item)=>{
-        return (
-          <div className='mb-6'>
-            <div className="flex flex-row flex-wrap justify-between items-center mx-2">
-              <p className="font-roboto font-bold text-[#0D103C] text-2xl m-2">
-                {item?.productId?.title}
-              </p>
-              <p className="font-roboto font-bold text-[#0D103C] text-2xl m-8">
-                Rs. {item?.price * item?.quantity}/-
-              </p>
-            </div>
-            <div className="flex flex-row flex-wrap justify-between items-center mx-2">
-              <div className="flex flex-col">
-                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
-                  Qty : {item?.quantity}
-                </p>
-                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
-                  Veg : {item?.veg}
-                </p>
-                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
-                  Shape : {item?.shape}
-                </p>
-                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
-                  color : {item?.color?.colorName}
-                </p>
-              </div>
-              <img
-                src={item?.productId?.images[0]?.url}
-                alt="product"
-                className="w-[200px] h-[200px]"
-              />
-            </div>
+  const checkoutHandler = async () => {
+     const res = await loadScript(
+       "https://checkout.razorpay.com/v1/checkout.js"
+     );
+     if(!res){
+      alert("Razorpay failed to Load");
+      return;
+     }
+
+    const result = await axios.post(
+        "http://localhost:3001/api/user/order/checkout",
+        {amount:totalCost},
+        config
+    );
+    if(!result){
+      alert("Something went wrong");
+      return;
+    }
+      // Getting the order details back
+      const { amount, id: order_id, currency } = result.data.order;
+
+      const options = {
+        key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard
+        amount: amount,
+        currency: currency,
+        name: "Samarth Ikkalaki",
+        description: "Test Transaction",
+        // image: { logo },
+        order_id: order_id,
+        handler: async function (response) {
+          try {
+            const data = {
+              orderCreationId: order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+            };
+
+            try {
+              const result = await axios.post(
+                "http://localhost:3001/api/user/order/payment-verification",
+                data,
+                config
+              );
+            } catch (error) {
+              console.error(error)
+            }
+            setPaymentInfo({
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+            });
+            dispatch(
+              createOrder({ contactInfo, shippingInfo, totalPrice, paymentInfo, totalPriceAfterDiscount : totalPrice , orderItems:orderedProducts })
+            );
+          } catch (error) {
+              console.error(error);
+          }
+        },
+        prefill: {
+          name: "Samarth Ikkalaki",
+          email: "samarthikkalaki@example.com",
+          contact: "7499355194",
+        },
+        notes: {
+          address: "Samarth Ikkalaki Office",
+        },
+        theme: {
+          color: "#61dafb",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    
+  };
+
+  const handleMakePayment = () => {
+    setTimeout(()=>{
+        checkoutHandler()
+    },100)
+  }
+
+  const renderedOrderSummaryList = gotCart?.map((item) => {
+    return (
+      <div className="mb-6">
+        <div className="flex flex-row flex-wrap justify-between items-center mx-2">
+          <p className="font-roboto font-bold text-[#0D103C] text-2xl m-2">
+            {item?.productId?.title}
+          </p>
+          <p className="font-roboto font-bold text-[#0D103C] text-2xl m-8">
+            Rs. {item?.price * item?.quantity}/-
+          </p>
+        </div>
+        <div className="flex flex-row flex-wrap justify-between items-center mx-2">
+          <div className="flex flex-col">
+            <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+              Qty : {item?.quantity}
+            </p>
+            <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+              Veg : {item?.veg}
+            </p>
+            <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+              Shape : {item?.shape}
+            </p>
+            <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+              color : {item?.color?.colorName}
+            </p>
           </div>
-        );
-    })
+          <img
+            src={item?.productId?.images[0]?.url}
+            alt="product"
+            className="w-[200px] h-[200px]"
+          />
+        </div>
+      </div>
+    );
+  });
   return (
     <>
       <div className="flex flex-row flex-wrap justify-center items-center">
@@ -87,11 +206,13 @@ const MakePayment = () => {
                 Rs {totalCost} /-
               </p>
             </div>
-            <Link to="/cart-page/congratulation">
-              <button className="bg-[#84FF58] w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]">
-                Proceed to Pay
-              </button>
-            </Link>
+            <button
+              onClick={handleMakePayment}
+              className="bg-[#84FF58] w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]"
+            >
+              Proceed to Pay
+            </button>
+            <Link to="/cart-page/congratulation"></Link>
           </div>
         </div>
       </div>
@@ -100,9 +221,9 @@ const MakePayment = () => {
       </div>
     </>
   );
-}
+};
 
-export default MakePayment
+export default MakePayment;
 
 const orderSummaryList = [
   { itemName: "Yummylicious Delicious Cake", itemQuantity: 1, itemPrice: 599 },

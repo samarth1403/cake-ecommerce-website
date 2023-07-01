@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { onShippingDetailsSubmit } from "../../../../features/order/orderSlice";
 
 const ShippingDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let schema = Yup.object().shape({
     address: Yup.string().required("Address is Required"),
     landmark: Yup.string(),
@@ -25,7 +28,7 @@ const ShippingDetails = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      dispatch(onShippingDetailsSubmit(values))
       navigate("/cart-page/make-payment");
     },
   });

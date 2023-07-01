@@ -6,15 +6,11 @@ import cart from '../../images/cart.svg';
 import heart from '../../images/HeartIcon.svg';
 import { BsTelephoneFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../../features/user/userSlice';
 const Header = () => {
-  const dispatch = useDispatch();
+
   const {gotCart} = useSelector((state)=>{
     return state.user
   })
-  useEffect(()=>{
-    dispatch(getCart())
-  },[gotCart])
 
   return (
     <nav>

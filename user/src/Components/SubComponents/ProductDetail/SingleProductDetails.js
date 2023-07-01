@@ -75,6 +75,9 @@ const SingleProductDetails = () => {
         price: gotProduct?.price,
       })
     );
+    setTimeout(()=>{
+       dispatch(getCart())
+    },100)
   }
   return (
     <div>

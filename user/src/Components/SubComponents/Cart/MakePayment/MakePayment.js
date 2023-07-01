@@ -1,23 +1,62 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getCart } from '../../../../features/user/userSlice';
 
 const MakePayment = () => {
 
-    const renderedOrderSummaryList = orderSummaryList.map((orderSummaryItem)=>{
+    const [totalCost , setTotalCost] = useState();
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(getCart())
+    }, []);
+
+    const {gotCart} = useSelector((state)=>{
+      return state.user
+    })
+
+    useEffect(() => {
+      let totalPrice = 0;
+      for (let index = 0; index < gotCart?.length; index++) {
+        totalPrice += Number(
+          gotCart[index].price * gotCart[index].weight * gotCart[index].quantity
+        );
+      }
+      setTotalCost(totalPrice)
+    }, [gotCart]);
+
+    const renderedOrderSummaryList = gotCart?.map((item)=>{
         return (
-          <div className="flex flex-col flex-no-wrap justify-center items-center m-4">
-            <div className="flex flex-row flex-no-wrap justify-between items-center">
-              <div className="flex flex-col flex-wrap justify-center items-start">
-                <p className="font-roboto font-bold text-[#0D103C] text-2xl m-2">
-                  {orderSummaryItem.itemName}
+          <div className='mb-6'>
+            <div className="flex flex-row flex-wrap justify-between items-center mx-2">
+              <p className="font-roboto font-bold text-[#0D103C] text-2xl m-2">
+                {item?.productId?.title}
+              </p>
+              <p className="font-roboto font-bold text-[#0D103C] text-2xl m-8">
+                Rs. {item?.price * item?.quantity}/-
+              </p>
+            </div>
+            <div className="flex flex-row flex-wrap justify-between items-center mx-2">
+              <div className="flex flex-col">
+                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+                  Qty : {item?.quantity}
                 </p>
                 <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
-                  Qty : {orderSummaryItem.itemQuantity}
+                  Veg : {item?.veg}
+                </p>
+                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+                  Shape : {item?.shape}
+                </p>
+                <p className="font-roboto font-bold text-[#0D103C] text-xl m-2">
+                  color : {item?.color?.colorName}
                 </p>
               </div>
-              <p className="font-roboto font-bold text-[#0D103C] text-2xl m-8">
-                Rs. {orderSummaryItem.itemPrice}/-
-              </p>
+              <img
+                src={item?.productId?.images[0]?.url}
+                alt="product"
+                className="w-[200px] h-[200px]"
+              />
             </div>
           </div>
         );
@@ -35,8 +74,8 @@ const MakePayment = () => {
           <p className="font-roboto font-bold text-[#0D103C] text-3xl text-left m-6">
             Order Summary
           </p>
+          {renderedOrderSummaryList}
           <div className="flex flex-col flex-no-wrap justify-center items-center m-4">
-            {renderedOrderSummaryList}
             <p className="font-roboto font-bold text-[#0D103C] text-xl text-center m-4 ">
               -----------------------------------------------------------------------
             </p>
@@ -45,7 +84,7 @@ const MakePayment = () => {
                 Total Cost
               </p>
               <p className="font-roboto font-bold text-[#0D103C] text-3xl ml-16 sm:ml-24 m-2">
-                Rs. 599/-
+                Rs {totalCost} /-
               </p>
             </div>
             <Link to="/cart-page/congratulation">

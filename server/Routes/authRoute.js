@@ -59,7 +59,7 @@ authRouter.delete("/cart/empty",authMiddleware, emptyCartController);
 
 authRouter.post("/cart/apply-coupon",authMiddleware , applyCouponController);
 
-authRouter.post("/cart/create-order",authMiddleware , createOrderController);
+
 
 authRouter.put("/cart/update-order/:id",authMiddleware ,isAdminMiddleware, updateOrderStatusController);
 
@@ -74,5 +74,8 @@ authRouter.delete(
   deleteProductFromCartController
 );
 authRouter.put("/cart/update-cart/:cartProductId/:quantityFromCart",authMiddleware,updateQuantityFromCartController);
+
+//Order Routes
+authRouter.post("/cart/create-order", authMiddleware, createOrderController);
 
 export default authRouter;

@@ -93,12 +93,15 @@ export const updateQuantityFromCart = createAsyncThunk(
   }
 );
 
+
 export const resetUserState = createAction("reset/userState");
 
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.isLoading = true;

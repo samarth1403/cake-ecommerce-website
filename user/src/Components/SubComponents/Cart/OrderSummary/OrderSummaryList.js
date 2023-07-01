@@ -39,34 +39,9 @@ const OrderSummaryList = () => {
         Order Summary
       </p>
       {renderedOrderSummaryList}
-      <OrderSummaryTotal/>
+      <OrderSummaryTotal />
     </div>
   );
 }
 
 export default OrderSummaryList
-
-const orderSummaryList = [
-  {
-    itemImage: Birthday,
-    itemName: "Yummylicious Chocolate Cake",
-    itemQuantity: 1,
-    itemWeight: "1 Kg",
-    isEggless: "True",
-    itemShape: "Circular",
-    itemDiscountedPrice: "599",
-    itemPrice: "799",
-    discount: 25,
-  },
-  {
-    itemImage: Birthday,
-    itemName: "Yummylicious Chocolate Cake",
-    itemQuantity: 1,
-    itemWeight: "1 Kg",
-    isEggless: "True",
-    itemShape: "Circular",
-    itemDiscountedPrice: "599",
-    itemPrice: "799",
-    discount: 25,
-  },
-];

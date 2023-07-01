@@ -6,15 +6,16 @@ import "./InnerImageZoom.css";
 import InnerImageZoom from "react-inner-image-zoom";
 import birthday from "../../../images/Birthday.webp";
 import Anniversary from "../../../images/Anniversary.jpeg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../../features/product/productSlice";
 import minusIcon from "../../../images/minusIcon.svg";
 import plusIcon from "../../../images/plusIcon.svg";
 import {toast} from "react-toastify";
-import { addToCart } from "../../../features/user/userSlice";
+import { addToCart, getCart } from "../../../features/user/userSlice";
 
 const SingleProductDetails = () => {
+  const [alreadyAddedToCart , setAlreadyAddedToCart] = useState(false);
   const [weight, setWeight] = useState(1);
   const [color, setColor] = useState(1);
   const [veg, setVeg] = useState(true);
@@ -23,6 +24,7 @@ const SingleProductDetails = () => {
 
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const productId = location.pathname.split("/")[2];
 
   const getSingleProduct = () => {
@@ -32,10 +34,26 @@ const SingleProductDetails = () => {
   useEffect(() => {
     getSingleProduct();
     setFlag(false);
+    dispatch(getCart());
   }, [productId]);
   const { gotProduct } = useSelector((state) => {
     return state.product;
   });
+
+  const { gotCart } = useSelector((state)=>{
+    return state.user;
+  })
+
+  useEffect(()=>{
+    for (let index = 0; index < gotCart?.length; index++) {
+      if(productId === gotCart[index]?.productId?._id){
+        setAlreadyAddedToCart(true);
+      }
+      else {
+        setAlreadyAddedToCart(false);
+      }
+    }
+  },[productId])
 
   const [productImage, setProductImage] = useState();
   const [flag, setFlag] = useState(false);
@@ -46,11 +64,6 @@ const SingleProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-   if(color===null){
-    toast.error("Please Select Color")
-    return false;
-   }
-   else {
     dispatch(
       addToCart({
         productId: gotProduct?._id,
@@ -59,10 +72,9 @@ const SingleProductDetails = () => {
         quantity,
         shape,
         veg,
-        price: gotProduct?.price * weight * quantity,
+        price: gotProduct?.price,
       })
     );
-   }
   }
   return (
     <div>
@@ -154,41 +166,45 @@ const SingleProductDetails = () => {
             />{" "}
             <p className="font-roboto font-bold text-xl mx-4 my-2">Kg</p>
           </div>
-          <p className="font-roboto font-bold text-xl ml-8 my-2 ">
-            Select Color :
-          </p>
-          <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
-            {gotProduct?.color?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex flex-row flex-no-wrap justify-center items-center mr-4"
-                >
-                  <input
-                    onChange={() => setColor(item?._id)}
-                    type="radio"
-                    id={item?.colorName}
-                    name="color"
-                    value={color}
-                    className="mx-1 text-2xl cursor-pointer"
-                  />
-                  <label
-                    htmlFor={item?.colorName}
-                    className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
-                  >
+          {alreadyAddedToCart === false ? (
+            <div>
+              <p className="font-roboto font-bold text-xl ml-8 my-2 ">
+                Select Color :
+              </p>
+              <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
+                {gotProduct?.color?.map((item, index) => {
+                  return (
                     <div
-                      style={{
-                        backgroundColor: `${item?.colorName}`,
-                        width: "40px",
-                        height: "40px",
-                        borderRadius: "5px",
-                      }}
-                    ></div>
-                  </label>
-                </div>
-              );
-            })}
-          </div>
+                      key={index}
+                      className="flex flex-row flex-no-wrap justify-center items-center mr-4"
+                    >
+                      <input
+                        onChange={() => setColor(item?._id)}
+                        type="radio"
+                        id={item?.colorName}
+                        name="color"
+                        value={color}
+                        className="mx-1 text-2xl cursor-pointer"
+                      />
+                      <label
+                        htmlFor={item?.colorName}
+                        className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+                      >
+                        <div
+                          style={{
+                            backgroundColor: `${item?.colorName}`,
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "5px",
+                          }}
+                        ></div>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ): null}
           <div className="flex flex-row flex-wrap justify-start items-center m-4">
             <input
               onChange={() => setVeg(true)}
@@ -241,27 +257,29 @@ const SingleProductDetails = () => {
               );
             })}
           </div>
-          <div className="flex flex-row justify-center items-center mx-4 my-4">
-            <p className="font-roboto font-bold text-xl mx-6">Quantity :</p>
-            <img
-              src={minusIcon}
-              alt="Minus Icon"
-              className="ml-2 cursor-pointer"
-              onClick={() => setQuantity(quantity - 1)}
-            />
-            <input
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              id="quantity"
-              className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
-            />
-            <img
-              onClick={() => setQuantity(quantity + 1)}
-              src={plusIcon}
-              alt="Minus Icon"
-              className=" cursor-pointer"
-            />
-          </div>
+          {alreadyAddedToCart === false && (
+            <div className="flex flex-row justify-center items-center mx-4 my-4">
+              <p className="font-roboto font-bold text-xl mx-6">Quantity :</p>
+              <img
+                src={minusIcon}
+                alt="Minus Icon"
+                className="ml-2 cursor-pointer"
+                onClick={() => setQuantity(quantity - 1)}
+              />
+              <input
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                id="quantity"
+                className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
+              />
+              <img
+                onClick={() => setQuantity(quantity + 1)}
+                src={plusIcon}
+                alt="Minus Icon"
+                className=" cursor-pointer"
+              />
+            </div>
+          )}
           <p className="font-roboto font-bold  text-3xl mx-8 mt-6 ">
             {`Price  :  Rs. ${gotProduct?.price * quantity * weight} /-`}
           </p>
@@ -271,9 +289,9 @@ const SingleProductDetails = () => {
                 background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
-              onClick={()=>handleAddToCart()}
+              onClick={() => alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart()}
             >
-              Add to Cart
+              {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
             </button>
             <button
               style={{

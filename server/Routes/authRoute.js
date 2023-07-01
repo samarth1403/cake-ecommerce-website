@@ -22,6 +22,8 @@ import {
   createOrderController,
   getOrdersController,
   updateOrderStatusController,
+  deleteProductFromCartController,
+  updateQuantityFromCartController,
 } from "../Controllers/userController.js";
 import { getWishListController } from '../Controllers/wishlistController.js';
 import {
@@ -66,5 +68,11 @@ authRouter.get("/wishlist/get", authMiddleware, getWishListController);
 
 authRouter.post("/cart/create", authMiddleware, userCartController);
 authRouter.get("/cart/get", authMiddleware, getACartController);
+authRouter.delete(
+  "/cart/delete-product/:cartProductId",
+  authMiddleware,
+  deleteProductFromCartController
+);
+authRouter.put("/cart/update-cart/:cartProductId/:quantityFromCart",authMiddleware,updateQuantityFromCartController);
 
 export default authRouter;

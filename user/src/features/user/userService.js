@@ -38,12 +38,31 @@ const getCart = async () => {
   return response.data;
 };
 
+const deleteProductFromCart = async (cartProductId) => {
+  console.log(config);
+  const response = await axios.delete(
+    `${base_url}/user/cart/delete-product/${cartProductId}`,
+    config
+  );
+  return response.data;
+};
+
+const updateQuantityFromCart = async ({cartProductId,quantityFromCart}) => {
+  const response = await axios.put(
+    `${base_url}/user/cart/update-cart/${cartProductId}/${quantityFromCart}`,{},config
+  );
+  console.log(response.data);
+  return response.data;
+};
+
 const userService = {
-    registerUser,
-    loginUser,
-    getWishlistOfUser,
-    addToCart,
-    getCart
-}
+  registerUser,
+  loginUser,
+  getWishlistOfUser,
+  addToCart,
+  getCart,
+  deleteProductFromCart,
+  updateQuantityFromCart,
+};
 
 export default userService;

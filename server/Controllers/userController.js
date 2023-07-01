@@ -382,6 +382,23 @@ export const userCartController = async(req , res) => {
 
 }
 
+//delete Product from A Cart Controller
+export const deleteProductFromCartController = async(req , res) => {
+    const {_id} = req.user;
+    const { cartProductId } = req.params;
+    validateMongodbId(_id);
+    try {
+        const deletedProductFromCart = await cartModel.deleteOne({userId:_id,_id:cartProductId})
+        res.json({
+          deletedProductFromCart,
+          res: { message: "Product deleted Successfully", success: true },
+        });
+    } catch (error) {
+        res.json({
+          res: { message: error, success: false },
+        });
+    }
+}
 //Get A Cart Controller
 export const getACartController = async(req , res) => {
     const {_id} = req.user;
@@ -394,6 +411,29 @@ export const getACartController = async(req , res) => {
         res.json({
           res: { message: error, success: false },
         });
+    }
+}
+
+//Update quantity from cart
+export const updateQuantityFromCartController = async(req , res) => {
+    const { _id } = req.user;
+    const { cartProductId , quantityFromCart} = req.params;
+    validateMongodbId(_id);
+    try {
+      const cartProduct = await cartModel.findOne({
+        userId: _id,
+        _id: cartProductId,
+      });
+      cartProduct.quantity = quantityFromCart;
+      cartProduct.save();
+      res.json({
+        updatedProduct : cartProduct,
+        res: { message: "Quantity updated From Cart Successfully", success: true },
+      });
+    } catch (error) {
+      res.json({
+        res: { message: error, success: false },
+      });
     }
 }
 

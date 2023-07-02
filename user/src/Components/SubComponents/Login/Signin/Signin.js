@@ -11,12 +11,6 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, userData, res } = useSelector((state) => state.user);
-  
-  useEffect(() => {
-    if (res.success && userData) {
-      navigate("/");
-    }
-  }, [user, userData]);
 
   let schema = Yup.object().shape({
     email: Yup.string()
@@ -35,9 +29,9 @@ const Signin = () => {
     onSubmit: (values) => {
       dispatch(loginUser(values));
       formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetUserState());
-      }, 200);
+      if(res.success && userData){
+        navigate("/")
+      }
     },
   });
   return (

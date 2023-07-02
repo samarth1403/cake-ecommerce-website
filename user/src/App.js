@@ -22,36 +22,72 @@ import ShoppingList from "./Components/SubComponents/Shopping/ShoppingList";
 import WishList from "./Components/SubComponents/Wishlist/WishList";
 import BlogList from "./Components/SubComponents/Blogs/BlogList";
 import Blog from "./Components/SubComponents/Blogs/Blog";
+import { PrivateRoute } from "./routing/PrivateRoutes";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout/>}>
-            <Route index element={<HomePage/>}/>
-            <Route path="product-details" element={<ProductDetailPage/>}>
-              <Route index element={<ShoppingList/>}/>
-              <Route path=":id" element={<ProductDetail/>}/>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="product-details" element={<ProductDetailPage />}>
+              <Route index element={<ShoppingList />} />
+              <Route path=":id" element={<ProductDetail />} />
             </Route>
-            <Route path="about-page" element={<AboutPage/>}/>
-            <Route path="login-page" element={<LoginPage/>}>
-              <Route index element={<Login/>}/>
-              <Route path="forgot-password" element={<ForgotPassword/>}/>
-              <Route path="reset-password" element={<ResetPassword/>}/>
+            <Route path="about-page" element={<AboutPage />} />
+            <Route path="login-page" element={<LoginPage />}>
+              <Route index element={<Login />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="reset-password" element={<ResetPassword />} />
             </Route>
-            <Route path="shop-page" element={<ShopPage/>}/>
-            <Route path="contact-us-page" element={<ContactUsPage/>}/>
-            <Route path="wishlist-page" element={<WishList/>}/>
-            <Route path="cart-page" element={<CartPage/>}>
-              <Route index element={<NonEmptyCart/>}/>
-              <Route path="contact-details" element={<ContactDetails/>}/>
-              <Route path="shipping-details" element={<ShippingDetails/>}/>
-              <Route path="make-payment" element={<MakePayment/>}/>
-              <Route path="congratulation" element={<Congratulation/>}/>
+            <Route path="shop-page" element={<ShopPage />} />
+            <Route path="contact-us-page" element={<ContactUsPage />} />
+            <Route
+              path="wishlist-page"
+              element={
+                <PrivateRoute>
+                  <WishList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="cart-page"
+              element={
+                <PrivateRoute>
+                  <CartPage />
+                </PrivateRoute>
+              }
+            >
+              <Route index element={<NonEmptyCart />} />
+              <Route
+                path="contact-details"
+                element={
+                  <PrivateRoute>
+                    <ContactDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="shipping-details"
+                element={
+                  <PrivateRoute>
+                    <ShippingDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="make-payment"
+                element={
+                  <PrivateRoute>
+                    <MakePayment />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="congratulation" element={<Congratulation />} />
             </Route>
-            <Route path="blog-page" element={<BlogList/>}/>
-            <Route path="blog-page/:id" element={<Blog/>}/>
+            <Route path="blog-page" element={<BlogList />} />
+            <Route path="blog-page/:id" element={<Blog />} />
           </Route>
         </Routes>
       </BrowserRouter>

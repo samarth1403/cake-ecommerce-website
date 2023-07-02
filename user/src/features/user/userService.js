@@ -9,9 +9,6 @@ const registerUser = async(data) => {
 
 const loginUser = async(data) => {
     const response = await axios.post(`${base_url}/user/login-user`,data);
-    if (response.data.userData !== null){
-        localStorage.setItem("customerToken", JSON.stringify(response.data.userData.Token));
-    }
     return response.data;
 }
 

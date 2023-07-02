@@ -8,13 +8,16 @@ import { getCart } from "../../../../features/user/userSlice";
 const OrderSummaryList = () => {
   
   const dispatch = useDispatch();
+  const {user} = useSelector((state)=>{
+    return state.user
+  })
 
   useEffect(() => {
     getUserCart();
-  }, []);
-
+  }, [user?.Token]);
+  
   const getUserCart = () => {
-    dispatch(getCart());
+    dispatch(getCart(user?.Token));
   };
 
   const {gotCart} = useSelector((state)=>{

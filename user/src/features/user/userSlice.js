@@ -148,8 +148,10 @@ const userSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
       state.userData = action.payload?.userData;
+      state.user = action.payload?.userData;
       state.res = action.payload?.res;
       if (state.res?.success && state.isSuccess && state.userData) {
+        
         localStorage.setItem(
           "customer",
           JSON.stringify(action.payload?.userData)
@@ -157,6 +159,7 @@ const userSlice = createSlice({
         toast.success(`Welcome ${action.payload?.userData?.firstName}`);
       }
       if (state.res?.success === false && state.res?.message !== "") {
+        state.user = null;
         toast.error("Invalid Credentials");
       }
     });

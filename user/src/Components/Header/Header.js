@@ -10,7 +10,7 @@ import { getCart } from '../../features/user/userSlice';
 
 const Header = () => {
 
-  const {gotCart, user} = useSelector((state)=>{
+  const {gotCart, user, userData} = useSelector((state)=>{
     return state.user
   })
 
@@ -46,13 +46,14 @@ const Header = () => {
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>
-          <Link
-            to="/login-page"
-            className="my-2 mx-4"
-          >
-            <img src={person} alt="person icon" />
+          <Link to={user === null ? "/login-page" : ""} className="my-2 mx-4">
+            {user === null ? (
+              <img src={person} alt="person icon" />
+            ) : (
+              <p className="text-white">{user?.firstName}</p>
+            )}
           </Link>
-          <p className='text-white'>{user?.firstName}</p>
+
           <Link
             to="/cart-page"
             type="button"

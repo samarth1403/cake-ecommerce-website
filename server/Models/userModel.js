@@ -35,14 +35,16 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cart: {
-      type: Array,
-      default: [],
-    },
+    cart: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart",
+      },
+    ],
     address: {
-      type:String,
+      type: String,
     },
-    wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product"}],
+    wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     refreshToken: {
       type: String,
     },

@@ -6,9 +6,11 @@ import cart from '../../images/cart.svg';
 import heart from '../../images/HeartIcon.svg';
 import { BsTelephoneFill } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
+import { getCart } from '../../features/user/userSlice';
+
 const Header = () => {
 
-  const {gotCart} = useSelector((state)=>{
+  const {gotCart, user} = useSelector((state)=>{
     return state.user
   })
 
@@ -44,9 +46,13 @@ const Header = () => {
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>
-          <Link to="/login-page" className="my-2 mx-4">
+          <Link
+            to="/login-page"
+            className="my-2 mx-4"
+          >
             <img src={person} alt="person icon" />
           </Link>
+          <p className='text-white'>{user?.firstName}</p>
           <Link
             to="/cart-page"
             type="button"

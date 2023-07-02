@@ -2,29 +2,37 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createOrder, getCart } from "../../../../features/user/userSlice";
+import {
+  createOrder,
+  getCart,
+  paymentVerification,
+} from "../../../../features/user/userSlice";
 import { config } from "../../../../utils/axiosConfig";
+import { loadScript } from "../../../../utils/loadScript";
+import logo from '../../../../images/DoneIcon.svg'
 
 const MakePayment = () => {
   const [totalCost, setTotalCost] = useState();
-  const [orderedProducts , setOrderedProducts] = useState();
-  const [paymentInfo, setPaymentInfo] = useState({
-    razorpayPaymentId: "",
-    razorpayOrderId: "",
-  });
+  const [orderedProducts, setOrderedProducts] = useState();
+  // const [paymentInfo, setPaymentInfo] = useState({
+  //   razorpayPaymentId: "",
+  //   razorpayOrderId: "",
+  // });
 
   const { contactInfo, shippingInfo, totalPrice } = useSelector((state) => {
     return state.order;
   });
- console.log({contactInfo, shippingInfo, totalPrice, paymentInfo, totalPriceAfterDiscount : totalPrice , orderItems:orderedProducts})
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCart());
   }, []);
 
-  const { gotCart } = useSelector((state) => {
+  const { gotCart, paymentInfo } = useSelector((state) => {
     return state.user;
   });
+
+
 
   useEffect(() => {
     let totalPrice = 0;
@@ -47,103 +55,91 @@ const MakePayment = () => {
     setOrderedProducts(items);
   }, [gotCart]);
 
+  // //For Razorpay
+  // const loadScript = (src) => {
+  //   return new Promise((resolve) => {
+  //     const script = document.createElement("script");
+  //     script.src = src;
+  //     script.onload = () => {
+  //       resolve(true);
+  //     };
+  //     script.onerror = () => {
+  //       resolve(false);
+  //     };
+  //     document.body.appendChild(script);
+  //   });
+  // };
 
+  const displayRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
 
-  //For Razorpay
-  const loadScript = (src) => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => {
-        resolve(true)
-      }
-      script.onerror = () => {
-        resolve(false)
-      }
-      document.body.appendChild(script);
-    });
-  };
-
-  const checkoutHandler = async () => {
-     const res = await loadScript(
-       "https://checkout.razorpay.com/v1/checkout.js"
-     );
-     if(!res){
-      alert("Razorpay failed to Load");
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
       return;
-     }
+    }
 
     const result = await axios.post(
-        "http://localhost:3001/api/user/order/checkout",
-        {amount:totalCost},
-        config
+      "http://localhost:3001/api/user/order/checkout",
+      { amount: totalCost },
+      config
     );
-    if(!result){
+    if (!result) {
       alert("Something went wrong");
       return;
     }
-      // Getting the order details back
-      const { amount, id: order_id, currency } = result.data.order;
+    // Getting the order details back
+    const { amount, id: order_id, currency } = result.data.order;
 
-      const options = {
-        key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard
-        amount: amount,
-        currency: currency,
+    const options = {
+      key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard
+      amount: amount,
+      currency: currency,
+      name: "Samarth Ikkalaki",
+      description: "Test Transaction",
+      image: { logo },
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+        };
+          console.log({
+            contactInfo,
+            shippingInfo,
+            totalPrice,
+            paymentInfo:data,
+            totalPriceAfterDiscount: totalPrice,
+            orderItems: orderedProducts,
+          });
+        dispatch(
+          createOrder({
+            contactInfo,
+            shippingInfo,
+            totalPrice,
+            paymentInfo:data,
+            totalPriceAfterDiscount: totalPrice,
+            orderItems: orderedProducts,
+          })
+        );
+      },
+      prefill: {
         name: "Samarth Ikkalaki",
-        description: "Test Transaction",
-        // image: { logo },
-        order_id: order_id,
-        handler: async function (response) {
-          try {
-            const data = {
-              orderCreationId: order_id,
-              razorpayPaymentId: response.razorpay_payment_id,
-              razorpayOrderId: response.razorpay_order_id,
-            };
+        email: "samarthikkalaki@example.com",
+        contact: "7499355194",
+      },
+      notes: {
+        address: "Samarth Ikkalaki Office",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
 
-            try {
-              const result = await axios.post(
-                "http://localhost:3001/api/user/order/payment-verification",
-                data,
-                config
-              );
-            } catch (error) {
-              console.error(error)
-            }
-            setPaymentInfo({
-              razorpayPaymentId: response.razorpay_payment_id,
-              razorpayOrderId: response.razorpay_order_id,
-            });
-            dispatch(
-              createOrder({ contactInfo, shippingInfo, totalPrice, paymentInfo, totalPriceAfterDiscount : totalPrice , orderItems:orderedProducts })
-            );
-          } catch (error) {
-              console.error(error);
-          }
-        },
-        prefill: {
-          name: "Samarth Ikkalaki",
-          email: "samarthikkalaki@example.com",
-          contact: "7499355194",
-        },
-        notes: {
-          address: "Samarth Ikkalaki Office",
-        },
-        theme: {
-          color: "#61dafb",
-        },
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   };
-
-  const handleMakePayment = () => {
-    setTimeout(()=>{
-        checkoutHandler()
-    },100)
-  }
 
   const renderedOrderSummaryList = gotCart?.map((item) => {
     return (
@@ -207,7 +203,7 @@ const MakePayment = () => {
               </p>
             </div>
             <button
-              onClick={handleMakePayment}
+              onClick={displayRazorpay}
               className="bg-[#84FF58] w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]"
             >
               Proceed to Pay

@@ -13,10 +13,16 @@ const orderSlice = createSlice({
     onSubmitTotalPrice : (state, action) => {
         state.totalPrice = action.payload
     },
-    
+    onPaymentInfoSubmit :(state, action) => {
+        state.paymentInfo = action.payload
+    }
   },
 });
 
 export const orderReducer = orderSlice.reducer;
-export const { onContactDetailsSubmit, onShippingDetailsSubmit, onSubmitTotalPrice } =
-  orderSlice.actions;
+export const {
+  onContactDetailsSubmit,
+  onShippingDetailsSubmit,
+  onSubmitTotalPrice,
+  onPaymentInfoSubmit,
+} = orderSlice.actions;

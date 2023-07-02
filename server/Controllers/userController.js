@@ -170,7 +170,7 @@ export const getAUserController = async(req , res) => {
     try {
         const user = await userModel
           .findById(id)
-          .populate("wishList");
+          .populate("wishList").populate("cart");
         res.json(user);
     } catch (error) {
         throw new Error(error);
@@ -402,10 +402,11 @@ export const deleteProductFromCartController = async(req , res) => {
 //Get A Cart Controller
 export const getACartController = async(req , res) => {
     const {_id} = req.user;
+    console.log(req.user);
     validateMongodbId(_id);
     try {
          //const cart = await cartModel.find({ orderBy: _id }.populate("products.product");Its mine
-        const gotCart = await cartModel.find({userId:_id}).populate("productId").populate("color");
+        const gotCart = await cartModel.find({userId:_id}).populate("productId").populate("color").populate("userId");
         res.json({ gotCart , res : { message : "Cart Got Successfully", success : true}});
     } catch (error) {
         res.json({

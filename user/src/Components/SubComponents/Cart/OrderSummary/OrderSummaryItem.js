@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProductFromCart,
   getCart,
@@ -9,6 +9,8 @@ import minusIcon from "../../../../images/minusIcon.svg";
 import plusIcon from "../../../../images/plusIcon.svg";
 
 const OrderSummaryItem = ({ productInCart }) => {
+
+  
   const [quantityFromCart, setQuantityFromCart] = useState(
     productInCart?.quantity
   );
@@ -86,7 +88,7 @@ const OrderSummaryItem = ({ productInCart }) => {
             Weight : {productInCart?.weight} Kg
           </p>
           <p className="font-roboto font-bold text-[#0D103C] text-lg">
-            Eggless : {productInCart?.veg}
+            Eggless : {productInCart?.veg === true ? "True" : "False"}
           </p>
           <p className="font-roboto font-bold text-[#0D103C] text-lg">
             Shape : {productInCart?.shape}

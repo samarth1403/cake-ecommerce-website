@@ -41,7 +41,7 @@ productRouter.delete(
 );
 
 
-productRouter.put("/ratings", authMiddleware, rateAProductController);
+productRouter.put("/rate-a-product", authMiddleware, rateAProductController);
 
 productRouter.put("/add-to-wishlist", authMiddleware, addToWishListController);
 

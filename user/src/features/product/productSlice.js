@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import productService from "./productService";
+import {toast} from "react-toastify"
 
 const initialState = {
   products: [],
@@ -26,6 +27,17 @@ export const addToWishlist = createAsyncThunk(
   async (prodId,thunkAPI) => {
     try {
       return await productService.addToWishlist(prodId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const rateAProduct = createAsyncThunk(
+  "product/rate-a-product",
+  async (data, thunkAPI) => {
+    try {
+      return await productService.rateAProduct(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -101,6 +113,30 @@ const productSlice = createSlice({
           state.message = action.error;
           state.res = null;
         });
+
+         builder.addCase(rateAProduct.pending, (state, action) => {
+           state.isLoading = true;
+         });
+         builder.addCase(rateAProduct.fulfilled, (state, action) => {
+           state.isLoading = false;
+           state.isSuccess = true;
+           state.isError = false;
+           state.ratedProduct = action.payload.ratedProduct;
+           state.res = action.payload.res;
+           if(state.res && state.ratedProduct){
+            toast.success("Product is Rated Successfully")
+           }
+         });
+         builder.addCase(rateAProduct.rejected, (state, action) => {
+           state.isLoading = false;
+           state.isSuccess = false;
+           state.isError = true;
+           state.message = action.error;
+           state.res = null;
+           if(state.isError){
+            toast.error("Something went wrong")
+           }
+         });
 
     builder.addCase(resetProductState, () => initialState);
   },

@@ -63,7 +63,7 @@ const Header = () => {
             {user === null ? (
               <img src={person} alt="person icon" />
             ) : (
-              <div className="w-[40px] h-[40px] bg-red-200 flex flex row justify-center items-center rounded-[5px]">
+              <div className="w-[40px] h-[40px] bg-red-200 flex flex row justify-center items-center rounded-full">
                 <p className="font-roboto font-bold text-xl text-center">
                   {(user?.firstName).substr(0, 1) +
                     (user?.lastName).substr(0, 1)}

@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactStars from "react-rating-stars-component";
+import {toast} from "react-toastify"
+import {useDispatch, useSelector} from "react-redux"
+import { getProduct, rateAProduct } from '../../../features/product/productSlice';
+import {useLocation} from "react-router-dom";
 
 const Reviews = () => {
-    const renderedCustomerReviewList = customerReviewList.map((review)=>{
+
+  const [star , setStar] = useState(null);
+  const [comment , setComment] = useState(null);
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const prodId = location.pathname.split("/")[2]
+  
+  const {gotProduct} = useSelector((state)=> state.product)
+
+  const handleRateAProduct = () => {
+    if(star === null){
+      toast.error("Give the rating in stars");
+      return false;
+    }
+    else if(comment === null){
+      toast.error("Give the Comment")
+      return false;
+
+    }
+    else {
+      dispatch(rateAProduct({star,comment,prodId}))
+      setTimeout(()=>{
+              dispatch(getProduct(prodId));
+      },100)
+    }
+
+  }
+    const renderedCustomerReviewList = gotProduct?.ratings?.map((productReview , index)=>{
         return (
           <div
             // style={{
@@ -10,14 +41,16 @@ const Reviews = () => {
             //     "linear-gradient(89.14deg, #FFFA84 0.66%, #FFFEDB 99.26%)",
             // }}
             className="bg-[#fff] w-[300px] h-auto flex flex-col flex-wrap justify-center items-start rounded-[20px] m-4 p-4"
+            key={index}
           >
             <p className="font-roboto font-bold text-[#0D103C] text-lg m-2">
-              {review.Name}
+              {productReview?.postedBy?.firstName + " " +
+                productReview?.postedBy?.lastName}
             </p>
             <ReactStars
               count={5}
               // onChange={ratingChanged}
-              value={review.Rating}
+              value={productReview?.star}
               size={28}
               isHalf={true}
               edit={false}
@@ -25,16 +58,18 @@ const Reviews = () => {
               emptyIcon={<i className="far fa-star"></i>}
               halfIcon={<i className="fa fa-star-half-alt"></i>}
               fullIcon={<i className="fa fa-star"></i>}
-            //   activeColor="#0D103C"
-            activeColor="#ffd700"
+              //   activeColor="#0D103C"
+              activeColor="#ffd700"
               classNames="mx-2"
             />
             <p className="font-roboto font-medium text-[#0D103C] text-lg m-2">
-              {review.Comment}
+              {productReview?.comment}
             </p>
           </div>
         );
     })
+
+
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">
       <div className="flex flex-col flex-no-wrap justify-center items-center">
@@ -48,10 +83,11 @@ const Reviews = () => {
           <ReactStars
             count={5}
             // onChange={ratingChanged}
-            value={4.5}
+            value={star}
+            onChange={(e)=>setStar(e)}
             size={36}
             isHalf={true}
-            edit={false}
+            edit={true}
             a11y={true}
             emptyIcon={<i className="far fa-star"></i>}
             halfIcon={<i className="fa fa-star-half-alt"></i>}
@@ -59,14 +95,9 @@ const Reviews = () => {
             activeColor="#ECD400"
           />
         </div>
-        <input
-          className="font-roboto font-[400] text-xl rounded-[15px] bg-[#fff] w-[300px] lg:w-[400px] h-[75px] text-[#0D103C]
-            text-start p-4 m-4"
-          id="comment"
-          type="text"
-          placeholder="Enter Your Name"
-        />
         <textarea
+          value={comment}
+          onChange={(e)=>setComment(e.target.value)}
           className="font-roboto font-[400] text-xl rounded-[15px] bg-[#fff] w-[300px] lg:w-[400px] h-[150px] text-[#0D103C]
             text-start p-4 m-4"
           id="comment"
@@ -74,6 +105,7 @@ const Reviews = () => {
           placeholder="Enter Your Comment"
         />
         <button
+          onClick={handleRateAProduct}
           style={{
             background: "linear-gradient(180deg, #FFEFEF 0%, #E5FE49 100%)",
           }}
@@ -96,37 +128,3 @@ const Reviews = () => {
 }
 
 export default Reviews
-
-const customerReviewList = [
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 4.5,
-    Comment:
-      "Your cake was very delicious . I loved it very much .Your cake was very delicious . I loved it very much .",
-  },
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 3,
-    Comment: "Your cake was very delicious . I loved it very much .",
-  },
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 2,
-    Comment: "Your cake was very delicious . I loved it very much .",
-  },
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 5,
-    Comment: "Your cake was very delicious . I loved it very much .",
-  },
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 4,
-    Comment: "Your cake was very delicious . I loved it very much .",
-  },
-  {
-    Name: "Samarth Ikkalaki",
-    Rating: 4,
-    Comment: "Your cake was very delicious . I loved it very much .",
-  },
-];

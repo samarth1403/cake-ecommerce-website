@@ -21,7 +21,7 @@ export const getAProductController = async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const gotProduct = await productModel.findById(id).populate("color")
+    const gotProduct = await productModel.findById(id).populate("color").populate("ratings.postedBy")
     res.json({ gotProduct , res : {message : "Product Got Successfully" , success : true}});
   } catch (error) {
     res.json({ res: { message: error, success: false } });
@@ -177,9 +177,12 @@ export const rateAProductController = async (req, res) => {
       new : true,
     })
     
-    res.json(finalProduct);
+    res.json({
+      ratedProduct: finalProduct,
+      res: { message: "Rating to a Product is Done" , success : true},
+    });
   
   } catch (error) {
-    throw new Error(error);
+    res.json({message:error, success : false})
   }
 };

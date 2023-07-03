@@ -126,6 +126,28 @@ export const updateUserProfile = createAsyncThunk(
   }
 );
 
+export const forgotPasswordToken = createAsyncThunk(
+  "user/forgot-password-token",
+  async (data, thunkAPI) => {
+    try {
+      return await userService.forgotPasswordToken(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "user/reset-password",
+  async (data, thunkAPI) => {
+    try {
+      return await userService.resetPassword(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetUserState = createAction("reset/userState");
 
 const userSlice = createSlice({
@@ -364,6 +386,53 @@ const userSlice = createSlice({
             }
           });
           builder.addCase(updateUserProfile.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            if (state.isError) {
+              toast.error("Something Went Wrong");
+            }
+          });
+
+          builder.addCase(forgotPasswordToken.pending, (state) => {
+            state.isLoading = true;
+          });
+          builder.addCase(forgotPasswordToken.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.updatedUser = action.payload?.updatedUser;
+            state.token = action.payload;
+            state.res = action.payload?.res;
+            if ( state.isSuccess) {
+              toast.success("Forgot Password Email Sent Successfully");
+            }
+          });
+          builder.addCase(forgotPasswordToken.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+            if (state.isError) {
+              toast.error("Something Went Wrong");
+            }
+          });
+
+          builder.addCase(resetPassword.pending, (state) => {
+            state.isLoading = true;
+          });
+          builder.addCase(resetPassword.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.foundUser = action.payload?.foundUser;
+            state.res = action.payload?.res;
+            if (state.isSuccess && state.res.success) {
+              toast.success("Password Updated Successfully");
+            }
+          });
+          builder.addCase(resetPassword.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

@@ -14,6 +14,11 @@ const Header = () => {
     return state.user
   })
 
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload()
+  }
+
   return (
     <nav>
       <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4">
@@ -44,21 +49,31 @@ const Header = () => {
             </Navlink>
           </Link>
         </div>
-        <div className="flex flex-row flex-wrap justify-between items-center w-[350px] h-[80px] mx-2">
+        <div className="flex flex-row flex-wrap justify-between items-center w-[380px] h-[80px] mx-2">
           <Link to="/contact-us-page" className="my-2 mx-4">
             <BsTelephoneFill className="text-4xl text-[#D9D9D9]" />
           </Link>
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>
-          <Link to={user === null ? "/login-page" : "/my-profile"} className="my-2 mx-4">
+          <Link
+            to={user === null ? "/login-page" : "/my-profile"}
+            className="my-2 mx-4"
+          >
             {user === null ? (
               <img src={person} alt="person icon" />
             ) : (
-              <p className="text-white">{user?.firstName}</p>
+              <div className="w-[40px] h-[40px] bg-red-200 flex flex row justify-center items-center rounded-[5px]">
+                <p className="font-roboto font-bold text-xl text-center">
+                  {(user?.firstName).substr(0, 1) +
+                    (user?.lastName).substr(0, 1)}
+                </p>
+              </div>
             )}
           </Link>
-
+          <button className="font-roboto font-bold text-xl text-center text-white mx-2" onClick={handleLogout}>
+            Logout
+          </button>
           <Link
             to="/cart-page"
             type="button"

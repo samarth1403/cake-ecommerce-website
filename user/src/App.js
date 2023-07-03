@@ -41,8 +41,8 @@ const App = () => {
             <Route path="login-page" element={<LoginPage />}>
               <Route index element={<Login />} />
               <Route path="forgot-password" element={<ForgotPassword />} />
-              <Route path="reset-password" element={<ResetPassword />} />
             </Route>
+            <Route path="reset-password/:token" element={<ResetPassword />} />
             <Route path="shop-page" element={<ShopPage />} />
             <Route path="contact-us-page" element={<ContactUsPage />} />
             <Route
@@ -90,8 +90,22 @@ const App = () => {
             </Route>
             <Route path="blog-page" element={<BlogList />} />
             <Route path="blog-page/:id" element={<Blog />} />
-            <Route path="/my-orders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
-            <Route path="/my-profile" element={<PrivateRoute><Profile/></PrivateRoute>} />
+            <Route
+              path="/my-orders"
+              element={
+                <PrivateRoute>
+                  <MyOrders />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/my-profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

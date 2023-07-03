@@ -23,6 +23,8 @@ import WishList from "./Components/SubComponents/Wishlist/WishList";
 import BlogList from "./Components/SubComponents/Blogs/BlogList";
 import Blog from "./Components/SubComponents/Blogs/Blog";
 import { PrivateRoute } from "./routing/PrivateRoutes";
+import MyOrders from "./Pages/MyOrders";
+import Profile from "./Pages/Profile";
 
 const App = () => {
   return (
@@ -88,6 +90,8 @@ const App = () => {
             </Route>
             <Route path="blog-page" element={<BlogList />} />
             <Route path="blog-page/:id" element={<Blog />} />
+            <Route path="/my-orders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
+            <Route path="/my-profile" element={<PrivateRoute><Profile/></PrivateRoute>} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -61,6 +61,19 @@ const createOrder = async (orderDetails) => {
   return response.data;
 };
 
+const getMyOrders = async () => {
+  const response = await axios.get(`${base_url}/user/order/get-my-orders`,config);
+  return response.data;
+}
+
+const updateUserProfile = async (data) => {
+  const response = await axios.put(
+    `${base_url}/user/update-user-profile`,data,
+    config
+  );
+  return response.data;
+}
+
 const userService = {
   registerUser,
   loginUser,
@@ -69,7 +82,9 @@ const userService = {
   getCart,
   deleteProductFromCart,
   updateQuantityFromCart,
-  createOrder
+  createOrder,
+  getMyOrders,
+  updateUserProfile,
 };
 
 export default userService;

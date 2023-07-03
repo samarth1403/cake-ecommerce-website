@@ -23,6 +23,11 @@ const Header = () => {
               About
             </Navlink>
           </Link>
+          <Link to="/my-orders">
+            <Navlink href="/something" className="text-2xl">
+              My Orders
+            </Navlink>
+          </Link>
           <Link to="/">
             <Navlink href="/something" className="text-4xl">
               Cakes
@@ -46,7 +51,7 @@ const Header = () => {
           <Link to="/wishlist-page" className="my-2 mx-4">
             <img src={heart} alt="heart icon" />
           </Link>
-          <Link to={user === null ? "/login-page" : ""} className="my-2 mx-4">
+          <Link to={user === null ? "/login-page" : "/my-profile"} className="my-2 mx-4">
             {user === null ? (
               <img src={person} alt="person icon" />
             ) : (

@@ -21,10 +21,10 @@ import {
   emptyCartController,
   applyCouponController,
   createOrderController,
-  getOrdersController,
   updateOrderStatusController,
   deleteProductFromCartController,
   updateQuantityFromCartController,
+  getMyOrdersController,
 } from "../Controllers/userController.js";
 import { getWishListController } from '../Controllers/wishlistController.js';
 import {
@@ -33,20 +33,19 @@ import {
 } from "../Middlewares/authMiddleWare.js";
 
 const authRouter = express.Router();
-authRouter.get("/cart/get-order", authMiddleware, getOrdersController);
 authRouter.post("/register-user", createUserController);
 authRouter.post("/login-user",loginUserController);
 authRouter.post("/admin-login",loginAdminController);
 authRouter.get("/all-users",getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
-
+authRouter.put("/update-user-profile", authMiddleware, updateAUserController);
 authRouter.get("/logout", logoutUserController);
 authRouter.put('/change-password',authMiddleware, changePasswordController);
 authRouter.post('/forgot-password-token',getForgotPasswordTokenController);
 authRouter.put('/reset-password/:token',resetPasswordController);
 authRouter.get("/:id", authMiddleware , isAdminMiddleware ,getAUserController);
 authRouter.delete("/:id",deleteAUserController);
-authRouter.put("/edit-user",authMiddleware,updateAUserController);
+
 
 authRouter.put("/block-user/:id", authMiddleware, isAdminMiddleware, blockAUserController);
 
@@ -83,5 +82,6 @@ authRouter.post("/cart/create-order", authMiddleware, createOrderController);
 
 authRouter.post("/order/payment-verification",authMiddleware,paymentVerificationController);
 authRouter.post("/order/checkout", authMiddleware, checkoutController);
+authRouter.get("/order/get-my-orders",authMiddleware,getMyOrdersController)
 
 export default authRouter;

@@ -205,10 +205,10 @@ export const updateAUserController = async(req , res) => {
                 new : true,
             }
         );
-        res.json(updatedUser);
+        res.json({ updatedUser , res : { message : "User Data is Updated Successfully" , success : true}});
 
     } catch (error) {
-        throw new Error(error);
+        res.json({res:{message: error , success : false}})
     }
 }
 
@@ -543,14 +543,19 @@ export const createOrderController = async(req , res) => {
 // }
 
 //Getting orders
-export const getOrdersController = async(req , res) => {
+export const getMyOrdersController = async(req , res) => {
     const {_id} = req.user;
     validateMongodbId(_id);
     try {
-        const userOrders = await orderModel.findOne({orderBy : _id}).populate('products.product').exec();
-        res.json(userOrders);
+        const gotMyOrders = await orderModel
+          .find({ user: _id })
+          .populate("user")
+          .populate("orderItems.product")
+          .populate("orderItems.color")
+          .exec();
+        res.json({ gotMyOrders , res : {message : "My Orders Got Successfully", success : true}});
     } catch (error) {
-        throw new Error(error);
+        res.json({ res: { message: error, success: false } });
     }
 }
 

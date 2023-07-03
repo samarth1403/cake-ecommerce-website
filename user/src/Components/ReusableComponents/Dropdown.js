@@ -1,13 +1,42 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../../features/product/productSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 
-const Dropdown = (props) => {
+const Dropdown = ({category,}) => {
+  
+  const dispatch = useDispatch()
+  const [subCategories , setSubCategories] = useState();
+  const [ subCategory , setSubCategory] = useState(null);
+  const { prodCategories } = useSelector((state) => {
+    return state.product;
+  });
+
+  useEffect(() => {
+    let arr = []
+    for (let index = 0; index < prodCategories?.length; index++) {
+      const element = prodCategories[index];
+
+      if (element?.categoryName === category) {
+        arr.push(element?.subCategoryName);
+      }
+    }
+    setSubCategories(arr);
+  }, [category]);
+
+  useEffect(() => {
+    handleGetAllProducts();
+  }, [subCategory]);
+
+  const handleGetAllProducts = (e) => {
+    dispatch(getAllProducts({ subCategory}));
+  }
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -18,7 +47,7 @@ const Dropdown = (props) => {
           }}
           className="inline-flex justify-center gap-x-1.5 text-lg font-roboto font-bold text-[#0D103C] text-center rounded-[20px] px-6 py-4"
         >
-          {props.shopByCategoryItem}
+          {category}
           <ChevronDownIcon
             className="h-8 w-8 text-[#0D103C]"
             aria-hidden="true"
@@ -37,19 +66,19 @@ const Dropdown = (props) => {
       >
         <Menu.Items className="absolute right-0 z-10 origin-top-right rounded-[20px] bg-[#C1FFE6] mx-4">
           <div className="py-1">
-            {props.list.map((item) => {
+            {[...new Set(subCategories)]?.map((item) => {
               return (
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="/"
+                    <div
+                     onClick={(e)=>setSubCategory(item)}
                       className={classNames(
-                        active ? "text-[#0D103C] font-bold" : "text-gray-700",
+                        active ? "text-[#0D103C] font-bold cursor-pointer" : "text-gray-700",
                         "block px-6 py-2 text-lg text-left"
                       )}
                     >
                       {item}
-                    </a>
+                    </div>
                   )}
                 </Menu.Item>
               );

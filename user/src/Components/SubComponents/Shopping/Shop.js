@@ -1,65 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllprodCategories } from "../../../features/product/productSlice";
 import Dropdown from "../../ReusableComponents/Dropdown";
 
 const Shop = () => {
-  const cakesByType = [
-    "All Cakes",
-    "Best Seller Cakes",
-    "Photo Cakes",
-    "Pinata Cakes",
-    "Heart Shape Cakes",
-    "Kids Cakes",
-    "Premium Cakes",
-    "Fondant Cakes",
-    "Eggless Cakes",
-    "Midnight Cakes",
-    "CupCakes",
-    "Half Cake",
-    "Pastry",
-  ];
 
-  const cakesByFlavour = [
-    "Truffle Cakes",
-    "Chocolate Cakes",
-    "Rasmalai Cakes",
-    "Red Velvet Cakes",
-    "Black Forest Cakes",
-    "Butter Scotch Cakes",
-    "Pineapple Cakes",
-    "Vanilla Cakes",
-    "Strawberry Cakes",
-    "Fruit Cakes",
-  ];
+  const { products, prodCategories } = useSelector((state) => state.product);
+  const dispatch = useDispatch()
 
-  const themeCakes = [
-    " Superhero Cakes",
-    "Designer Cakes",
-    "Alphabet Cakes",
-    "Number Cakes",
-    "Car Cakes",
-    "Cartoon Cakes",
-    "Unicorn Cakes",
-    "Barbie Doll Cakes",
-    "Wedding Cakes",
-    "Tier Cakes",
-  ];
+  const [categories, setCategories] = useState([])
 
-  const cakesByOccasion = [
-    " Birthday Cakes",
-    "Anniversary Cakes",
-    "First Birthday Cakes",
-    "First Anniversary Cakes",
-    "25th Anniversary Cakes",
-  ];
+  useEffect(()=>{
+    dispatch(getAllprodCategories())
+  },[])
+
+  useEffect(() => {
+    let category = [];
+    for (let index = 0; index < prodCategories?.length; index++) {
+      const element = prodCategories[index];
+      category.push(element.categoryName);
+    }
+    setCategories(category);
+  }, [prodCategories]);
+
+
+
   // const renderedShopByCategoryList = shopByCategoryList.map((shopByCategoryItem) => {
   //     return <Dropdown key={shopByCategoryItem} shopByCategoryItem={shopByCategoryItem}/>;
   //   })
+
+  
   return (
     <div className="flex flex-row flex-wrap justify-center items-center m-8">
-      <Dropdown shopByCategoryItem="Cakes by Type" list={cakesByFlavour} />
-      <Dropdown shopByCategoryItem="Cakes by Flavour" list={cakesByFlavour} />
-      <Dropdown shopByCategoryItem="Theme Cakes" list={themeCakes}/>
-      <Dropdown shopByCategoryItem="Cakes by Occasion" list={cakesByOccasion}/>
+      {categories &&
+        [...new Set(categories)]?.map((category) => {
+          return (
+            <Dropdown shopByCategoryItem={category} category={category}/>
+          );
+        })}
+
+      {/* <Dropdown shopByCategoryItem="Cakes by Flavour" list={cakesByFlavour} />
+      <Dropdown shopByCategoryItem="Theme Cakes" list={themeCakes} />
+      <Dropdown shopByCategoryItem="Cakes by Occasion" list={cakesByOccasion} /> */}
     </div>
   );
 };

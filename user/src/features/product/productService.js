@@ -2,8 +2,13 @@ import axios from "axios";
 import { config } from "../../utils/axiosConfig";
 import { base_url } from "../../utils/base_url";
 
-const getAllProducts = async () => {
-  const response = await axios.get(`${base_url}/product/all-products`);
+const getAllProducts = async (data) => {
+  console.log(data)
+  const response = await axios.get(
+    `${base_url}/product/all-products?${
+      data?.subCategory ? `subCategory=${data?.subCategory}` : ""
+    }`
+  );
   return response.data;
 };
 
@@ -28,11 +33,19 @@ const getProduct = async(id) => {
   const response = await axios.get(`${base_url}/product/get/${id}`);
   return response.data;
 }
+
+const getAllCategories = async(id) => {
+  const response = await axios.get(
+    `${base_url}/prodCategory/all-product-categories`
+  );
+  return response.data;
+}
 const productService = {
   getAllProducts,
   addToWishlist,
   getProduct,
   rateAProduct,
+  getAllCategories,
 };
 
 export default productService;

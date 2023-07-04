@@ -124,11 +124,11 @@ const LoginPage = () => {
               Log In
             </button>
           </div>
-          <Link to="/forgot-password">
+          {/* <Link to="/forgot-password">
             <p className="font-roboto font-medium text-[#0D10#C] text-xl mb-4">
               Forgot Password ?
             </p>
-          </Link>
+          </Link> */}
         </form>
       </div>
       {/* <div className="flex flex-col flex-no-wrap justify-center items-center">

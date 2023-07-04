@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Table } from "antd";
-import { getAllOrders } from "../features/order/orderSlice";
+import { getAllOrders, updateOrderStatus } from "../features/order/orderSlice";
 
 const OrdersPage = () => {
  
@@ -61,29 +61,40 @@ const OrdersPage = () => {
     },
   ];
 
+    const handleUpdateOrderStatus = (id, status) => {
+      dispatch(updateOrderStatus({ id: id, status: status }));
+    };
+
   const data1 = [];
   for (let i = 0; i < orders?.length; i++) {
-    const date = new Date(orders[i].createdAt);
+    const date = new Date(orders[i]?.createdAt);
     data1.push({
       key: i + 1,
-      name: orders[i].orderBy.firstName + " " + orders[i].orderBy.lastName,
-      mobile: orders[i].orderBy.mobile,
-      email: orders[i].orderBy.email,
-      product: (
-        <Link to={`/admin/order/${orders[i].orderBy._id}`}>View Products</Link>
-      ),
-      amount: orders[i].paymentIntent.amount,
+      name: orders[i].user?.firstName + " " + orders[i].user?.lastName,
+      mobile: orders[i].user?.mobile,
+      email: orders[i].user?.email,
+      product: <Link to={`/admin/order/${orders[i]?._id}`}>View Products</Link>,
+      amount: orders[i]?.totalPrice,
       date: date.toUTCString(),
-      status: orders[i].orderStatus,
-      actionEdit: (
-        <Link to="/" className="flex justify-start items-center">
-          <BiEdit className="text-2xl" />
-        </Link>
-      ),
-      actionDelete: (
-        <Link to="/" className="flex justify-start items-center">
-          <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
+      status: (
+        <>
+          <select
+            defaultValue={orders[i]?.orderStatus}
+            name=""
+            id=""
+            onChange={(e) => {
+              handleUpdateOrderStatus(orders[i]._id, e.target.value);
+            }}
+          >
+            <option value="Ordered" disabled selected>
+              Ordered
+            </option>
+            <option value="Processed">Processed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+        </>
       ),
     });
   }

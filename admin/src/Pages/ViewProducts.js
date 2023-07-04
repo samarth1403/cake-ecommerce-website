@@ -4,20 +4,20 @@ import { Link, useLocation } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Table } from "antd";
-import { getAllOrders, getOrderByUserId } from "../features/order/orderSlice";
+import { getAllOrders, getOrderByOrderId, getOrderByUserId } from "../features/order/orderSlice";
 
 const ViewProducts = () => {
   const location = useLocation();
-  const userId = location.pathname.split("/")[3];
+  const orderId = location.pathname.split("/")[3];
   const dispatch = useDispatch();
 
-  const { userOrders } = useSelector((state) => {
-    return state.order;
-  });
+
 
   useEffect(() => {
-    dispatch(getOrderByUserId(userId));
+    dispatch(getOrderByOrderId(orderId));
   }, []);
+
+    
 
   const columns = [
     {
@@ -41,55 +41,87 @@ const ViewProducts = () => {
       dataIndex: "subCategory",
     },
     {
-      title: "Count",
-      dataIndex: "count",
+      title: "Qty",
+      dataIndex: "qauntity",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.quantity?.length - b.quantity?.length,
     },
     {
-      title: "Amount",
-      dataIndex: "amount",
+      title: "Price",
+      dataIndex: "price",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.price?.length - b.price?.length,
+    },
+    {
+      title: "Shape",
+      dataIndex: "shape",
+    },
+    {
+      title: "Weight",
+      dataIndex: "weight",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.weight?.length - b.weight?.length,
+    },
+    {
+      title: "Eggless",
+      dataIndex: "veg",
     },
     // {
     //   title: "Date",
     //   dataIndex: "date",
     // },
 
-    {
-      title: "Edit",
-      dataIndex: "actionEdit",
-    },
-    {
-      title: "Delete",
-      dataIndex: "actionDelete",
-    },
+    // {
+    //   title: "Edit",
+    //   dataIndex: "actionEdit",
+    // },
+    // {
+    //   title: "Delete",
+    //   dataIndex: "actionDelete",
+    // },
   ];
+  
+const { gotOrderByOrderId } = useSelector((state) => {
+  return state.order;
+});
 
-  const data1 = [];
-  for (let i = 0; i < userOrders?.products?.length; i++) {
-    const date = new Date(userOrders?.products[i]?.product?.createdAt);
+  let data1 = [];
+  // for (let i = 0; i < userOrders?.length; i++) {
+  //   let order = userOrders[i];
+    
+    
+  // }
+  for (let j = 0; j < gotOrderByOrderId?.orderItems?.length; j++) {
+    let item = gotOrderByOrderId?.orderItems[j];
+
+    // const date = new Date(userOrders?.products[i]?.product?.createdAt);
     data1.push({
-      key: i + 1,
-      name: userOrders?.products[i]?.product?.title,
-      count: userOrders?.products[i]?.count,
-      color: userOrders?.products[i]?.color,
-      amount: userOrders?.products[i]?.product?.price,
-      category: userOrders?.products[i]?.product?.category,
-      subCategory: userOrders?.products[i]?.product?.subCategory,
-      date: date.toUTCString(),
-      actionEdit: (
-        <Link to="/" className="flex justify-start items-center">
-          <BiEdit className="text-2xl" />
-        </Link>
-      ),
-      actionDelete: (
-        <Link to="/" className="flex justify-start items-center">
-          <AiFillDelete className="text-2xl text-red-600" />
-        </Link>
-      ),
+      key: j + 1,
+      name: item?.product?.title,
+      qauntity: item?.quantity,
+      color: item?.color?.colorName,
+      price: item?.product?.price,
+      category: item?.product?.category,
+      subCategory: item?.product?.subCategory,
+      shape: item?.shape,
+      veg: item?.veg === true ? "True" : "False",
+      weight: item?.weight,
+      // date: date.toUTCString(),
+      // actionEdit: (
+      //   <Link to="/" className="flex justify-start items-center">
+      //     <BiEdit className="text-2xl" />
+      //   </Link>
+      // ),
+      // actionDelete: (
+      //   <Link to="/" className="flex justify-start items-center">
+      //     <AiFillDelete className="text-2xl text-red-600" />
+      //   </Link>
+      // ),
     });
   }
   return (
     <div className="my-4">
-      <p className="font-bold text-2xl my-8 mx-4">View Products</p>
+      <p className="font-bold text-2xl my-8 mx-4">Viewing Ordered Products</p>
       <div className="m-4">
         <Table columns={columns} dataSource={data1} />
       </div>

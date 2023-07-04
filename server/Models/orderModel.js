@@ -99,6 +99,10 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    month:{
+      type:String,
+      default: new Date().getMonth()
+    },
     totalPriceAfterDiscount: {
       type: Number,
       required: true,

@@ -30,7 +30,7 @@ export const addToWishListController = async (req, res) => {
         { new: true }
       );
        res.json({ updatedUser,
-         res: { message: "Product is Removed from Wishlist", success: true },
+         res: { message: "Product is Removed from Wishlist"},
        });
     } else {
       let updatedUser = await userModel.findByIdAndUpdate(

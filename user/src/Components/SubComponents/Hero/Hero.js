@@ -2,7 +2,8 @@ import React from 'react';
 import CakeTypesList from './CakeTypes/CakeTypesList';
 import OccasionList from './Occasions/OccasionList';
 
-const Hero = () => {
+const Hero = ({images}) => {
+  
     return (
       <>
         <div className="flex flex-row flex-wrap justify-center items-center px-16 py-8 mx-16">
@@ -10,7 +11,7 @@ const Hero = () => {
             " Let our cakes be the icing on the cake of your happiness. "
           </p>
         </div>
-        <OccasionList />
+        <OccasionList images={images}/>
         <CakeTypesList />
       </>
     );

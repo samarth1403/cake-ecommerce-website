@@ -5,6 +5,7 @@ import OrderSummaryList from "../OrderSummary/OrderSummaryList";
 import PincodeCheck from "../PincodeCheck/PincodeCheck";
 
 const NonEmptyCart = () => {
+  
   const { gotCart } = useSelector((state) => state.user);
 
   return (

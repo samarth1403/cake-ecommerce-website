@@ -5,16 +5,16 @@ import { getMyOrders } from "../features/user/userSlice";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
+  const {Token} = useSelector((state)=>state.user)
   
   useEffect(() => {
-    dispatch(getMyOrders());
+    dispatch(getMyOrders({ Token: Token }));
   }, []);
 
   const { gotMyOrders } = useSelector((state) => {
     return state.user;
   });
 
-  console.log(gotMyOrders);
   const renderedMyOrdersList = gotMyOrders?.map((orderedProduct) => {
     return (
       <MyOrderItem key={orderedProduct._id} orderedProduct={orderedProduct} />
@@ -26,7 +26,7 @@ const MyOrders = () => {
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] my-8" />
       </div>
       <p className="font-roboto font-bold text-[#fff] text-4xl m-6 mb-8">
-        My Orders
+        {gotMyOrders !== undefined ? "My Orders" : "You don't have any Orders"}
       </p>
       {renderedMyOrdersList}
       <div className="flex justify-center">

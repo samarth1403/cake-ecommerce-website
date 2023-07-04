@@ -3,14 +3,17 @@ import ButtonRYG from '../../ReusableComponents/ButtonRYG';
 import ReactStars from "react-rating-stars-component";
 import {AiOutlineHeart} from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, getProduct } from "../../../features/product/productSlice";
+import {toast} from "react-toastify";
 
 const ShoppingItem = ({ shoppingItem }) => {
+  const {Token} = useSelector((state)=>state.user)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const handleAddToWishlist = (prodId) => {
-     dispatch(addToWishlist(prodId));
+     toast.success("Cake added to your Wishlist");
+     dispatch(addToWishlist({prodId:prodId,Token:Token}));
   }
   const handleClick = (id) => {
     navigate(`/product-details/${shoppingItem._id}`);
@@ -58,12 +61,16 @@ const ShoppingItem = ({ shoppingItem }) => {
           </button>
         </div>
         <div className="flex flex-row flex-no-wrap justify-between px-2 pt-3 pb-6">
-          <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
-            Add to Cart
-          </ButtonRYG>
-          <ButtonRYG className="px-4 ml-4 py-2 rounded-[12px] ">
-            Buy Now
-          </ButtonRYG>
+          <Link to={`/product-details/${shoppingItem?._id}`}>
+            <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
+              Add to Cart
+            </ButtonRYG>
+          </Link>
+          <Link to={`/product-details/${shoppingItem?._id}`}>
+            <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
+              Buy Now
+            </ButtonRYG>
+          </Link>
         </div>
       </div>
     </div>

@@ -45,9 +45,9 @@ export const loginUser = createAsyncThunk(
 
 export const getWishlistOfUser = createAsyncThunk(
   "user/wishlist/get",
-  async (thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await userService.getWishlistOfUser();
+      return await userService.getWishlistOfUser(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -64,18 +64,18 @@ export const addToCart = createAsyncThunk("user/cart/create", async (data, thunk
 
 export const getCart = createAsyncThunk(
   "user/cart/get",
-  async (thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await userService.getCart();
+      return await userService.getCart(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const emptyCart = createAsyncThunk("user/cart/empty", async (thunkAPI) => {
+export const emptyCart = createAsyncThunk("user/cart/empty", async (data,thunkAPI) => {
   try {
-    return await userService.emptyCart();
+    return await userService.emptyCart(data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -83,9 +83,9 @@ export const emptyCart = createAsyncThunk("user/cart/empty", async (thunkAPI) =>
 
 export const deleteProductFromCart = createAsyncThunk(
   "user/cart/delete-product",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await userService.deleteProductFromCart(id);
+      return await userService.deleteProductFromCart(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -94,13 +94,9 @@ export const deleteProductFromCart = createAsyncThunk(
 
 export const updateQuantityFromCart = createAsyncThunk(
   "user/cart/update-quantity",
-  async ({cartProductId,quantityFromCart}, thunkAPI) => {
-    console.log({ cartProductId, quantityFromCart });
+  async (data, thunkAPI) => {
     try {
-      return await userService.updateQuantityFromCart({
-        cartProductId,
-        quantityFromCart,
-      });
+      return await userService.updateQuantityFromCart(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -109,9 +105,9 @@ export const updateQuantityFromCart = createAsyncThunk(
 
 export const createOrder = createAsyncThunk(
   "user/cart/create-order",
-  async (orderDetails, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await userService.createOrder(orderDetails);
+      return await userService.createOrder(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -120,9 +116,9 @@ export const createOrder = createAsyncThunk(
 
 export const getMyOrders = createAsyncThunk(
   "user/cart/get-my-orders",
-  async (thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await userService.getMyOrders();
+      return await userService.getMyOrders(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -282,6 +278,7 @@ const userSlice = createSlice({
       state.isError = false;
       state.gotCart = action.payload?.gotCart;
       state.res = action.payload?.res;
+      
     });
     builder.addCase(getCart.rejected, (state, action) => {
       state.isLoading = false;
@@ -349,8 +346,7 @@ const userSlice = createSlice({
        state.isError = false;
        state.createdOrder = action.payload?.createdOrder;
        state.res = action.payload?.res;
-       console.log(state.updatedProduct);
-       if (state.updatedProduct) {
+       if (state.isSuccess) {
          toast.success("Order Created Successfully");
        }
      });
@@ -373,7 +369,7 @@ const userSlice = createSlice({
        state.isError = false;
        state.gotMyOrders = action.payload?.gotMyOrders;
        state.res = action.payload?.res;
-       if (state.updatedProduct) {
+       if (state.gotMyOrders) {
          toast.success("My orders Got Successfully");
        }
      });

@@ -12,65 +12,98 @@ const loginUser = async (data) => {
   return response.data;
 };
 
-const getWishlistOfUser = async () => {
-  const response = await axios.get(`${base_url}/user/wishlist/get`, config);
-  if (response.data) {
-    return response.data;
-  }
+const getWishlistOfUser = async (data) => {
+  const response = await axios.get(`${base_url}/user/wishlist/get`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
+  return response.data;
 };
 
-const addToCart = async (cartData) => {
+const addToCart = async (data) => {
   const response = await axios.post(
     `${base_url}/user/cart/create`,
-    cartData,
-    config
+    data?.body,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const getCart = async () => {
-  const response = await axios.get(`${base_url}/user/cart/get`, config);
+const getCart = async (data) => {
+  const response = await axios.get(`${base_url}/user/cart/get`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
-const emptyCart = async () => {
-  const response = await axios.delete(`${base_url}/user/cart/empty`, config);
+const emptyCart = async (data) => {
+  const response = await axios.delete(`${base_url}/user/cart/empty`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
-const deleteProductFromCart = async (cartProductId) => {
-  console.log(config);
+const deleteProductFromCart = async (data) => {
   const response = await axios.delete(
-    `${base_url}/user/cart/delete-product/${cartProductId}`,
-    config
+    `${base_url}/user/cart/delete-product/${data?.cartProductId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const updateQuantityFromCart = async ({ cartProductId, quantityFromCart }) => {
+const updateQuantityFromCart = async (data) => {
   const response = await axios.put(
-    `${base_url}/user/cart/update-cart/${cartProductId}/${quantityFromCart}`,
+    `${base_url}/user/cart/update-cart/${data?.body?.cartProductId}/${data?.body?.quantityFromCart}`,
     {},
-    config
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
-  console.log(response.data);
   return response.data;
 };
 
-const createOrder = async (orderDetails) => {
+const createOrder = async (data) => {
   const response = await axios.post(
     `${base_url}/user/cart/create-order`,
-    orderDetails,
-    config
+    data?.body,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const getMyOrders = async () => {
-  const response = await axios.get(
-    `${base_url}/user/order/get-my-orders`,
-    config
-  );
+const getMyOrders = async (data) => {
+  const response = await axios.get(`${base_url}/user/order/get-my-orders`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
@@ -117,7 +150,7 @@ const userService = {
   forgotPasswordToken,
   resetPassword,
   updateUserProfile,
-  emptyCart
+  emptyCart,
 };
 
 export default userService;

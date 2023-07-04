@@ -9,16 +9,15 @@ import minusIcon from "../../../../images/minusIcon.svg";
 import plusIcon from "../../../../images/plusIcon.svg";
 
 const OrderSummaryItem = ({ productInCart }) => {
-
-  
   const [quantityFromCart, setQuantityFromCart] = useState(
     productInCart?.quantity
   );
+  const { Token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleDeleteProductFromCart = (id) => {
-    dispatch(deleteProductFromCart(id));
+    dispatch(deleteProductFromCart({ cartProductId: id, Token: Token }));
     setTimeout(() => {
-      dispatch(getCart());
+      dispatch(getCart({ Token: Token }));
     }, 100);
   };
   useEffect(() => {
@@ -29,12 +28,15 @@ const OrderSummaryItem = ({ productInCart }) => {
   const UpdateProductQuantityFromCart = () => {
     dispatch(
       updateQuantityFromCart({
-        cartProductId: productInCart?._id,
-        quantityFromCart: quantityFromCart,
+        body: {
+          cartProductId: productInCart?._id,
+          quantityFromCart: quantityFromCart,
+        },
+        Token: Token,
       })
     );
     setTimeout(() => {
-      dispatch(getCart());
+      dispatch(getCart({ Token: Token }));
     }, 100);
   };
 
@@ -101,7 +103,14 @@ const OrderSummaryItem = ({ productInCart }) => {
           /-
         </p>
         <p className="font-roboto font-bold text-[#0D103C] text-xl line-through mb-4">
-          Rs. {((productInCart?.price * productInCart?.weight * quantityFromCart)+(productInCart?.price * productInCart?.weight * quantityFromCart)*0.1).toFixed(2)}
+          Rs.{" "}
+          {(
+            productInCart?.price * productInCart?.weight * quantityFromCart +
+            productInCart?.price *
+              productInCart?.weight *
+              quantityFromCart *
+              0.1
+          ).toFixed(2)}
         </p>
         <p className="font-roboto font-bold text-[#0D103C] text-lg mb-4">
           (10 % Off)

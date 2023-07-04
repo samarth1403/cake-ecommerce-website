@@ -3,15 +3,16 @@ import ButtonRYG from "../../ReusableComponents/ButtonRYG";
 import ReactStars from "react-rating-stars-component";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../../features/product/productSlice";
 import { useNavigate } from "react-router-dom";
 
 const PopularProduct = ({ shoppingItem }) => {
+    const { Token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAddToWishlist = (prodId) => {
-    dispatch(addToWishlist(prodId));
+    dispatch(addToWishlist({ prodId: prodId, Token: Token }));
   };
   return (
     <div

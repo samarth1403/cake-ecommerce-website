@@ -32,20 +32,53 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="product-details" element={<ProductDetailPage />}>
-              <Route index element={<ShoppingList />} />
-              <Route path=":id" element={<ProductDetail />} />
-            </Route>
-            <Route path="about-page" element={<AboutPage />} />
-            <Route path="sign-up-page" element={<Signup/>}/>
-            <Route path="sign-in-page" element={<Signin/>}/>
-            <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="reset-password/:token" element={<ResetPassword />} />
-            <Route path="shop-page" element={<ShopPage />} />
-            <Route path="contact-us-page" element={<ContactUsPage />} />
+          <Route key="layout" path="/" element={<Layout />}>
+            <Route key="/" index element={<HomePage />} />
             <Route
+              key="/product-details"
+              path="product-details"
+              element={<ProductDetailPage />}
+            >
+              <Route
+                key="/product-details/index"
+                index
+                element={<ShoppingList />}
+              />
+              <Route
+                key="/product-details?:id"
+                path=":id"
+                element={<ProductDetail />}
+              />
+            </Route>
+            <Route key="about-page" path="about-page" element={<AboutPage />} />
+            <Route
+              key="sign-up-page"
+              path="sign-up-page"
+              element={<Signup />}
+            />
+            <Route
+              key="sign-in-page"
+              path="sign-in-page"
+              element={<Signin />}
+            />
+            <Route
+              key="forgot-password"
+              path="forgot-password"
+              element={<ForgotPassword />}
+            />
+            <Route
+              key="reset-password"
+              path="reset-password/:token"
+              element={<ResetPassword />}
+            />
+            <Route key="shop-page" path="shop-page" element={<ShopPage />} />
+            <Route
+              key="contact-us-page"
+              path="contact-us-page"
+              element={<ContactUsPage />}
+            />
+            <Route
+              key="wishlist-page"
               path="wishlist-page"
               element={
                 <PrivateRoute>
@@ -54,6 +87,7 @@ const App = () => {
               }
             />
             <Route
+              key="cart-page"
               path="cart-page"
               element={
                 <PrivateRoute>
@@ -61,8 +95,9 @@ const App = () => {
                 </PrivateRoute>
               }
             >
-              <Route index element={<NonEmptyCart />} />
+              <Route key="cart-page/index" index element={<NonEmptyCart />} />
               <Route
+                key="contact-details"
                 path="contact-details"
                 element={
                   <PrivateRoute>
@@ -71,6 +106,7 @@ const App = () => {
                 }
               />
               <Route
+                key="shipping-details"
                 path="shipping-details"
                 element={
                   <PrivateRoute>
@@ -79,6 +115,7 @@ const App = () => {
                 }
               />
               <Route
+               key="make-payment"
                 path="make-payment"
                 element={
                   <PrivateRoute>
@@ -86,11 +123,12 @@ const App = () => {
                   </PrivateRoute>
                 }
               />
-              <Route path="congratulation" element={<Congratulation />} />
+              <Route key="congratulation" path="congratulation" element={<Congratulation />} />
             </Route>
-            <Route path="blog-page" element={<BlogList />} />
-            <Route path="blog-page/:id" element={<Blog />} />
+            <Route key="blog-page" path="blog-page" element={<BlogList />} />
+            <Route key="blog-page/:id" path="blog-page/:id" element={<Blog />} />
             <Route
+            key="my-orders"
               path="/my-orders"
               element={
                 <PrivateRoute>
@@ -99,6 +137,7 @@ const App = () => {
               }
             />
             <Route
+            key="my-profile"
               path="/my-profile"
               element={
                 <PrivateRoute>

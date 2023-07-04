@@ -9,15 +9,15 @@ import { getWishlistOfUser } from "../../../features/user/userSlice";
 
 const WishList = () => {
   const dispatch = useDispatch();
+  const { Token } = useSelector((state) => state.user);
 
   useEffect(() => {
-    getWishlist()
+    getWishlist();
   }, []);
 
   const getWishlist = () => {
-    dispatch(getWishlistOfUser());
+    dispatch(getWishlistOfUser({ Token: Token }));
   };
-
 
   const { gotWishlistOfUser } = useSelector((state) => {
     return state.user;

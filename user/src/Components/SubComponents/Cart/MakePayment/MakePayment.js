@@ -21,15 +21,17 @@ const MakePayment = () => {
     return state.order;
   });
 
+  const { gotCart, paymentInfo, res, createdOrder, Token } = useSelector(
+    (state) => {
+      return state.user;
+    }
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getCart());
-    
+    dispatch(getCart({Token:Token}));
   }, []);
 
-  const { gotCart, paymentInfo , res , createdOrder} = useSelector((state) => {
-    return state.user;
-  });
+  
 
   useEffect(() => {
     let totalPrice = 0;
@@ -54,7 +56,7 @@ const MakePayment = () => {
 
   useEffect(()=>{
     if(createdOrder && res.success){
-      dispatch(emptyCart());
+      dispatch(emptyCart({Token:Token}));
       navigate("/cart-page/congratulation");
     }
   },[createdOrder])
@@ -94,22 +96,24 @@ const MakePayment = () => {
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
         };
-          console.log({
-            contactInfo,
-            shippingInfo,
-            totalPrice,
-            paymentInfo:data,
-            totalPriceAfterDiscount: totalPrice,
-            orderItems: orderedProducts,
-          });
+          // console.log({
+          //   contactInfo,
+          //   shippingInfo,
+          //   totalPrice,
+          //   paymentInfo:data,
+          //   totalPriceAfterDiscount: totalPrice,
+          //   orderItems: orderedProducts,
+          // });
         dispatch(
           createOrder({
-            contactInfo,
-            shippingInfo,
-            totalPrice,
-            paymentInfo:data,
-            totalPriceAfterDiscount: totalPrice,
-            orderItems: orderedProducts,
+            body: {
+              contactInfo,
+              shippingInfo,
+              totalPrice,
+              paymentInfo: data,
+              totalPriceAfterDiscount: totalPrice,
+              orderItems: orderedProducts,
+            },Token:Token
           })
         );
        //dispatch(emptyCart())
@@ -160,7 +164,7 @@ const MakePayment = () => {
           <img
             src={item?.productId?.images[0]?.url}
             alt="product"
-            className="w-[200px] h-[200px]"
+            className="w-[200px] h-[200px] rounded-[30px]"
           />
         </div>
       </div>
@@ -211,7 +215,7 @@ const MakePayment = () => {
 
 export default MakePayment;
 
-const orderSummaryList = [
-  { itemName: "Yummylicious Delicious Cake", itemQuantity: 1, itemPrice: 599 },
-  { itemName: "Yummylicious Delicious Cake", itemQuantity: 1, itemPrice: 599 },
-];
+// const orderSummaryList = [
+//   { itemName: "Yummylicious Delicious Cake", itemQuantity: 1, itemPrice: 599 },
+//   { itemName: "Yummylicious Delicious Cake", itemQuantity: 1, itemPrice: 599 },
+// ];

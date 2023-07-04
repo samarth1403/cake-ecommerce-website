@@ -3,7 +3,6 @@ import { config } from "../../utils/axiosConfig";
 import { base_url } from "../../utils/base_url";
 
 const getAllProducts = async (data) => {
-  console.log(data)
   const response = await axios.get(
     `${base_url}/product/all-products?${
       data?.subCategory ? `subCategory=${data?.subCategory}` : ""
@@ -12,20 +11,33 @@ const getAllProducts = async (data) => {
   return response.data;
 };
 
-const addToWishlist = async (prodId) => {
-  const response = await axios.put(`${base_url}/product/add-to-wishlist`, {
-    prodId,
-  },config);
-  console.log(response.data)
+const addToWishlist = async (data) => {
+  const response = await axios.put(
+    `${base_url}/product/add-to-wishlist`,
+    {
+      prodId:data?.prodId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${
+          data?.Token !== null
+            ? data?.Token
+            : ""
+        }`,
+        Accept: "application/json",
+      },
+    }
+  );
   return response.data;
 }
 
 const rateAProduct = async (data) => {
-  const response = await axios.put(
-    `${base_url}/product/rate-a-product`,
-    data,
-    config
-  );
+  const response = await axios.put(`${base_url}/product/rate-a-product`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

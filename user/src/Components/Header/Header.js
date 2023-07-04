@@ -8,17 +8,32 @@ import { BsTelephoneFill, BsFillCartFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../../features/user/userSlice';
+import { getCart, getWishlistOfUser } from '../../features/user/userSlice';
 import {useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
 
 const Header = () => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const {Token} = useSelector((state)=>state.user)
 
-  const {gotCart, user, userData} = useSelector((state)=>{
-    return state.user
-  })
+  const { gotCart, user, userData, gotWishlistOfUser } = useSelector(
+    (state) => {
+      return state.user;
+    }
+  );
+
+   const { updatedUser } = useSelector(
+     (state) => {
+       return state.product;
+     }
+   );
+
+  useEffect(() => {
+    dispatch(getCart({ Token: Token }));
+    dispatch(getWishlistOfUser({ Token: Token }));
+  }, [updatedUser]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -61,8 +76,16 @@ const Header = () => {
           <Link to="/contact-us-page" className="my-2 mx-4">
             <BsTelephoneFill className="text-4xl text-[#D9D9D9]" />
           </Link>
-          <Link to="/wishlist-page" className="my-2 mx-4">
+          <Link
+            to="/wishlist-page"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center rounded-lg"
+          >
             <AiFillHeart className="text-5xl text-red-400" />
+            {user !== null && gotWishlistOfUser?.wishList?.length > 0 && (
+              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-black font-bold bg-white  border-2 border-white rounded-[5px] -top-0 -right-0 dark:border-gray-900">
+                {gotWishlistOfUser?.wishList?.length}
+              </div>
+            )}
           </Link>
           <Link
             to="/cart-page"
@@ -71,7 +94,7 @@ const Header = () => {
           >
             <BsFillCartFill className="text-5xl text-[#FEE77A]" />
             {user !== null && gotCart?.length > 0 && (
-              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-black font-bold bg-white  border-2 border-white rounded-[5px] -top-2 -right-2 dark:border-gray-900">
+              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-black font-bold bg-white  border-2 border-white rounded-[5px] -top-0 -right-0 dark:border-gray-900">
                 {gotCart?.length}
               </div>
             )}

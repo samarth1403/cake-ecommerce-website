@@ -14,6 +14,7 @@ const Reviews = () => {
   const prodId = location.pathname.split("/")[2]
   
   const {gotProduct} = useSelector((state)=> state.product)
+  const { Token } = useSelector((state) => state.user);
 
   const handleRateAProduct = () => {
     if(star === null){
@@ -23,12 +24,13 @@ const Reviews = () => {
     else if(comment === null){
       toast.error("Give the Comment")
       return false;
-
     }
     else {
-      dispatch(rateAProduct({star,comment,prodId}))
+      dispatch(rateAProduct({ body: { star, comment, prodId } , Token: Token}));
       setTimeout(()=>{
-              dispatch(getProduct(prodId));
+          dispatch(getProduct(prodId));
+          setComment(null);
+          setStar(null);
       },100)
     }
 

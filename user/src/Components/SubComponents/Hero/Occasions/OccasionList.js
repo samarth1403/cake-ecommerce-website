@@ -6,37 +6,25 @@ import Marquee from "react-fast-marquee";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOccasions } from "../../../../features/occasions/occasionSlice";
 
-const OccasionList = () => {
+const OccasionList = ({images}) => {
   const dispatch = useDispatch();
-  const [imgArray , setImgArray] = useState([]);
+
   const [occasionArray , setOccasionArray] = useState([]);
-
-
 
   const { products } = useSelector((state) => state.product);
   const { occasions } = useSelector((state) => state.occasion);
-
-  useEffect(() => {
-    let images = [];
-    for (let index = 0; index < products?.length; index++) {
-      const element = products[index];
-      images.push(element?.images[0]?.url);
-    }
-    setImgArray(images);
-  }, [products, occasions]);
-
 
   useEffect(() => {
     let array = [];
     for (let index = 0; index < occasions?.length; index++) {
       const occ = occasions[index]?.occasionName;
       for (let j = index; j < index + 1; j++) {
-        const img = imgArray[j];
+        const img = images[j];
         array.push({ image: img, occasionName: occ });
       }
     }
     setOccasionArray(array);
-  }, [occasions]);
+  }, [occasions,images]);
 
  
   const renderedOccasionList =

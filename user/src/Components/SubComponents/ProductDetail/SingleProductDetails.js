@@ -15,6 +15,8 @@ import {toast} from "react-toastify";
 import { addToCart, getCart } from "../../../features/user/userSlice";
 
 const SingleProductDetails = () => {
+  const {Token } = useSelector((state)=>state.user);
+
   const [alreadyAddedToCart , setAlreadyAddedToCart] = useState(false);
   const [weight, setWeight] = useState(1);
   const [color, setColor] = useState(1);
@@ -36,6 +38,7 @@ const SingleProductDetails = () => {
     setFlag(false);
     dispatch(getCart());
   }, [productId]);
+
   const { gotProduct } = useSelector((state) => {
     return state.product;
   });
@@ -66,19 +69,44 @@ const SingleProductDetails = () => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        productId: gotProduct?._id,
-        weight,
-        color,
-        quantity,
-        shape,
-        veg,
-        price: gotProduct?.price,
+        body: {
+          productId: gotProduct?._id,
+          weight,
+          color,
+          quantity,
+          shape,
+          veg,
+          price: gotProduct?.price,
+        },
+        Token: Token,
       })
     );
+    
     setTimeout(()=>{
-       dispatch(getCart())
+       dispatch(getCart({Token:Token}))
     },100)
   }
+
+  const handleBuyNow = () => {
+    dispatch(
+      addToCart({
+        body: {
+          productId: gotProduct?._id,
+          weight,
+          color,
+          quantity,
+          shape,
+          veg,
+          price: gotProduct?.price,
+        },
+        Token: Token,
+      })
+    );
+    setTimeout(() => {
+      navigate("/cart-page")
+      dispatch(getCart({Token:Token}));
+    }, 100);
+  };
   return (
     <div>
       <div className="flex flex-row flex-wrap justify-center items-start">
@@ -106,14 +134,14 @@ const SingleProductDetails = () => {
                 handleClick(gotProduct?.images[1]?.url);
               }}
             />
-            <img
+            {/* <img
               src={gotProduct?.images[2]?.url}
               alt="Cake"
               className="w-[100px] h-[100px] sm:w-[135px] sm:h-[135px] rounded-[20px] mx-2 cursor-pointer"
               onClick={() => {
                 handleClick(gotProduct?.images[2]?.url);
               }}
-            />
+            /> */}
           </div>
         </div>
         <div
@@ -154,145 +182,157 @@ const SingleProductDetails = () => {
             </div>
           </div>
 
-          <div className="flex flex-row flex-wrap justify-center md:justify-start items-center">
-            <p className="font-roboto font-bold text-xl ml-8 my-2 mr-4">
-              Enter Weight :
-            </p>
-            <input
-              onChange={(e) => setWeight(e.target.value)}
-              value={weight}
-              type="number"
-              className="font-roboto font-bold text-xl text-center m-2 px-4 py-4 rounded-[20px] w-[100px]"
-              style={{
-                background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
-              }}
-            />{" "}
-            <p className="font-roboto font-bold text-xl mx-4 my-2">Kg</p>
-          </div>
           {alreadyAddedToCart === false ? (
-            <div>
-              <p className="font-roboto font-bold text-xl ml-8 my-2 ">
-                Select Color :
-              </p>
+            <>
+              <div className="flex flex-row flex-wrap justify-center md:justify-start items-center">
+                <p className="font-roboto font-bold text-xl ml-8 my-2 mr-4">
+                  Enter Weight :
+                </p>
+                <input
+                  onChange={(e) => setWeight(e.target.value)}
+                  value={weight}
+                  type="number"
+                  className="font-roboto font-bold text-xl text-center m-2 px-4 py-4 rounded-[20px] w-[60px]"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
+                  }}
+                />{" "}
+                <p className="font-roboto font-bold text-xl mx-4 my-2">Kg</p>
+              </div>
+              <div>
+                <p className="font-roboto font-bold text-xl ml-8 my-2 ">
+                  Select Color :
+                </p>
+                <div className="flex flex-row flex-wrap justify-start items-center mx-6 my-2">
+                  {gotProduct?.color?.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex flex-row flex-no-wrap justify-center items-center mr-4"
+                      >
+                        <input
+                          onChange={() => setColor(item?._id)}
+                          type="radio"
+                          id={item?.colorName}
+                          name="color"
+                          value={color}
+                          className="mx-1 text-2xl cursor-pointer"
+                        />
+                        <label
+                          htmlFor={item?.colorName}
+                          className="font-roboto font-bold text-xl mx-4 my-2 cursor-pointer"
+                        >
+                          <div
+                            style={{
+                              backgroundColor: `${item?.colorName}`,
+                              width: "30px",
+                              height: "30px",
+                              borderRadius: "5px",
+                            }}
+                          ></div>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex flex-row flex-wrap justify-start items-center m-4">
+                <input
+                  onChange={() => setVeg(true)}
+                  type="radio"
+                  id="withoutEgg"
+                  name="veg"
+                  value={veg}
+                  className="mx-2 text-2xl cursor-pointer"
+                />
+                <label
+                  htmlFor="withoutEgg"
+                  className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+                >
+                  Without Egg
+                </label>
+                <input
+                  onChange={() => setVeg(false)}
+                  type="radio"
+                  id="withEgg"
+                  name="veg"
+                  value={veg}
+                  className="mx-2 text-2xl cursor-pointer"
+                />
+                <label
+                  htmlFor="withEgg"
+                  className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
+                >
+                  With Egg
+                </label>
+              </div>
               <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
-                {gotProduct?.color?.map((item, index) => {
+                {itemShapeList.map((item, index) => {
                   return (
-                    <div
-                      key={index}
-                      className="flex flex-row flex-no-wrap justify-center items-center mr-4"
-                    >
+                    <div key={index} className="mr-1">
                       <input
-                        onChange={() => setColor(item?._id)}
+                        onChange={() => setShape(item)}
                         type="radio"
-                        id={item?.colorName}
-                        name="color"
-                        value={color}
-                        className="mx-1 text-2xl cursor-pointer"
+                        id={item}
+                        name="shape"
+                        value={shape}
+                        className="mx-2 text-2xl cursor-pointer"
                       />
                       <label
-                        htmlFor={item?.colorName}
+                        htmlFor={item}
                         className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
                       >
-                        <div
-                          style={{
-                            backgroundColor: `${item?.colorName}`,
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "5px",
-                          }}
-                        ></div>
+                        {item}
                       </label>
                     </div>
                   );
                 })}
               </div>
-            </div>
-          ): null}
-          <div className="flex flex-row flex-wrap justify-start items-center m-4">
-            <input
-              onChange={() => setVeg(true)}
-              type="radio"
-              id="withoutEgg"
-              name="veg"
-              value={veg}
-              className="mx-2 text-2xl cursor-pointer"
-            />
-            <label
-              htmlFor="withoutEgg"
-              className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
-            >
-              Without Egg
-            </label>
-            <input
-              onChange={() => setVeg(false)}
-              type="radio"
-              id="withEgg"
-              name="veg"
-              value={veg}
-              className="mx-2 text-2xl cursor-pointer"
-            />
-            <label
-              htmlFor="withEgg"
-              className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
-            >
-              With Egg
-            </label>
-          </div>
-          <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
-            {itemShapeList.map((item, index) => {
-              return (
-                <div key={index} className="mr-1">
-                  <input
-                    onChange={() => setShape(item)}
-                    type="radio"
-                    id={item}
-                    name="shape"
-                    value={shape}
-                    className="mx-2 text-2xl cursor-pointer"
+              {alreadyAddedToCart === false && (
+                <div className="flex flex-row justify-center items-center mx-4 my-4">
+                  <p className="font-roboto font-bold text-xl mx-6">
+                    Quantity :
+                  </p>
+                  <img
+                    src={minusIcon}
+                    alt="Minus Icon"
+                    className="ml-2 cursor-pointer"
+                    onClick={() => setQuantity(quantity - 1)}
                   />
-                  <label
-                    htmlFor={item}
-                    className="font-roboto font-bold text-xl mx-2 my-2 cursor-pointer"
-                  >
-                    {item}
-                  </label>
+                  <input
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    id="quantity"
+                    className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
+                  />
+                  <img
+                    onClick={() => setQuantity(quantity + 1)}
+                    src={plusIcon}
+                    alt="Minus Icon"
+                    className=" cursor-pointer"
+                  />
                 </div>
-              );
-            })}
-          </div>
-          {alreadyAddedToCart === false && (
-            <div className="flex flex-row justify-center items-center mx-4 my-4">
-              <p className="font-roboto font-bold text-xl mx-6">Quantity :</p>
-              <img
-                src={minusIcon}
-                alt="Minus Icon"
-                className="ml-2 cursor-pointer"
-                onClick={() => setQuantity(quantity - 1)}
-              />
-              <input
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                id="quantity"
-                className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
-              />
-              <img
-                onClick={() => setQuantity(quantity + 1)}
-                src={plusIcon}
-                alt="Minus Icon"
-                className=" cursor-pointer"
-              />
-            </div>
+              )}
+              <p className="font-roboto font-bold  text-3xl mx-8 mt-6 ">
+                {`Price  :  Rs. ${gotProduct?.price * quantity * weight} /-`}
+              </p>
+            </>
+          ) : (
+            <p className="font-roboto font-bold text-xl ml-8 my-2 ">
+              Product is Present in Cart
+            </p>
           )}
-          <p className="font-roboto font-bold  text-3xl mx-8 mt-6 ">
-            {`Price  :  Rs. ${gotProduct?.price * quantity * weight} /-`}
-          </p>
+
           <div className="flex flex-row flex-wrap justify-center items-center m-8">
             <button
               style={{
                 background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
-              onClick={() => alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart()}
+              onClick={() =>
+                alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart()
+              }
             >
               {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
             </button>
@@ -301,6 +341,9 @@ const SingleProductDetails = () => {
                 background: "linear-gradient(180deg, #FFEFEF 0%, #E5FE49 100%)",
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
+              onClick={() =>
+                alreadyAddedToCart ? navigate("/cart-page") : handleBuyNow()
+              }
             >
               Buy Now
             </button>

@@ -33,7 +33,6 @@ export const createUserController = async(req,res) => {
 //Login A User
 export const loginUserController = async(req , res) => {
     const {email , password} = req.body;
-    
     //check wheather user exists or not
     const foundUser = await userModel.findOne({email});
 
@@ -113,17 +112,27 @@ export const loginAdminController = async (req, res) => {
 export const getRefreshTokenController = async(req , res) => {
     const cookie = req.cookies;
     if(!cookie?.refreshToken){
-        throw new Error("Refresh Token is not present in Cookie");
+        res.json({
+          res: {
+            message: "Refresh Token is not present in Cookie",
+            success: false,
+          },
+        });
     }
     const refreshToken = cookie.refreshToken;
     const foundUser = await userModel.findOne({refreshToken});
     if(!foundUser){
-        throw new Error("Refresh Token is not present in DB or Not matched");
+      res.json({
+        res: {
+          message: "Refresh Token is not present in DB or Not matched",
+          success: false,
+        },
+      });
     }
     //If we found the user then we will verify his refresh token
     jwt.verify(refreshToken , process.env.JWT_SECRET_KEY , (err , decoded) => {
         if(err || foundUser.id !== decoded.id){
-            throw new Error("There is something wrong with this Refresh Tokem");
+            res.json({res:{message:"There is something wrong with this Refresh Tokem",success:false}});
         }
         const accessToken = generateToken(foundUser?._id);
         res.json({accessToken})
@@ -134,7 +143,7 @@ export const getRefreshTokenController = async(req , res) => {
 export const logoutUserController = async(req , res) => {
   const cookie = req.cookies;
   if (!cookie?.refreshToken) {
-    throw new Error("Refresh Token is not present in Cookie");
+    res.json({message:"Refresh Token is not present in Cookie"});
   }
   const refreshToken = cookie.refreshToken;
   const foundUser = await userModel.findOne({ refreshToken });
@@ -173,8 +182,10 @@ export const getAUserController = async(req , res) => {
           .populate("wishList").populate("cart");
         res.json(user);
     } catch (error) {
-        throw new Error(error);
-    }
+        res.json({
+          res: { message: "Not Fetched", success: false },
+        });
+}
 }
 
 //Delete A Single User
@@ -185,7 +196,9 @@ export const deleteAUserController = async(req , res) => {
         const user = await userModel.findByIdAndDelete(id);
         res.json(user);
     } catch (error) {
-        throw new Error(error);
+         res.json({
+          res: { message: "Not Fetched", success: false },
+        });
     }
 }
 
@@ -222,7 +235,9 @@ export const blockAUserController = async(req , res) => {
         },{new:true});
         res.json(blockUser);
     } catch (error) {
-        throw new Error(error);
+         res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -240,7 +255,9 @@ export const unblockAUserController = async(req , res) => {
       );
       res.json(unblockUser);
     } catch (error) {
-      throw new Error(error);
+     res.json({
+          res: { message: error, success: false },
+        });
     }
 }
 
@@ -320,7 +337,7 @@ export const saveUserAddressController = async(req , res) => {
         )
         res.json(updatedAddress);
     } catch (error) {
-        throw new Error(error);
+         res.json({res:{message:error, success : false}})
     }
 }
 
@@ -477,7 +494,7 @@ export const applyCouponController = async(req , res) => {
         res.json(totalAfterDiscount);
 
     } catch (error) {
-        throw new Error(error);
+         res.json({res:{message:error, success : false}})
     }
 }
 
@@ -584,7 +601,7 @@ export const updateOrderStatusController = async(req , res) => {
         res.json(updateOrderStatus);
 
     } catch (error) {
-        throw new Error(error);
+        res.json({message:error, success : false})
     }
 }
 

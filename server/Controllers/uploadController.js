@@ -42,7 +42,9 @@ export const deleteProdImgController = async (req, res) => {
     const deleted = cloudinaryDeleteImage(id, "images");
     res.json({ message: "Deleted" });
   } catch (error) {
-    throw new Error(error);
+    res.json({
+      res: { message: error , success: false },
+    });
   }
 };
 
@@ -70,7 +72,9 @@ export const uploadBlogImgController = async (req, res) => {
     });
     
   } catch (error) {
-    throw new Error(error);
+    res.json({
+      res: { message: "Not Uploaded", success: false },
+    });
   }
 };
 
@@ -84,6 +88,8 @@ export const deleteBlogImgController = async (req, res) => {
       res: { message: "Deleted Successfully", success: true },
     });
   } catch (error) {
-    throw new Error(error);
+    res.json({
+      res: { message: error, success: false },
+    });
   }
 };

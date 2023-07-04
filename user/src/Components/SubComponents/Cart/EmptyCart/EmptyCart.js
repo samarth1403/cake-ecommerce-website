@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import EmptyCartIcon from "../../../../images/EmptyCartIcon.svg";
 
 const EmptyCart = () => {
@@ -16,9 +17,11 @@ const EmptyCart = () => {
           explore the bakery and indulge in something extraordinary!"
         </p>
       </div>
-      <button className="bg-[#FFF960] w-[300px] font-roboto font-bold text-2xl rounded-[20px] m-4 p-4">
-        Browse Sweets
-      </button>
+      <Link to="/shop-page">
+        <button className="bg-[#FFF960] w-[300px] font-roboto font-bold text-2xl rounded-[20px] m-4 p-4">
+          Browse Sweets
+        </button>
+      </Link>
     </div>
   );
 };

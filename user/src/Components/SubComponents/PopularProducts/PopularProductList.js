@@ -26,7 +26,7 @@ const PopularProductList = () => {
             return (
               shoppingItem.tags === "popular" && (
                 <PopularProduct
-                  key={shoppingItem._id}
+                  key={shoppingItem?._id}
                   shoppingItem={shoppingItem}
                 />
               )

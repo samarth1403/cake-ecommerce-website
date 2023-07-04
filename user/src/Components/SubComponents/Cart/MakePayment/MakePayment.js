@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   createOrder,
+  emptyCart,
   getCart,
   paymentVerification,
 } from "../../../../features/user/userSlice";
@@ -14,10 +15,7 @@ import logo from '../../../../images/DoneIcon.svg'
 const MakePayment = () => {
   const [totalCost, setTotalCost] = useState();
   const [orderedProducts, setOrderedProducts] = useState();
-  // const [paymentInfo, setPaymentInfo] = useState({
-  //   razorpayPaymentId: "",
-  //   razorpayOrderId: "",
-  // });
+  const navigate = useNavigate()
 
   const { contactInfo, shippingInfo, totalPrice } = useSelector((state) => {
     return state.order;
@@ -26,13 +24,12 @@ const MakePayment = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCart());
+    
   }, []);
 
-  const { gotCart, paymentInfo } = useSelector((state) => {
+  const { gotCart, paymentInfo , res , createdOrder} = useSelector((state) => {
     return state.user;
   });
-
-
 
   useEffect(() => {
     let totalPrice = 0;
@@ -55,20 +52,12 @@ const MakePayment = () => {
     setOrderedProducts(items);
   }, [gotCart]);
 
-  // //For Razorpay
-  // const loadScript = (src) => {
-  //   return new Promise((resolve) => {
-  //     const script = document.createElement("script");
-  //     script.src = src;
-  //     script.onload = () => {
-  //       resolve(true);
-  //     };
-  //     script.onerror = () => {
-  //       resolve(false);
-  //     };
-  //     document.body.appendChild(script);
-  //   });
-  // };
+  useEffect(()=>{
+    if(createdOrder && res.success){
+      dispatch(emptyCart());
+      navigate("/cart-page/congratulation");
+    }
+  },[createdOrder])
 
   const displayRazorpay = async () => {
     const res = await loadScript(
@@ -123,6 +112,7 @@ const MakePayment = () => {
             orderItems: orderedProducts,
           })
         );
+       //dispatch(emptyCart())
       },
       prefill: {
         name: "Samarth Ikkalaki",

@@ -9,12 +9,14 @@ const CakeTypesList = () => {
     
    useEffect(() => {
      let arr = [];
-     for (let index = 0; index < 10; index++) {
-       let element = prodCategories[index];
-       arr.push(element?.subCategoryName);
+     if(prodCategories !== undefined){
+      for (let index = 1; index <= 10; index++) {
+        let element = prodCategories[index];
+        arr.push(element?.subCategoryName);
+      }
      }
      setTypeArray(arr);
-   }, []);
+   }, [prodCategories]);
 
     const renderedCakeTypesList =
       typeArray &&

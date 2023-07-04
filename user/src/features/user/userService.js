@@ -33,6 +33,11 @@ const getCart = async () => {
   return response.data;
 };
 
+const emptyCart = async () => {
+  const response = await axios.delete(`${base_url}/user/cart/empty`, config);
+  return response.data;
+};
+
 const deleteProductFromCart = async (cartProductId) => {
   console.log(config);
   const response = await axios.delete(
@@ -112,6 +117,7 @@ const userService = {
   forgotPasswordToken,
   resetPassword,
   updateUserProfile,
+  emptyCart
 };
 
 export default userService;

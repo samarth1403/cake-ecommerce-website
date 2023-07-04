@@ -33,7 +33,11 @@ const WishList = () => {
   return (
     <>
       <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] f text-5xl m-4">
-        {gotWishlistOfUser?.wishList?.length === 0 ? "No Data" : "Your WishList"}
+        {gotWishlistOfUser?.wishList?.length === 0 ? (
+          <p className="font-normal text-4xl">Your Wishlist is Empty</p>
+        ) : (
+          "Your WishList"
+        )}
       </p>
       <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center p-6">
         {renderedWishList}

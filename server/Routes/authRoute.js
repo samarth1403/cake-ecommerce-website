@@ -67,6 +67,7 @@ authRouter.put("/cart/update-order/:id",authMiddleware ,isAdminMiddleware, updat
 authRouter.get("/wishlist/get", authMiddleware, getWishListController);
 
 authRouter.post("/cart/create", authMiddleware, userCartController);
+authRouter.delete("/cart/create", authMiddleware, emptyCartController);
 authRouter.get("/cart/get", authMiddleware, getACartController);
 authRouter.delete(
   "/cart/delete-product/:cartProductId",

@@ -445,11 +445,12 @@ export const emptyCartController = async(req , res) => {
     const {_id} = req.user;
     validateMongodbId(_id);
     try {
-        const user = await userModel.findOne({_id});
-        const cart = await cartModel.findOneAndRemove({orderBy:user._id});
-        res.json(cart);
+        const deletedCart = await cartModel.deleteMany({userId:_id});
+        res.json({ deletedCart , res :{ message : "Cart is made Empty" , success : true}});
     } catch (error) {
-        throw new Error(error);
+         res.json({
+           res: { message: "Cart is made Empty", success: false },
+         });
     }
 }
 

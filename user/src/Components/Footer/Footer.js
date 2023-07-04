@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   const renderedShoppingItemCakeList = shoppingItemCakeList.map(
-    (shoppingItemCakeItem) => {
+    (shoppingItemCakeItem , index) => {
       return (
-        <Link to="">
+        <Link key={index} to="/shop-page">
           <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
             {shoppingItemCakeItem}
           </p>
@@ -19,9 +19,9 @@ const Footer = () => {
     }
   );
 
-  const renderedAboutItemList = aboutItemList.map((aboutItem) => {
+  const renderedAboutItemList = aboutItemList.map((aboutItem, index) => {
     return (
-      <Link to="">
+      <Link to="/" key={index}>
         <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
           {aboutItem}
         </p>
@@ -29,9 +29,9 @@ const Footer = () => {
     );
   });
 
-  const renderedPolicyItemList = policyItemList.map((policyItem) => {
+  const renderedPolicyItemList = policyItemList.map((policyItem,index) => {
     return (
-      <Link to="">
+      <Link to="/" key={index}>
         <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
           {policyItem}
         </p>
@@ -73,7 +73,7 @@ const Footer = () => {
               <a href="/">
                 <p className="font-roboto font-[500] text-[#fff] text-lg m-4">
                   9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd,
-                  Clover Park, Viman Nagar, Pune, Maharashtra 411014
+                  Clover Park, Pune, Maharashtra 411014
                 </p>
               </a>
             </div>

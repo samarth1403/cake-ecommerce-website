@@ -11,11 +11,10 @@ const OccasionList = () => {
   const [imgArray , setImgArray] = useState([]);
   const [occasionArray , setOccasionArray] = useState([]);
 
-  useEffect(() => {
-    dispatch(getAllOccasions());
-  }, []);
+
 
   const { products } = useSelector((state) => state.product);
+  const { occasions } = useSelector((state) => state.occasion);
 
   useEffect(() => {
     let images = [];
@@ -23,22 +22,21 @@ const OccasionList = () => {
       const element = products[index];
       images.push(element?.images[0]?.url);
     }
-     setImgArray(images);
-  }, [products]);
+    setImgArray(images);
+  }, [products, occasions]);
 
-  const { occasions } = useSelector((state) => state.occasion);
 
-  useEffect(()=>{
+  useEffect(() => {
     let array = [];
     for (let index = 0; index < occasions?.length; index++) {
       const occ = occasions[index]?.occasionName;
       for (let j = index; j < index + 1; j++) {
         const img = imgArray[j];
-        array.push({image:img, occasionName : occ});
+        array.push({ image: img, occasionName: occ });
       }
     }
     setOccasionArray(array);
-  })
+  }, [occasions]);
 
  
   const renderedOccasionList =

@@ -58,7 +58,7 @@ const OrderSummaryItem = ({ orderedProduct }) => {
                 <img
                   src={orderedProduct?.orderItems[0]?.product?.images[0]?.url}
                   alt=""
-                  className="w-[200px] h-[200px]"
+                  className="w-[200px] h-[200px] rounded-[30px]"
                 />
               </div>
             </div>

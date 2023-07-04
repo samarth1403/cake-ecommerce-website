@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import InputForForm from "./ReusableComponent/InputForForm";
 
 const FooterSignup = () => {
@@ -17,22 +18,26 @@ const FooterSignup = () => {
           type="number"
           placeholder="Phone Number"
         /> */}
-        <button
-          // style={{
-          //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
-          // }}
-          className="bg-[#0D103C] w-[200px] h-[75px] font-roboto font-bold text-[#fff] text-2xl rounded-[20px] px-4 mx-4 mb-6 mt-4"
-        >
-          Log In
-        </button>
-        <button
-          // style={{
-          //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
-          // }}
-          className="bg-[#0D103C] w-[250px] h-[75px] font-roboto font-bold text-[#fff] text-2xl rounded-[20px] px-4 mx-4 mb-6 mt-4"
-        >
-          Create Account
-        </button>
+        <Link to="/sign-in-page">
+          <button
+            // style={{
+            //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
+            // }}
+            className="bg-[#0D103C] w-[200px] h-[75px] font-roboto font-bold text-[#fff] text-2xl rounded-[20px] px-4 mx-4 mb-6 mt-4"
+          >
+            Log In
+          </button>
+        </Link>
+        <Link to="/sign-up-page">
+          <button
+            // style={{
+            //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
+            // }}
+            className="bg-[#0D103C] w-[250px] h-[75px] font-roboto font-bold text-[#fff] text-2xl rounded-[20px] px-4 mx-4 mb-6 mt-4"
+          >
+            Create Account
+          </button>
+        </Link>
       </form>
     </div>
   );

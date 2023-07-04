@@ -199,7 +199,9 @@ const userSlice = createSlice({
           "customer",
           JSON.stringify(action.payload?.userData)
         );
-        toast.success(`Welcome ${action.payload?.userData?.firstName}`);
+        toast.success(
+          `Welcome ${action.payload?.userData?.firstName} ${action.payload?.userData?.firstName}`
+        );
       }
       if (state.res?.success === false && state.res?.message !== "") {
         state.user = null;

@@ -12,6 +12,12 @@ const Signin = () => {
   const navigate = useNavigate();
   const { user, userData, res } = useSelector((state) => state.user);
 
+  useEffect(()=>{
+    if (res?.success && userData) {
+      navigate("/");
+    }
+  },[userData])
+
   let schema = Yup.object().shape({
     email: Yup.string()
       .email("Email Should be Valid")
@@ -29,11 +35,10 @@ const Signin = () => {
     onSubmit: (values) => {
       dispatch(loginUser(values));
       formik.resetForm();
-      if(res.success && userData){
-        navigate("/")
-      }
     },
   });
+
+  
   return (
     <div className="flex flex-row flex-wrap justify-center items-start">
       <div className="flex flex-col flex-no-wrap justify-center items-center mx-8">
@@ -102,7 +107,7 @@ const Signin = () => {
               Forgot Password ?
             </p>
           </Link>
-          <button
+          {/* <button
             // style={{
             //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
             // }}
@@ -110,7 +115,7 @@ const Signin = () => {
             className="bg-[#fff] w-[305px] h-[75px] font-roboto font-bold text-[#0D103C] rounded-[20px] text-2xl px-4 mx-4 mb-8"
           >
             Sign In With Google
-          </button>
+          </button> */}
         </form>
       </div>
       {/* <div className="flex flex-col flex-no-wrap justify-center items-center">

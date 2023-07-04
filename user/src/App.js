@@ -14,7 +14,6 @@ import Congratulation from "./Components/SubComponents/Cart/Congratulation/Congr
 import MakePayment from "./Components/SubComponents/Cart/MakePayment/MakePayment";
 import ContactUsPage from "./Pages/ContactUsPage";
 import ForgotPassword from "./Components/SubComponents/Login/ForgotPassword/ForgotPassword";
-import Login from "./Components/SubComponents/Login/Login";
 import ResetPassword from "./Components/SubComponents/Login/ResetPassword/ResetPassword";
 import ProductDetail from "./Components/SubComponents/ProductDetail/ProductDetail";
 import ProductDetailPage from "./Pages/ProductDetailPage";
@@ -25,6 +24,8 @@ import Blog from "./Components/SubComponents/Blogs/Blog";
 import { PrivateRoute } from "./routing/PrivateRoutes";
 import MyOrders from "./Pages/MyOrders";
 import Profile from "./Pages/Profile";
+import Signup from "./Components/SubComponents/Login/Signup/Signup";
+import Signin from "./Components/SubComponents/Login/Signin/Signin";
 
 const App = () => {
   return (
@@ -38,10 +39,9 @@ const App = () => {
               <Route path=":id" element={<ProductDetail />} />
             </Route>
             <Route path="about-page" element={<AboutPage />} />
-            <Route path="login-page" element={<LoginPage />}>
-              <Route index element={<Login />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-            </Route>
+            <Route path="sign-up-page" element={<Signup/>}/>
+            <Route path="sign-in-page" element={<Signin/>}/>
+            <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password/:token" element={<ResetPassword />} />
             <Route path="shop-page" element={<ShopPage />} />
             <Route path="contact-us-page" element={<ContactUsPage />} />

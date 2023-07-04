@@ -118,19 +118,20 @@ const Signin = () => {
           </button> */}
         </form>
       </div>
-      {/* <div className="flex flex-col flex-no-wrap justify-center items-center">
-          <p className="text-[#fff] font-roboto font-bold text-3xl m-4">
-            Create Account
+      <div className="flex flex-col flex-no-wrap justify-center items-center">
+        <p className="text-[#fff] font-roboto font-bold text-3xl m-6">
+          Create Account
+        </p>
+        <div
+          style={{
+            background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",
+          }}
+          className="w-[360px] rounded-[25px] mx-8 my-4 pt-6 flex flex-col flex-no-wrap justify-center items-center"
+        >
+          <p className="text-[#0D103C] font-roboto font-bold text-2xl m-4">
+            Don't have an Account ?
           </p>
-          <div
-            style={{
-              background: "linear-gradient(90deg, #FF416C 0%, #FFAEFC 100%)",
-            }}
-            className="w-[360px] rounded-[25px] mx-8 my-4 pt-6 flex flex-col flex-no-wrap justify-center items-center"
-          >
-            <p className="text-[#0D103C] font-roboto font-bold text-2xl m-4">
-              Don't have an Account ?
-            </p>
+          <Link to="/sign-up-page">
             <button
               style={{
                 background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
@@ -139,8 +140,9 @@ const Signin = () => {
             >
               Create Account
             </button>
-          </div>
-        </div> */}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

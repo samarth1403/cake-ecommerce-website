@@ -6,8 +6,14 @@ const getCustomerFromLocalStorage = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
 
+const getToken =
+  getCustomerFromLocalStorage?.Token !== null
+    ? getCustomerFromLocalStorage?.Token
+    : "";
+
 const initialState = {
   user: getCustomerFromLocalStorage,
+  Token: getToken,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -167,7 +173,7 @@ const userSlice = createSlice({
       state.registeredUser = action.payload?.registeredUser;
       state.res = action.payload?.res;
       if (state.res?.success && state.isSuccess && state.registeredUser) {
-        toast.info("Registered Successfully");
+        toast.info("Registered Successfully, Please Login");
       }
       if (state.res?.success === false && state.res?.message !== "") {
         toast.error("User is Already Registered with this Email ID");
@@ -192,9 +198,9 @@ const userSlice = createSlice({
       state.isError = false;
       state.userData = action.payload?.userData;
       state.user = action.payload?.userData;
+      state.Token = action.payload?.userData?.Token;
       state.res = action.payload?.res;
       if (state.res?.success && state.isSuccess && state.userData) {
-        
         localStorage.setItem(
           "customer",
           JSON.stringify(action.payload?.userData)
@@ -381,8 +387,19 @@ const userSlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.updatedUser = action.payload?.updatedUser;
-            state.user = action.payload?.updatedUser;
             state.res = action.payload?.res;
+            let currentData = JSON.parse(localStorage.getItem("customer"));
+            let updatedData = {
+              _id: currentData?._id,
+              Token: currentData?.Token,
+              firstName: action.payload?.updatedUser?.firstName,
+              lastName: action.payload?.updatedUser?.lastName,
+              email: action.payload?.updatedUser?.email,
+              mobile: action.payload?.updatedUser?.mobile,
+            };
+            localStorage.setItem("customer",JSON.stringify(updatedData))
+            state.user = updatedData;
+            
             if (state.updatedUser && state.res.success) {
               toast.success("Profile Updated Successfully");
             }

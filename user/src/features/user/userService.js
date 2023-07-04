@@ -68,11 +68,22 @@ const getMyOrders = async () => {
 
 const updateUserProfile = async (data) => {
   const response = await axios.put(
-    `${base_url}/user/update-user-profile`,data,
-    config
+    `${base_url}/user/update-user-profile`,
+    data?.body,
+    {
+      headers: {
+        Authorization: `Bearer ${
+         data?.Token !== null
+            ? data?.Token
+            : ""
+        }`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 }
+
 
 const forgotPasswordToken = async (data) => {
   const response = await axios.post(

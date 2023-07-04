@@ -1,6 +1,6 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Input from "../../../ReusableComponents/Input";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import { registerUser, resetUserState } from '../../../../features/user/userSlice';
@@ -10,6 +10,14 @@ const Signup = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+   const { user, registeredUser, res } = useSelector((state) => state.user);
+
+   useEffect(() => {
+     if (res?.success && registeredUser) {
+       navigate("/sign-in-page");
+     }
+   }, [registeredUser]);
 
     let schema = Yup.object().shape({
       firstName: Yup.string().required("First Name is Required"),
@@ -32,9 +40,6 @@ const Signup = () => {
     onSubmit: (values) => {
       dispatch(registerUser(values));
       formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetUserState());
-      }, 200);
     },
   });
     

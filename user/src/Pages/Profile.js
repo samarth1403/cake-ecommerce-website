@@ -8,9 +8,7 @@ import { updateUserProfile } from '../features/user/userSlice';
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const {user} = useSelector((state)=>state.user)
+    const {user, Token} = useSelector((state)=>state.user)
 
     let schema = Yup.object().shape({
       firstName: Yup.string().required("First Name is Required"),
@@ -31,13 +29,13 @@ const Profile = () => {
       },
       validationSchema: schema,
       onSubmit: (values) => {
-        dispatch(updateUserProfile(values))
+        dispatch(updateUserProfile({body:values, Token : Token}))
       },
     });
  return (
    <div className="flex flex-col flex-wrap justify-center items-center">
-     <p className="font-roboto font-bold text-[#fff] text-4xl m-6">
-       Profile
+     <p className="font-roboto font-normal text-[#fff] text-2xl m-6">
+       You can update your Profile
      </p>
 
      <form

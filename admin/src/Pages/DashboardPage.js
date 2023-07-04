@@ -10,19 +10,18 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
   const [monthlyDataIncome, setMonthlyDataIncome] = useState([]);
   const [monthlyDataSales, setMonthlyDataSales] = useState([]);
+
+   const { orders } = useSelector((state) => {
+     return state.order;
+   });
+
   useEffect(() => {
     dispatch(getMonthlyOrders());
     dispatch(getYearlyOrders());
     dispatch(getAllOrders())
   }, []);
 
-  useEffect(() => {
-    dispatch(getAllOrders());
-  }, []);
-
-  const { orders } = useSelector((state) => {
-    return state.order;
-  });
+ 
 
   const { monthlyOrders, yearlyOrders } = useSelector((state) => {
     return state.order;

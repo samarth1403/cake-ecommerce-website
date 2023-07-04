@@ -25,21 +25,37 @@ import AddBlogCategoryPage from './Pages/AddBlogCategoryPage';
 import AddCouponPage from './Pages/AddCouponPage';
 import ViewEnquiryPage from './Pages/ViewEnquiryPage';
 import ViewProducts from './Pages/ViewProducts';
+import { OpenRoute } from './routing/OpenRoutes';
+import { PrivateRoute } from './routing/PrivateRoutes';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotpasswordPage />} />
-        <Route path="/reset-password" element={<ResetpasswordPage />} />
-        <Route path="/admin" element={<MainLayout />}>
+        <Route
+          path="/"
+          element={
+            <OpenRoute>
+              <LoginPage />
+            </OpenRoute>
+          }
+        />
+        {/* <Route path="/forgot-password" element={<ForgotpasswordPage />} />
+        <Route path="/reset-password" element={<ResetpasswordPage />} /> */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <MainLayout />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<DashboardPage />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
-          <Route path="enquiries/:id" element={< ViewEnquiryPage/>} />
+          <Route path="enquiries/:id" element={<ViewEnquiryPage />} />
           <Route path="all-blogs" element={<BlogsListPage />} />
           <Route path="orders" element={<OrdersPage />} />
-          <Route path="order/:id" element={<ViewProducts/>} />
+          <Route path="order/:id" element={<ViewProducts />} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="all-products" element={<ProductListPage />} />
           <Route
@@ -54,7 +70,7 @@ const App = () => {
           <Route path="all-coupons" element={<CouponListPage />} />
           <Route path="all-occasions" element={<OccasionListPage />} />
           <Route path="add-blog" element={<AddBlogPage />} />
-       
+
           <Route path="add-blog/:id" element={<AddBlogPage />} />
           <Route path="add-color" element={<AddColorPage />} />
           {/* the following route is for update color */}

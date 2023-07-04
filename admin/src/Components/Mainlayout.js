@@ -41,6 +41,8 @@ const MainLayout = () => {
           defaultSelectedKeys={["1"]}
           onClick={({ key }) => {
             if (key === "signout") {
+              localStorage.clear();
+              window.location.reload()
             } else {
               navigate(key);
             }
@@ -157,6 +159,11 @@ const MainLayout = () => {
                 },
               ],
             },
+            {
+              key: "signout",
+              icon: <BiCategoryAlt />,
+              label: "Sign Out",
+            },
           ]}
         />
       </Sider>
@@ -202,7 +209,7 @@ const MainLayout = () => {
           </div>
         </Header>
         <Content>
-            <ToastContainer
+          <ToastContainer
             position="top-right"
             autoClose={2500}
             hideProgressBar={false}

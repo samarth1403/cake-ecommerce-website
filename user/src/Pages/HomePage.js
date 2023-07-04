@@ -8,6 +8,7 @@ import HelmetMeta from '../Components/ReusableComponents/HelmetMeta';
 import PopularProductList from '../Components/SubComponents/PopularProducts/PopularProductList';
 import { useDispatch } from 'react-redux';
 import { getAllOccasions } from '../features/occasions/occasionSlice';
+import { getAllprodCategories, getAllProducts } from "../features/product/productSlice";
 
 const HomePage = () => {
 
@@ -15,6 +16,8 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getAllOccasions())
+    dispatch(getAllProducts())
+    dispatch(getAllprodCategories())
   }, []);
   
   return (
@@ -26,10 +29,10 @@ const HomePage = () => {
       </div>
       <PopularProductList/>
       <CakeMarquee />
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
-      <ShoppingList />
+      <ShoppingList /> */}
       <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>

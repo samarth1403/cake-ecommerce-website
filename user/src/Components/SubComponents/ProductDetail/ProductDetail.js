@@ -1,10 +1,13 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import ShoppingList from "../Shopping/ShoppingList";
 import Reviews from "./Reviews";
 import SingleProductDetails from "./SingleProductDetails";
 
 
 const ProductDetail = () => {
+
+  
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">
       <SingleProductDetails />

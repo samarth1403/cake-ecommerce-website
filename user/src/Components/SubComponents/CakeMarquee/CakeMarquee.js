@@ -4,7 +4,8 @@ import Birthday from "../../../images/Birthday.webp";
 import Anniversary from "../../../images/Anniversary.jpeg";
 import Cake from "../../../images/cake.jpeg";
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { HashLink } from "react-router-hash-link/dist/react-router-hash-link.cjs.development";
 
 const CakeMarquee = () => {
 
@@ -17,12 +18,13 @@ const CakeMarquee = () => {
     const renderedCakeImagesList = products && products?.map((product,index)=>{
         return (
           <div className="m-4" key={index}>
-            <img
-              onClick={()=>{navigate(`/product-details/${product._id}`)}}
-              src={product?.images[0]?.url}
-              alt="Cake Images Item"
-              className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
-            />
+            <Link to={`/product-details/${product?._id}`}>
+              <img
+                src={product?.images[0]?.url}
+                alt="Cake Images Item"
+                className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
+              />
+            </Link>
           </div>
         );
     })

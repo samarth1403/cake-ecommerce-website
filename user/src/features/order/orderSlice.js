@@ -1,3 +1,4 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const orderSlice = createSlice({
@@ -8,14 +9,14 @@ const orderSlice = createSlice({
       state.contactInfo = action.payload;
     },
     onShippingDetailsSubmit: (state, action) => {
-        state.shippingInfo = action.payload;
+      state.shippingInfo = action.payload;
     },
-    onSubmitTotalPrice : (state, action) => {
-        state.totalPrice = action.payload
+    onSubmitTotalPrice: (state, action) => {
+      state.totalPrice = action.payload;
     },
-    onPaymentInfoSubmit :(state, action) => {
-        state.paymentInfo = action.payload
-    }
+    onPaymentInfoSubmit: (state, action) => {
+      state.paymentInfo = action.payload;
+    },
   },
 });
 

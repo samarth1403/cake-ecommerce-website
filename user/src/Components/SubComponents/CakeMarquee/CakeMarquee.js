@@ -14,9 +14,9 @@ const CakeMarquee = () => {
     return state.product
    })
 
-    const renderedCakeImagesList = products && products?.map((product)=>{
+    const renderedCakeImagesList = products && products?.map((product,index)=>{
         return (
-          <div className="m-4" key={product}>
+          <div className="m-4" key={index}>
             <img
               onClick={()=>{navigate(`/product-details/${product._id}`)}}
               src={product?.images[0]?.url}

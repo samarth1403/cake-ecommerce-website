@@ -67,11 +67,11 @@ const Header = () => {
           <Link
             to="/cart-page"
             type="button"
-            class="relative inline-flex items-center p-2 text-sm font-medium text-center rounded-lg"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center rounded-lg"
           >
             <BsFillCartFill className="text-5xl text-[#FEE77A]" />
             {user !== null && gotCart?.length > 0 && (
-              <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-black font-bold bg-white  border-2 border-white rounded-[5px] -top-2 -right-2 dark:border-gray-900">
+              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-black font-bold bg-white  border-2 border-white rounded-[5px] -top-2 -right-2 dark:border-gray-900">
                 {gotCart?.length}
               </div>
             )}

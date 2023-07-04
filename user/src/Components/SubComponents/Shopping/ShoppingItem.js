@@ -40,7 +40,7 @@ const ShoppingItem = ({ shoppingItem }) => {
           <ReactStars
             count={5}
             // onChange={ratingChanged}
-            value={shoppingItem.totalRating}
+            value={Number(shoppingItem?.totalRating)}
             size={24}
             isHalf={true}
             edit={false}

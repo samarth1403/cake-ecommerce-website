@@ -42,7 +42,7 @@ const OrderSummaryList = () => {
         Order Summary
       </p>
       {renderedOrderSummaryList}
-      <OrderSummaryTotal />
+      {gotCart?.length !== 0 ?  <OrderSummaryTotal /> : "" }
     </div>
   );
 }

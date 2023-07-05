@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, getProduct } from "../../../features/product/productSlice";
 import {toast} from "react-toastify";
+import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
 
 const ShoppingItem = ({ shoppingItem }) => {
   const {Token} = useSelector((state)=>state.user)
@@ -19,6 +20,8 @@ const ShoppingItem = ({ shoppingItem }) => {
     navigate(`/product-details/${shoppingItem._id}`);
     dispatch(getProduct(id));
   }
+
+
   return (
     <div
       className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
@@ -27,7 +30,7 @@ const ShoppingItem = ({ shoppingItem }) => {
       }}
     >
       <img
-        onClick={() => handleClick(shoppingItem?._id)}
+        onClick={() => {handleClick(shoppingItem?._id); ScrollToTop();}}
         src={shoppingItem?.images[0]?.url}
         alt="Shopping Item"
         className="w-[310px] h-[310px] rounded-t-[33px] mb-2 cursor-pointer"
@@ -61,12 +64,12 @@ const ShoppingItem = ({ shoppingItem }) => {
           </button>
         </div>
         <div className="flex flex-row flex-no-wrap justify-between px-2 pt-3 pb-6">
-          <Link to={`/product-details/${shoppingItem?._id}`}>
+          <Link to={`/product-details/${shoppingItem?._id}`} onClick={()=>ScrollToTop()}>
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Add to Cart
             </ButtonRYG>
           </Link>
-          <Link to={`/product-details/${shoppingItem?._id}`}>
+          <Link to={`/product-details/${shoppingItem?._id}`} onClick={()=>ScrollToTop()}>
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Buy Now
             </ButtonRYG>

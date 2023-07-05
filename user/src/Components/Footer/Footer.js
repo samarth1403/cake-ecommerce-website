@@ -5,12 +5,13 @@ import FacebookW from "../../images/FacebookW.svg";
 import PinterestW from "../../images/PinterestW.svg";
 import YoutubeW from "../../images/YoutubeW.svg";
 import { Link } from "react-router-dom";
+import { ScrollToTop } from "../ReusableComponents/ScrollToTop";
 
 const Footer = () => {
   const renderedShoppingItemCakeList = shoppingItemCakeList.map(
     (shoppingItemCakeItem , index) => {
       return (
-        <Link key={index} to="/shop-page">
+        <Link key={index} to="/shop-page" onClick={()=>ScrollToTop()}>
           <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
             {shoppingItemCakeItem}
           </p>
@@ -21,7 +22,7 @@ const Footer = () => {
 
   const renderedAboutItemList = aboutItemList.map((aboutItem, index) => {
     return (
-      <Link to="/" key={index}>
+      <Link to="/" key={index} onClick={()=>ScrollToTop()}>
         <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
           {aboutItem}
         </p>
@@ -31,7 +32,7 @@ const Footer = () => {
 
   const renderedPolicyItemList = policyItemList.map((policyItem,index) => {
     return (
-      <Link to="/" key={index}>
+      <Link to="/" key={index} onClick={()=>ScrollToTop()}>
         <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
           {policyItem}
         </p>
@@ -97,28 +98,28 @@ const Footer = () => {
       <div className="flex flex-col flex-no-wrap justify-center items-center">
         <FooterSignup />
         <div className="flex flex-row flex-no-wrap justify-center items-center my-4">
-          <Link to="">
+          <Link to="/" onClick={()=>ScrollToTop()}>
             <img
               src={InstagramW}
               alt="Instagram Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="">
+          <Link to="/" onClick={()=>ScrollToTop()}>
             <img
               src={FacebookW}
               alt="Facebook Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="">
+          <Link to="/" onClick={()=>ScrollToTop()}>
             <img
               src={PinterestW}
               alt="Pinterest Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="">
+          <Link to="/" onClick={()=>ScrollToTop()}>
             <img
               src={YoutubeW}
               alt="Youtube Icon"

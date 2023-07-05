@@ -6,26 +6,28 @@ import Cake from "../../../images/cake.jpeg";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { HashLink } from "react-router-hash-link/dist/react-router-hash-link.cjs.development";
+import { ScrollToTop } from '../../ReusableComponents/ScrollToTop';
 
 const CakeMarquee = () => {
-
-   const navigate = useNavigate();
 
    const {products} = useSelector((state)=>{
     return state.product
    })
 
-    const renderedCakeImagesList = products && products?.map((product,index)=>{
+    const renderedCakeImagesList = products?.map((product,index)=>{
         return (
-          <div className="m-4" key={index}>
-            <Link to={`/product-details/${product?._id}`}>
-              <img
-                src={product?.images[0]?.url}
-                alt="Cake Images Item"
-                className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
-              />
-            </Link>
-          </div>
+          <Link
+            className="m-4"
+            key={product?._id}
+            to={`/product-details/${product?._id}`}
+            onClick={()=>ScrollToTop()}
+          >
+            <img
+              src={product?.images[0]?.url}
+              alt="Cake Images Item"
+              className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
+            />
+          </Link>
         );
     })
   return (

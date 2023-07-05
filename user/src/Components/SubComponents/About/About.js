@@ -1,7 +1,4 @@
 import React from 'react'
-// import Birthday from '../../images/Birthday.webp';
-// import Cake from '../../images/cake.jpeg';
-// import Anniversary from '../../images/Anniversary.jpeg';
 import Subabout1 from './Subabout1';
 import Subabout2 from './Subabout2';
 

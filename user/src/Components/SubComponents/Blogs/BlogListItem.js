@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../../features/product/productSlice";
 import moment from 'moment';
+import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
 
 const BlogListItem = ({ blog }) => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const BlogListItem = ({ blog }) => {
         }}
         className="flex flex-col flex-no-wrap flex-shrink-0 justify-start items-start w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
       >
-        <Link to={`/blog-page/${blog._id}`}>
+        <Link to={`/blog-page/${blog._id}`} onClick={()=>ScrollToTop()}>
           <img
             src={blog?.images[0]?.url}
             alt="blog Item"
@@ -51,7 +52,7 @@ const BlogListItem = ({ blog }) => {
         </div> */}
         </div>
         <div className="mx-20">
-          <Link to={`/blog-page/${blog._id}`} className="bg-[#0D103C] align-center font-roboto font-bold leading-normal text-[#fff] text-center text-sm rounded-[10px] m-4 px-4 py-2">
+          <Link onClick={()=>ScrollToTop()} to={`/blog-page/${blog._id}`} className="bg-[#0D103C] align-center font-roboto font-bold leading-normal text-[#fff] text-center text-sm rounded-[10px] m-4 px-4 py-2">
             Read More
           </Link>
         </div>

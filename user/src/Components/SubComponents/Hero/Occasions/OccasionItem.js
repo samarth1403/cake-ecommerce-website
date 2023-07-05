@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../../../features/product/productSlice";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const OccasionItem = ({occasion}) => {
 
@@ -10,7 +11,8 @@ const OccasionItem = ({occasion}) => {
 
   const handleClick = (e) => {
     dispatch(getAllProducts({category : e}));
-    navigate("/shop-page")
+    navigate("/shop-page");
+    ScrollToTop();
   }
 
   return (

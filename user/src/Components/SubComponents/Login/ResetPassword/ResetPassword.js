@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useLocation } from "react-router-dom";
 import { resetPassword } from "../../../../features/user/userSlice";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const ResetPassword = () => {
   const location = useLocation();
@@ -30,7 +31,8 @@ const ResetPassword = () => {
     onSubmit: (values) => {
       dispatch(resetPassword({token:getToken, password:values.password}));
       if(res.success && foundUser){
-        navigate("/login-page")
+        navigate("/login-page");
+        ScrollToTop();
       }
     },
   });

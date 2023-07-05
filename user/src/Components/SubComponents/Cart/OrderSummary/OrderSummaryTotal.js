@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { onSubmitTotalPrice } from "../../../../features/order/orderSlice";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const OrderSummaryTotal = () => {
   const [totalPriceWithoutDiscount, setTotalPriceWithoutDiscount] = useState(0);
@@ -88,12 +89,12 @@ const OrderSummaryTotal = () => {
             Order
           </p>
           <div className="flex flex-row flex-wrap justify-center items-center m-4">
-            <Link to="/shop-page">
+            <Link to="/shop-page" onClick={()=>ScrollToTop()}>
               <button className="bg-[#fff] w-[225px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-xl px-4 mx-4 mt-2 mb-4 shadow-[6px_6px_2px_#0D103C]">
                 Continue Shopping
               </button>
             </Link>
-            <Link to="/cart-page/contact-details">
+            <Link to="/cart-page/contact-details" onClick={()=>ScrollToTop()}>
               <button className="bg-[#84FF58] w-[225px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-2 mb-4 shadow-[6px_6px_2px_#0D103C]">
                 Checkout
               </button>

@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { loginUser, resetUserState } from "../../../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Signin = () => {
   useEffect(()=>{
     if (res?.success && userData) {
       navigate("/");
+      ScrollToTop();
     }
   },[userData])
 
@@ -102,7 +104,7 @@ const Signin = () => {
               Log In
             </button>
           </div>
-          <Link to="/login-page/forgot-password">
+          <Link to="/login-page/forgot-password" onClick={()=>ScrollToTop()}>
             <p className="font-roboto font-medium text-[#0D10#C] text-xl mb-4">
               Forgot Password ?
             </p>
@@ -131,7 +133,7 @@ const Signin = () => {
           <p className="text-[#0D103C] font-roboto font-bold text-2xl m-4">
             Don't have an Account ?
           </p>
-          <Link to="/sign-up-page">
+          <Link to="/sign-up-page" onClick={()=>ScrollToTop()}>
             <button
               style={{
                 background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",

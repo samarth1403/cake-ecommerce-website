@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../../features/product/productSlice";
 import { useNavigate } from "react-router-dom";
+import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
 
 const PopularProduct = ({ shoppingItem }) => {
     const { Token } = useSelector((state) => state.user);
@@ -21,7 +22,7 @@ const PopularProduct = ({ shoppingItem }) => {
         background: "linear-gradient(90deg, #53FFB8 0%, #ACE7FF 100%)",
       }}
     >
-      <Link to={`/product-details/${shoppingItem._id}`}>
+      <Link to={`/product-details/${shoppingItem._id}`} onClick={()=>ScrollToTop()}>
         <img
           src={shoppingItem?.images[0]?.url}
           alt="Shopping Item"

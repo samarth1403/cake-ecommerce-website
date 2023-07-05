@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import EmptyCartIcon from "../../../../images/EmptyCartIcon.svg";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const EmptyCart = () => {
   return (
@@ -17,7 +18,7 @@ const EmptyCart = () => {
           explore the bakery and indulge in something extraordinary!"
         </p>
       </div>
-      <Link to="/shop-page">
+      <Link to="/shop-page" onClick={()=>ScrollToTop()}>
         <button className="bg-[#FFF960] w-[300px] font-roboto font-bold text-2xl rounded-[20px] m-4 p-4">
           Browse Sweets
         </button>

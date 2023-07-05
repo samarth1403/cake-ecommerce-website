@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {addToWishlist} from '../../../features/product/productSlice'
 import { getWishlistOfUser } from "../../../features/user/userSlice";
 import { toast } from 'react-toastify';
+import { ScrollToTop } from '../../ReusableComponents/ScrollToTop';
 const WishListItem = ({ wishlistItem }) => {
 
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ const WishListItem = ({ wishlistItem }) => {
       >
         <AiFillCloseCircle className="text-4xl text-red-500" />
       </button>
-      <Link to={`/product-details/${wishlistItem._id}`}>
+      <Link to={`/product-details/${wishlistItem._id}`} onClick={()=>ScrollToTop()}>
         <img
           src={wishlistItem?.images[0]?.url}
           alt="Shopping Item"
@@ -64,12 +65,12 @@ const WishListItem = ({ wishlistItem }) => {
           />
         </div>
         <div className="flex flex-row flex-no-wrap justify-between px-2 pt-3 pb-6">
-          <Link to={`/product-details/${wishlistItem?._id}`}>
+          <Link to={`/product-details/${wishlistItem?._id}`} onClick={()=>ScrollToTop()}>
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Add to Cart
             </ButtonRYG>
           </Link>
-          <Link to={`/product-details/${wishlistItem?._id}`}>
+          <Link to={`/product-details/${wishlistItem?._id}`} onClick={()=>ScrollToTop()}>
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Buy Now
             </ButtonRYG>

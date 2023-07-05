@@ -9,7 +9,6 @@ import { getAllProducts } from "../../../features/product/productSlice";
 import PopularProduct from "./PopularProduct";
 
 const PopularProductList = () => {
-  const dispatch = useDispatch();
 
   const { products } = useSelector((state) => {
     return state.product;
@@ -21,7 +20,7 @@ const PopularProductList = () => {
         Our Popular Products
       </p>
       <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center p-6">
-        {products &&
+        {
           products?.map((shoppingItem, index) => {
             return (
               shoppingItem.tags === "popular" && (

@@ -19,7 +19,6 @@ const CakeTypesList = () => {
    }, [prodCategories]);
 
     const renderedCakeTypesList =
-      typeArray &&
       typeArray?.map((category, index) => {
         return (
           <CakeTypesItem key={index} cakeType={category} />

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import InputForForm from "./ReusableComponent/InputForForm";
+import { ScrollToTop } from "../ReusableComponents/ScrollToTop";
 
 const FooterSignup = () => {
   return (
@@ -18,7 +18,7 @@ const FooterSignup = () => {
           type="number"
           placeholder="Phone Number"
         /> */}
-        <Link to="/sign-in-page">
+        <Link to="/sign-in-page" onClick={() => ScrollToTop()}>
           <button
             // style={{
             //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",
@@ -28,7 +28,7 @@ const FooterSignup = () => {
             Log In
           </button>
         </Link>
-        <Link to="/sign-up-page">
+        <Link to="/sign-up-page" onClick={() => ScrollToTop()}>
           <button
             // style={{
             //   background: "linear-gradient(90deg, #4DD4FF 0%, #F5F5F5 100%)",

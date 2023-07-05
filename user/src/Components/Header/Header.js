@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCart, getWishlistOfUser } from '../../features/user/userSlice';
 import {useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
+import { ScrollToTop } from '../ReusableComponents/ScrollToTop';
 
 const Header = () => {
 
@@ -46,22 +47,22 @@ const Header = () => {
     <nav>
       <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4">
         <div className="flex flex-row flex-wrap justify-between items-center w-[600px] h-[80px] ">
-          <Link to="/about-page">
+          <Link to="/about-page" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-2xl">
               About
             </Navlink>
           </Link>
-          <Link to="/my-orders">
+          <Link to="/my-orders" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-2xl">
               My Orders
             </Navlink>
           </Link>
-          <Link to="/">
+          <Link to="/" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-4xl">
               Cakes
             </Navlink>
           </Link>
-          <Link to="/shop-page">
+          <Link to="/shop-page" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-2xl">
               Shop
             </Navlink>
@@ -73,10 +74,15 @@ const Header = () => {
           </Link> */}
         </div>
         <div className="flex flex-row flex-wrap justify-between items-center w-[380px] h-[80px] mx-2">
-          <Link to="/contact-us-page" className="my-2 mx-4">
+          <Link
+            to="/contact-us-page"
+            className="my-2 mx-4"
+            onClick={() => ScrollToTop()}
+          >
             <BsTelephoneFill className="text-4xl text-[#D9D9D9]" />
           </Link>
           <Link
+            onClick={() => ScrollToTop()}
             to="/wishlist-page"
             className="relative inline-flex items-center p-2 text-sm font-medium text-center rounded-lg"
           >
@@ -88,6 +94,7 @@ const Header = () => {
             )}
           </Link>
           <Link
+            onClick={() => ScrollToTop()}
             to="/cart-page"
             type="button"
             className="relative inline-flex items-center p-2 text-sm font-medium text-center rounded-lg"
@@ -100,6 +107,7 @@ const Header = () => {
             )}
           </Link>
           <Link
+            onClick={() => ScrollToTop()}
             to={user === null ? "/sign-in-page" : "/my-profile"}
             className="my-2 mx-4"
           >

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { ScrollToTop } from '../../ReusableComponents/ScrollToTop';
 
 const Subabout2 = () => {
   return (
@@ -25,7 +26,7 @@ const Subabout2 = () => {
           <p className="font-roboto font-bold leading-normal text-[#0D103C] text-2xl md:text-3xl text-center m-8">
             Try the new flavours on the block
           </p>
-          <Link to="/shop-page">
+          <Link to="/shop-page" onClick={() => ScrollToTop()}>
             <button
               style={{ boxShadow: "8px 8px 4px #0D103C" }}
               className="bg-[#fff] font-roboto font-bold leading-normal text-[#0D103C] text-2xl md:text-3xl text-center m-2 md:mb-36 px-8 py-4 rounded-[20px]"

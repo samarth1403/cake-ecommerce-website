@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { onShippingDetailsSubmit } from "../../../../features/order/orderSlice";
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const ShippingDetails = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const ShippingDetails = () => {
     onSubmit: (values) => {
       dispatch(onShippingDetailsSubmit(values))
       navigate("/cart-page/make-payment");
+      ScrollToTop();
     },
   });
   return (

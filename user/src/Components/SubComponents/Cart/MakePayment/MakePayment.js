@@ -11,6 +11,7 @@ import {
 import { config } from "../../../../utils/axiosConfig";
 import { loadScript } from "../../../../utils/loadScript";
 import logo from '../../../../images/DoneIcon.svg'
+import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
 
 const MakePayment = () => {
   const [totalCost, setTotalCost] = useState();
@@ -58,6 +59,7 @@ const MakePayment = () => {
     if(createdOrder && res.success){
       dispatch(emptyCart({Token:Token}));
       navigate("/cart-page/congratulation");
+      ScrollToTop();
     }
   },[createdOrder])
 
@@ -81,7 +83,7 @@ const MakePayment = () => {
       return;
     }
     // Getting the order details back
-    const { amount, id: order_id, currency } = result.data.order;
+    const { amount, id: order_id, currency } = result?.data?.order;
 
     const options = {
       key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard

@@ -5,6 +5,7 @@ import FacebookC from "../../../images/FacebookC.svg";
 import PinterestC from "../../../images/PinterestC.svg";
 import YoutubeC from "../../../images/YoutubeC.svg";
 import { useNavigate } from "react-router-dom";
+import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
 
 const SocialPage = () => {
  
@@ -12,6 +13,7 @@ const SocialPage = () => {
 
   const handleClick = () => {
      navigate("/");
+     ScrollToTop();
   }
   return (
     <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center px-32 py-16">

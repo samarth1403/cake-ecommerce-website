@@ -13,6 +13,7 @@ import minusIcon from "../../../images/minusIcon.svg";
 import plusIcon from "../../../images/plusIcon.svg";
 import {toast} from "react-toastify";
 import { addToCart, getCart } from "../../../features/user/userSlice";
+import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
 
 const SingleProductDetails = () => {
   const {Token } = useSelector((state)=>state.user);
@@ -107,6 +108,7 @@ const SingleProductDetails = () => {
       dispatch(getCart({Token:Token}));
     }, 100);
   };
+
   return (
     <div>
       <div className="flex flex-row flex-wrap justify-center items-start">
@@ -134,14 +136,6 @@ const SingleProductDetails = () => {
                 handleClick(gotProduct?.images[1]?.url);
               }}
             />
-            {/* <img
-              src={gotProduct?.images[2]?.url}
-              alt="Cake"
-              className="w-[100px] h-[100px] sm:w-[135px] sm:h-[135px] rounded-[20px] mx-2 cursor-pointer"
-              onClick={() => {
-                handleClick(gotProduct?.images[2]?.url);
-              }}
-            /> */}
           </div>
         </div>
         <div
@@ -161,16 +155,15 @@ const SingleProductDetails = () => {
               Sub Category : {gotProduct?.subCategory}
             </p>
           </div>
-          <div className="flex flex-row flex-wrap justify-center items-center">
+          {/* <div className="flex flex-row flex-wrap justify-center items-center">
             <p className="font-roboto font-bold text-[#0D103C] text-xl mx-8 my-2 ">
               # {gotProduct?.tags}
             </p>
-            <div className="mx-6">
-              <ReactStars
+          </div>
+          <ReactStars
                 count={5}
-                // onChange={ratingChanged}
                 value={gotProduct?.totalRating}
-                size={36}
+                size={24}
                 isHalf={true}
                 edit={false}
                 a11y={true}
@@ -178,9 +171,7 @@ const SingleProductDetails = () => {
                 halfIcon={<i className="fa fa-star-half-alt"></i>}
                 fullIcon={<i className="fa fa-star"></i>}
                 activeColor="#ECD400"
-              />
-            </div>
-          </div>
+              /> */}
 
           {alreadyAddedToCart === false ? (
             <>
@@ -331,7 +322,7 @@ const SingleProductDetails = () => {
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
               onClick={() =>
-                alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart()
+                {alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart(); ScrollToTop()}
               }
             >
               {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
@@ -342,7 +333,7 @@ const SingleProductDetails = () => {
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
               onClick={() =>
-                alreadyAddedToCart ? navigate("/cart-page") : handleBuyNow()
+               { alreadyAddedToCart ? navigate("/cart-page") : handleBuyNow(); ScrollToTop()}
               }
             >
               Buy Now

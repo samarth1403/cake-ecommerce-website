@@ -28,7 +28,6 @@ const OccasionList = ({images}) => {
 
  
   const renderedOccasionList =
-    occasionArray &&
     occasionArray?.map((occasion, index) => {
       return <OccasionItem key={index} occasion={occasion} />;
     });

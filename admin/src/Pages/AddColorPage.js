@@ -18,8 +18,8 @@ const AddColorPage = () => {
   const navigate = useNavigate();
   const colorCategoryId = location.pathname.split("/")[3];
 
-  const state = useSelector((state) => {
-    return state;
+  const {Token} = useSelector((state) => {
+    return state.auth;
   });
 
   const { isSuccess, isError, isLoading, createdColor, gotColorCategory , updatedColorCategory } = useSelector(
@@ -52,7 +52,7 @@ const AddColorPage = () => {
   let schema = Yup.object().shape({
     colorName: Yup.string().required("Color Name is Required").lowercase(),
   });
-  console.log(gotColorCategory)
+
   const formik = useFormik({
 
     initialValues: {
@@ -62,12 +62,12 @@ const AddColorPage = () => {
     enableReinitialize:true,
     onSubmit: (values) => {
       if(colorCategoryId !== undefined){
-        const data = { id: colorCategoryId, colorCategoryData: values };
+        const data = { id: colorCategoryId, colorCategoryData: values , Token : Token};
         dispatch(updateColorCategory(data));
         dispatch(resetColorCategoryState());
       }
       else {
-        dispatch(createColorCategory(values));
+        dispatch(createColorCategory({ body: values , Token : Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetColorCategoryState());

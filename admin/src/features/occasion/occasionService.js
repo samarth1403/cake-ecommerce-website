@@ -8,11 +8,12 @@ const getAllOccasions = async () => {
 };
 
 const createOccasion = async (data) => {
-  const response = await axios.post(
-    `${base_url}/occasion/create`,
-    data,
-    config
-  );
+  const response = await axios.post(`${base_url}/occasion/create`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
@@ -23,15 +24,25 @@ const getOccasion = async (id) => {
 
 const updateOccasion = async (data) => {
   const response = await axios.put(
-    `${base_url}/occasion/update/${data.id}`,
+    `${base_url}/occasion/update/${data?.id}`,
     { occasionName: data.occasionData.occasionName },
-    config
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteOccasion = async (id) => {
-  const response = await axios.delete(`${base_url}/occasion/delete/${id}`,config);
+const deleteOccasion = async (data) => {
+  const response = await axios.delete(`${base_url}/occasion/delete/${data?.id}`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

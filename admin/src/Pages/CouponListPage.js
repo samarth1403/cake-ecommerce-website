@@ -25,10 +25,11 @@ const CouponListPage = () => {
   const { coupons, isSuccess, isError, res } = useSelector((state) => {
     return state.coupon;
   });
+  const { Token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(resetCouponState());
-    dispatch(getAllCoupons());
+    dispatch(getAllCoupons({Token:Token}));
   }, []);
 
   // console.log(coupons);
@@ -94,9 +95,9 @@ const CouponListPage = () => {
 
   const handleDeleteCoupon = (id) => {
     setOpen(false);
-    dispatch(deleteCoupon(id));
+    dispatch(deleteCoupon({id:id, Token : Token}));
     setTimeout(() => {
-      dispatch(getAllCoupons());
+      dispatch(getAllCoupons({Token : Token}));
     }, 100);
     if (isSuccess && res.success) {
       toast.success("Occasion Deleted Successfully");

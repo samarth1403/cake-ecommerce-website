@@ -23,6 +23,7 @@ const AddProdCategoryPage = () => {
   } = useSelector((state) => {
     return state.prodCategory;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     if (prodCategoryId !== undefined) {
@@ -61,12 +62,12 @@ const AddProdCategoryPage = () => {
       validationSchema: schema,
       onSubmit: (values) => {
         if(prodCategoryId !== undefined){
-          const data = { id : prodCategoryId , prodCategoryData : values }
+          const data = { id : prodCategoryId , prodCategoryData : values, Token : Token }
           dispatch(updateProdCategory(data));
           dispatch(resetProdCategoryState());
         }
         else {
-          dispatch(createProdCategory(values));
+          dispatch(createProdCategory({ body: values , Token : Token}));
           formik.resetForm();
           setTimeout(() => {
             dispatch(resetProdCategoryState());

@@ -13,11 +13,11 @@ export const uploadProductImg = createAsyncThunk(
   "upload/product/image",
   async (data , thunkAPI) => {
     const formData = new FormData();
-    for(let i=0; i<data.length; i++){
-        formData.append("images",data[i]);
+    for(let i=0; i<data?.body.length; i++){
+        formData.append("images",data?.body[i]);
     }
     try {
-      return await uploadService.uploadProductImg(formData);
+      return await uploadService.uploadProductImg({body:formData , Token : data?.Token});
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -28,20 +28,23 @@ export const uploadBlogImg = createAsyncThunk(
   "upload/blog/image",
   async (data, thunkAPI) => {
     const formData = new FormData();
-    for (let i = 0; i < data.length; i++) {
-      formData.append("images", data[i]);
+    for (let i = 0; i < data?.body.length; i++) {
+      formData.append("images", data?.body[i]);
     }
     try {
-      return await uploadService.uploadBlogImg(formData);
+      return await uploadService.uploadBlogImg({
+        body: formData,
+        Token: data?.Token,
+      });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const deleteProductImg = createAsyncThunk("delete/product/img",async(id,thunkAPI)=>{
+export const deleteProductImg = createAsyncThunk("delete/product/img",async(data,thunkAPI)=>{
     try {
-        return await uploadService.deleteProductImg(id);
+        return await uploadService.deleteProductImg(data);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
@@ -49,10 +52,9 @@ export const deleteProductImg = createAsyncThunk("delete/product/img",async(id,t
 
 export const deleteBlogImg = createAsyncThunk(
   "delete/blog/img",
-  async (id, thunkAPI) => {
-    console.log(id)
+  async (data, thunkAPI) => {
     try {
-      return await uploadService.deleteBlogImg(id);
+      return await uploadService.deleteBlogImg(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

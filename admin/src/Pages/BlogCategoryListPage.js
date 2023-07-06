@@ -12,6 +12,8 @@ const BlogCategoryListPage = () => {
   const [open, setOpen] = useState(false);
   const [blogCategoryId, setBlogCategoryId] = useState("");
   const [modalData, setModalData] = useState({});
+  const { Token } = useSelector((state) => state.auth);
+
   const hideModal = () => {
     setOpen(false);
   };
@@ -77,7 +79,7 @@ const BlogCategoryListPage = () => {
 
   const handleDeleteBlogCategory = (id) => {
     setOpen(false);
-    dispatch(deleteBlogCategory(id));
+    dispatch(deleteBlogCategory({id:id, Token : Token}));
     setTimeout(() => {
       dispatch(getAllBlogCategories());
     }, 100);

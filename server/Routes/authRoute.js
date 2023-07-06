@@ -36,7 +36,7 @@ const authRouter = express.Router();
 authRouter.post("/register-user", createUserController);
 authRouter.post("/login-user",loginUserController);
 authRouter.post("/admin-login",loginAdminController);
-authRouter.get("/all-users",getAllUsersController);
+authRouter.get("/all-users",authMiddleware,isAdminMiddleware,getAllUsersController);
 authRouter.get("/refresh-token",getRefreshTokenController);
 authRouter.put("/update-user-profile", authMiddleware, updateAUserController);
 authRouter.get("/logout", logoutUserController);

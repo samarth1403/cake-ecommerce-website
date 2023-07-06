@@ -14,6 +14,7 @@ const EnquiriesPage = () => {
   const { enquiries, isSuccess, isError, res } = useSelector((state) => {
     return state.enquiry;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   const [open, setOpen] = useState(false);
   const [enquiryId, setEnquiryId] = useState("");
@@ -105,8 +106,8 @@ const EnquiriesPage = () => {
     }
 
     const setEnquiryStatus = (e,id) => {
-      // console.log(e);
-      const data = {id : id , enquiryData : { status : e }}
+
+      const data = {id : id , enquiryData : { status : e },Token : Token}
       dispatch(updateEnquiry(data));
       if (isSuccess && res.success) {
         toast.success("Status of the Enquiry is Updated Successfully");
@@ -118,7 +119,7 @@ const EnquiriesPage = () => {
 
     const handleDeleteColorCategory = (id) => {
       setOpen(false);
-      dispatch(deleteEnquiry(id));
+      dispatch(deleteEnquiry({id:id , Token : Token}));
       setTimeout(() => {
         dispatch(getAllEnquiries());
       }, 100);

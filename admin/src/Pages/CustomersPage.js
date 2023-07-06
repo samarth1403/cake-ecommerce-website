@@ -6,9 +6,10 @@ import { getAllUsers } from "../features/user/userSlice";
 
 const CustomersPage = () => {
   const dispatch = useDispatch();
+  const {Token} = useSelector((state)=>state.auth)
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllUsers({Token : Token}));
   }, []);
 
   const {users} = useSelector((state) => {

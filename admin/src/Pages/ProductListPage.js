@@ -28,7 +28,7 @@ const ProductListPage = () => {
     return state.product;
   });
 
-  console.log(products);
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(()=>{
     dispatch(resetProductState());
@@ -111,7 +111,7 @@ const ProductListPage = () => {
 
   const handleDeleteProduct = (id) => {
     setOpen(false);
-    dispatch(deleteProduct(id));
+    dispatch(deleteProduct({id:id,Token:Token}));
     setTimeout(() => {
       dispatch(getAllProducts());
     }, 100);

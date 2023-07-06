@@ -29,6 +29,7 @@ const AddProductPage = () => {
   const { isSuccess, isLoading, isError, createdProduct, gotProduct , updatedProduct } = useSelector((state) => {
     return state.product;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     if (productId !== undefined) {
@@ -82,12 +83,12 @@ const AddProductPage = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       if (productId !== undefined && state.upload.images !== []) {
-        const data = { id: productId, productData: values };
+        const data = { id: productId, productData: values, Token: Token };
         dispatch(updateProduct(data));
         dispatch(resetUploadState());
         dispatch(resetProductState());
       } else {
-        dispatch(createAProduct(values));
+        dispatch(createAProduct({ body: values , Token : Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetUploadState());
@@ -259,8 +260,8 @@ const AddProductPage = () => {
         </div>
         <div className="flex justify-start items-center bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] font-roboto font-[400] text-xl rounded-[15px] px-4 pr-8 m-4">
           <Dropzone
-            onDrop={(acceptedFiles) =>
-              dispatch(uploadProductImg(acceptedFiles))
+            onDrop={(data) =>
+              dispatch(uploadProductImg({ body: data , Token : Token}))
             }
           >
             {({ getRootProps, getInputProps }) => (
@@ -283,7 +284,9 @@ const AddProductPage = () => {
                 return (
                   <div className="relative" key={j}>
                     <button
-                      onClick={() => dispatch(deleteProductImg(i.public_id))}
+                      onClick={() =>
+                        dispatch(deleteProductImg({ id: i?.public_id , Token :Token}))
+                      }
                       className="btn-close absolute top-0 right-0"
                     >
                       <AiFillCloseCircle className="text-3xl" />
@@ -304,7 +307,11 @@ const AddProductPage = () => {
                 return (
                   <div className="relative" key={j}>
                     <button
-                      onClick={() => dispatch(deleteProductImg(i.public_id))}
+                      onClick={() =>
+                        dispatch(
+                          deleteProductImg({ id: i?.public_id, Token: Token })
+                        )
+                      }
                       className="btn-close absolute top-0 right-0"
                     >
                       <AiFillCloseCircle className="text-3xl" />

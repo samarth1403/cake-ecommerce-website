@@ -11,7 +11,10 @@ import {
   updateOccasion,
 } from "../features/occasion/occasionSlice";
 import { useLocation , useNavigate} from "react-router-dom";
+
 const AddOccasionPage = () => {
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +29,7 @@ const AddOccasionPage = () => {
   } = useSelector((state) => {
     return state.occasion;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     if (occasionId !== undefined) {
@@ -60,11 +64,11 @@ const AddOccasionPage = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       if (occasionId !== undefined) {
-        const data = { id: occasionId, occasionData: values };
+        const data = { id: occasionId, occasionData: values , Token : Token};
         dispatch(updateOccasion(data));
         dispatch(resetOccasionState());
       } else {
-        dispatch(createOccasion(values));
+        dispatch(createOccasion({body:values , Token : Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetOccasionState());

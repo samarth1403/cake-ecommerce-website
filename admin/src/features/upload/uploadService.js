@@ -3,32 +3,55 @@ import { config } from '../../utils/axiosConfig';
 import {base_url} from '../../utils/base_url';
 
 const uploadProductImg = async (data) => {
-    const response = await axios.post(`${base_url}/upload/product/uploadImg`,data , config);
+    const response = await axios.post(
+      `${base_url}/upload/product/uploadImg`,
+      data?.body,
+      {
+        headers: {
+          Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+          Accept: "application/json",
+        },
+      }
+    );
     return response.data;
 }
 
-const deleteProductImg = async(id) => {
+const deleteProductImg = async(data) => {
     const response = await axios.delete(
-      `${base_url}/upload/product/deleteImg/${id}`,
-      config
+      `${base_url}/upload/product/deleteImg/${data?.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+          Accept: "application/json",
+        },
+      }
     );
-    console.log(response.data);
     return response.data;
 }
 
 const uploadBlogImg = async (data) => {
   const response = await axios.post(
     `${base_url}/upload/blog/uploadImg`,
-    data,
-    config
+    data?.body,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteBlogImg = async (id) => {
+const deleteBlogImg = async (data) => {
   const response = await axios.delete(
-    `${base_url}/upload/blog/deleteImg/${id}`,
-    config
+    `${base_url}/upload/blog/deleteImg/${data?.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };

@@ -11,9 +11,9 @@ const initialState = {
 
 export const getAllCoupons = createAsyncThunk(
   "coupon/all-coupons",
-  async (thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await couponService.getAllCoupons();
+      return await couponService.getAllCoupons(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,9 +33,9 @@ export const createCoupon = createAsyncThunk(
 
 export const getCoupon = createAsyncThunk(
   "coupon/get",
-  async(id,thunkAPI) => {
+  async(data,thunkAPI) => {
     try {
-      return await couponService.getCoupon(id);
+      return await couponService.getCoupon(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -53,9 +53,9 @@ export const updateCoupon = createAsyncThunk(
   }
 );
 
-export const deleteCoupon = createAsyncThunk("coupon/delete", async (id, thunkAPI) => {
+export const deleteCoupon = createAsyncThunk("coupon/delete", async (data, thunkAPI) => {
   try {
-    return await couponService.deleteCoupon(id);
+    return await couponService.deleteCoupon(data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

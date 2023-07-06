@@ -11,9 +11,9 @@ const initialState = {
 
 export const getAllOrders = createAsyncThunk(
   "order/all-orders",
-  async (thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await orderService.getAllOrders();
+      return await orderService.getAllOrders(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -22,9 +22,9 @@ export const getAllOrders = createAsyncThunk(
 
 export const getOrderByUserId = createAsyncThunk(
   "order/get-orders-byUserId",
-  async (id,thunkAPI) => {
+  async (data,thunkAPI) => {
     try {
-      return await orderService.getOrderByUserId(id);
+      return await orderService.getOrderByUserId(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,9 +33,9 @@ export const getOrderByUserId = createAsyncThunk(
 
 export const getOrderByOrderId = createAsyncThunk(
   "order/get-orders-byOrderId",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await orderService.getOrderByOrderId(id);
+      return await orderService.getOrderByOrderId(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -44,9 +44,9 @@ export const getOrderByOrderId = createAsyncThunk(
 
 export const updateOrderStatus = createAsyncThunk(
   "order/update-order-status",
-  async (body, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await orderService.updateOrderStatus(body);
+      return await orderService.updateOrderStatus(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -55,9 +55,9 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const getMonthlyOrders = createAsyncThunk(
   "order/get-monthly-orders",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await orderService.getMonthlyOrders(id);
+      return await orderService.getMonthlyOrders(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -66,9 +66,9 @@ export const getMonthlyOrders = createAsyncThunk(
 
 export const getYearlyOrders = createAsyncThunk(
   "order/get-yearly-orders",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await orderService.getYearlyOrders(id);
+      return await orderService.getYearlyOrders(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

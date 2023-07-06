@@ -5,17 +5,19 @@ import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Table } from "antd";
 import { getAllOrders, updateOrderStatus } from "../features/order/orderSlice";
+import {toast} from "react-toastify";
 
 const OrdersPage = () => {
  
   const dispatch = useDispatch();
+  const {Token} = useSelector((state)=>state.auth);
 
-  const {orders} = useSelector((state) => {
+  const {orders,isError , isSuccess, res} = useSelector((state) => {
     return state.order;
   })
 
   useEffect(()=>{
-    dispatch(getAllOrders());
+    dispatch(getAllOrders({Token:Token}));
   },[])
 
   const columns = [
@@ -62,7 +64,18 @@ const OrdersPage = () => {
   ];
 
     const handleUpdateOrderStatus = (id, status) => {
-      dispatch(updateOrderStatus({ id: id, status: status }));
+      dispatch(
+        updateOrderStatus({ id: id, body: { status: status }, Token: Token })
+      );
+      setTimeout(()=>{
+        dispatch(getAllOrders({Token:Token}));
+        if (isSuccess && res.success) {
+          toast.success("Status of the Enquiry is Updated Successfully");
+        }
+        if (isError) {
+          toast.error("Something went wrong");
+        }
+      },100)
     };
 
   const data1 = [];

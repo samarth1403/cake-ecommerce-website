@@ -84,6 +84,7 @@ const SingleProductDetails = () => {
     );
     
     setTimeout(()=>{
+       ScrollToTop();
        dispatch(getCart({Token:Token}))
     },100)
   }
@@ -104,7 +105,8 @@ const SingleProductDetails = () => {
       })
     );
     setTimeout(() => {
-      navigate("/cart-page")
+      navigate("/cart-page");
+       ScrollToTop();
       dispatch(getCart({Token:Token}));
     }, 100);
   };
@@ -322,7 +324,7 @@ const SingleProductDetails = () => {
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
               onClick={() =>
-                {alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart(); ScrollToTop()}
+                {alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart();}
               }
             >
               {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
@@ -333,7 +335,7 @@ const SingleProductDetails = () => {
               }}
               className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
               onClick={() =>
-               { alreadyAddedToCart ? navigate("/cart-page") : handleBuyNow(); ScrollToTop()}
+               { alreadyAddedToCart ? navigate("/cart-page") : handleBuyNow();}
               }
             >
               Buy Now

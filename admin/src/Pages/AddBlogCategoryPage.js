@@ -23,6 +23,7 @@ const AddBlogCategoryPage = () => {
   } = useSelector((state) => {
     return state.blogCategory;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     if (blogCategoryId !== undefined) {
@@ -50,7 +51,6 @@ const AddBlogCategoryPage = () => {
     categoryName: Yup.string().required("Category is Required"),
   });
 
-  // console.log(state.prodCategory);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -60,12 +60,12 @@ const AddBlogCategoryPage = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       if (blogCategoryId !== undefined) {
-        const data = { id: blogCategoryId, blogCategoryData: values };
+        const data = { id: blogCategoryId, blogCategoryData: values , Token : Token};
         dispatch(updateBlogCategory(data));
         dispatch(resetBlogCategoryState());
       }
       else {
-        dispatch(createBlogCategory(values));
+        dispatch(createBlogCategory({ body: values , Token : Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetBlogCategoryState());

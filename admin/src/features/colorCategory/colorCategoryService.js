@@ -10,11 +10,12 @@ const getAllColorCategories = async () => {
 };
 
 const createColorCategory = async (data) => {
-  const response = await axios.post(
-    `${base_url}/colorCategory/create`,
-    data,
-    config
-  );
+  const response = await axios.post(`${base_url}/colorCategory/create`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   console.log(response.data)
   return response.data;
 };
@@ -26,19 +27,29 @@ const getColorCategory = async (id) => {
 
 const updateColorCategory = async (data) => {
   const response = await axios.put(
-    `${base_url}/colorCategory/update/${data.id}`,
+    `${base_url}/colorCategory/update/${data?.id}`,
     {
       colorName: data.colorCategoryData.colorName,
     },
-    config
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteColorCategory = async (id) => {
+const deleteColorCategory = async (data) => {
   const response = await axios.delete(
-    `${base_url}/colorCategory/delete/${id}`,
-    config
+    `${base_url}/colorCategory/delete/${data?.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };

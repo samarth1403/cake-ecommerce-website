@@ -15,11 +15,14 @@ import {
 } from "react-icons/ai";
 import { Outlet, useNavigate } from "react-router-dom";
 import userPhoto from "../images/cake.jpeg";
+import { useSelector } from "react-redux";
 
 const { Header, Sider, Content } = Layout;
 
+
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -200,10 +203,10 @@ const MainLayout = () => {
             />
             <div className="flex flex-col flex-wrap justify-center items-start">
               <p className="text-[#fff] font-roboto font-bold text-[16px] mx-2 my-1">
-                Samarth Ikkalaki
+                 {user?.firstName} {user?.lastName}
               </p>
               <p className="text-[#fff] font-roboto text-[14px] mx-2 my-1">
-                samarthikkalaki@gmail.com
+                {user?.email}
               </p>
             </div>
           </div>

@@ -28,6 +28,7 @@ const BlogsListPage = () => {
   const { blogs, isSuccess, isError, res } = useSelector((state) => {
     return state.blog;
   });
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     dispatch(resetBlogState())
@@ -94,7 +95,7 @@ const BlogsListPage = () => {
 
   const handleDeleteBlog = (id) => {
     setOpen(false);
-    dispatch(deleteBlog(id));
+    dispatch(deleteBlog({id:id, Token:Token}));
     setTimeout(() => {
       dispatch(getAllBlogs());
     }, 100);
@@ -105,6 +106,7 @@ const BlogsListPage = () => {
       toast.error("Something went Wrong");
     }
   };
+
   return (
     <div className="my-4">
       <p className="font-bold text-2xl my-8 mx-4">Blog List</p>

@@ -15,6 +15,7 @@ const ViewEnquiryPage = () => {
       useSelector((state) => {
         return state.enquiry;
       });
+      const {Token} = useSelector((state)=>state.auth)
 
       useEffect(() => {
         dispatch(getEnquiry(enquiryId))
@@ -26,9 +27,8 @@ const ViewEnquiryPage = () => {
 
       const setEnquiryStatus = (e, id) => {
         // console.log(e);
-        const data = { id: id, enquiryData: { status: e } };
+        const data = { id: id, enquiryData: { status: e } , Token : Token};
         dispatch(updateEnquiry(data));
-        dispatch(resetEnquiryState());
         setTimeout(()=>{
             dispatch(getEnquiry(enquiryId))
         },5);
@@ -73,7 +73,7 @@ const ViewEnquiryPage = () => {
         <p className="font-roboto font-bold text-2xl mx-4 my-2">
           Status : {gotEnquiry?.status}
         </p>
-        <p className="font-roboto font-bold text-2xl mx-4 my-2">
+        {/* <p className="font-roboto font-bold text-2xl mx-4 my-2">
           Change Status :
           <select
             name=""
@@ -87,7 +87,7 @@ const ViewEnquiryPage = () => {
             <option value="In Progress">In Progress</option>
             <option value="Resolved">Resolved</option>
           </select>
-        </p>
+        </p> */}
       </div>
     </>
   );

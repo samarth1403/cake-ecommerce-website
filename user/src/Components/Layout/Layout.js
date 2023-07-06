@@ -10,7 +10,7 @@ const Layout = () => {
       <Header />
       <div key="mainlayout">
         <ToastContainer
-          position="bottom-right"
+          position="top-right"
           autoClose={2500}
           hideProgressBar={false}
           newestOnTop={true}

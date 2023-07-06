@@ -3,44 +3,73 @@ import { config } from "../../utils/axiosConfig";
 import { base_url } from "../../utils/base_url";
 
 
-const getAllOrders = async () => {
-  const response = await axios.get(`${base_url}/order/all-orders`,config);
+const getAllOrders = async (data) => {
+  const response = await axios.get(`${base_url}/order/all-orders`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
-const getOrderByUserId = async (id) => {
+const getOrderByUserId = async (data) => {
   const response = await axios.get(
-    `${base_url}/order/get-order-by-user-id/${id}`,config
+    `${base_url}/order/get-order-by-user-id/${data?.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 }
 
-const getOrderByOrderId = async (id) => {
+const getOrderByOrderId = async (data) => {
   const response = await axios.get(
-    `${base_url}/order/get-order-by-order-id/${id}`,
-    config
+    `${base_url}/order/get-order-by-order-id/${data?.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const updateOrderStatus = async (body) => {
+const updateOrderStatus = async (data) => {
   const response = await axios.put(
-    `${base_url}/order/update-order-status/${body.id}`,{status:body.status},
-    config
+    `${base_url}/order/update-order-status/${data.id}`,
+    { status: data.body.status },
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const getMonthlyOrders = async () => {
-  const response = await axios.get(`${base_url}/order/get-monthly-orders`,config);
+const getMonthlyOrders = async (data) => {
+  const response = await axios.get(`${base_url}/order/get-monthly-orders`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 }
 
-const getYearlyOrders = async () => {
-  const response = await axios.get(
-    `${base_url}/order/get-yearly-orders`,
-    config
-  );
+const getYearlyOrders = async (data) => {
+  const response = await axios.get(`${base_url}/order/get-yearly-orders`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

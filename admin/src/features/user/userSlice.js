@@ -1,9 +1,9 @@
 import {createSlice , createAsyncThunk} from '@reduxjs/toolkit';
 import userService from './userService';
 
-export const getAllUsers = createAsyncThunk("user/all-users",async(thunkAPI) => {
+export const getAllUsers = createAsyncThunk("user/all-users",async(data,thunkAPI) => {
     try {
-        return await userService.getAllUsers();
+        return await userService.getAllUsers(data);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }

@@ -14,18 +14,25 @@ const getEnquiry = async(id) => {
 
 const updateEnquiry = async (data) => {
   const response = await axios.put(
-    `${base_url}/enquiry/update/${data.id}`,
-    {status:data.enquiryData.status},
-    config
+    `${base_url}/enquiry/update/${data?.id}`,
+    { status: data.enquiryData.status },
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteEnquiry = async (id) => {
-  const response = await axios.delete(
-    `${base_url}/enquiry/delete/${id}`,
-    config
-  );
+const deleteEnquiry = async (data) => {
+  const response = await axios.delete(`${base_url}/enquiry/delete/${data?.id}`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

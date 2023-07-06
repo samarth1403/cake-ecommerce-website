@@ -8,13 +8,17 @@ const getAllBlogs = async () => {
 };
 
 const createBlog = async (data) => {
-  const response = await axios.post(`${base_url}/blog/create`,data,config);
+  const response = await axios.post(`${base_url}/blog/create`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 }
 
 const getBlog = async (id) => {
   const response = await axios.get(`${base_url}/blog/get/${id}`);
-  console.log(response.data)
   return response.data;
 };
 
@@ -27,15 +31,21 @@ const updateBlog = async (data) => {
       category: data.blogData.category,
       images: data.blogData.images,
     },
-    config
+   {headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    }},
   );
   return response.data;
 };
 
-const deleteBlog = async (id) => {
+const deleteBlog = async (data) => {
   const response = await axios.delete(
-    `${base_url}/blog/delete/${id}`,
-    config
+    `${base_url}/blog/delete/${data?.id}`,
+   { headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    }}
   );
   return response.data;
 };

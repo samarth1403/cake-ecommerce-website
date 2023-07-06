@@ -13,6 +13,7 @@ const ColorCategoryListPage = () => {
   const [open, setOpen] = useState(false);
   const [colorCategoryId, setColorCategoryId] = useState("");
   const [modalData, setModalData] = useState({});
+  const {Token} = useSelector((state)=>state.auth);
   const hideModal = () => {
     setOpen(false);
   };
@@ -75,7 +76,7 @@ const ColorCategoryListPage = () => {
 
   const handleDeleteColorCategory = (id) => {
     setOpen(false);
-    dispatch(deleteColorCategory(id));
+    dispatch(deleteColorCategory({id:id , Token : Token}));
     setTimeout(() => {
       dispatch(getAllColorCategories());
     }, 100);

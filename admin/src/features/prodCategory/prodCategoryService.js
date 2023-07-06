@@ -10,11 +10,12 @@ const getAllprodCategories = async () => {
 };
 
 const createProdCategory = async (data) => {
-  const response = await axios.post(
-    `${base_url}/prodCategory/create`,
-    data,
-    config
-  );
+  const response = await axios.post(`${base_url}/prodCategory/create`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
@@ -30,16 +31,23 @@ const updateProdCategory = async (data) => {
       categoryName: data.prodCategoryData.categoryName,
       subCategoryName: data.prodCategoryData.subCategoryName,
     },
-    config
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteProdCategory = async (id) => {
-  const response = await axios.delete(
-    `${base_url}/prodCategory/delete/${id}`,
-    config
-  );
+const deleteProdCategory = async (data) => {
+  const response = await axios.delete(`${base_url}/prodCategory/delete/${data?.id}`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

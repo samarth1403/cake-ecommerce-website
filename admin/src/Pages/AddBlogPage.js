@@ -20,11 +20,12 @@ const AddBlogPage = () => {
   const state = useSelector((state) => {
     return state;
   });
-  const { isSuccess, isLoading, isError, createdBlog, gotBlog, updatedBlog } = useSelector(
+  const { isSuccess, isLoading, isError, gotBlog, updatedBlog } = useSelector(
     (state) => {
       return state.blog;
     }
   );
+  const {Token} = useSelector((state)=>state.auth);
 
   useEffect(() => {
     if (blogId !== undefined) {
@@ -40,17 +41,11 @@ const AddBlogPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isSuccess && createdBlog) {
-      toast.success("Blog added Successfully");
-    }
     if (isSuccess && updatedBlog) {
       toast.success("Blog Updated Successfullly!");
       navigate("/admin/all-blogs");
     }
-    if (isError) {
-      toast.error("Something went Wrong");
-    }
-  }, [isSuccess, isLoading, isError, createdBlog, updatedBlog]);
+  }, [isSuccess, isLoading, isError, updatedBlog]);
   
 
   useEffect(() => {
@@ -74,12 +69,12 @@ const AddBlogPage = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       if (blogId !== undefined && state.upload.images !== []) {
-        const data = { id: blogId, blogData: values };
+        const data = { id: blogId, blogData: values, Token : Token };
         dispatch(updateBlog(data));
         dispatch(resetUploadState());
         dispatch(resetBlogState());
       } else {
-        dispatch(createBlog(values));
+        dispatch(createBlog({body:values, Token:Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetUploadState());
@@ -159,7 +154,9 @@ const AddBlogPage = () => {
         </div>
         <div className="flex justify-start items-center bg-[#0D103C] w-[250px] md:w-[400px] lg:w-[600px] h-[75px] text-[#fff] font-roboto font-[400] text-xl rounded-[15px] px-4 pr-8 m-4">
           <Dropzone
-            onDrop={(acceptedFiles) => dispatch(uploadBlogImg(acceptedFiles))}
+            onDrop={(acceptedFiles) =>
+              dispatch(uploadBlogImg({ body: acceptedFiles, Token: Token }))
+            }
           >
             {({ getRootProps, getInputProps }) => (
               <section>
@@ -181,7 +178,11 @@ const AddBlogPage = () => {
                 return (
                   <div className="relative" key={j}>
                     <button
-                      onClick={() => dispatch(deleteBlogImg(i.public_id))}
+                      onClick={() =>
+                        dispatch(
+                          deleteBlogImg({ id: i?.public_id, Token: Token })
+                        )
+                      }
                       className="btn-close absolute top-0 right-0"
                     >
                       <AiFillCloseCircle className="text-3xl" />
@@ -202,7 +203,11 @@ const AddBlogPage = () => {
                 return (
                   <div className="relative" key={j}>
                     <button
-                      onClick={() => dispatch(deleteBlogImg(i.public_id))}
+                      onClick={() =>
+                        dispatch(
+                          deleteBlogImg({ id: i?.public_id, Token: Token })
+                        )
+                      }
                       className="btn-close absolute top-0 right-0"
                     >
                       <AiFillCloseCircle className="text-3xl" />

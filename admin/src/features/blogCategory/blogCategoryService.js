@@ -10,12 +10,12 @@ const getAllBlogCategories = async () => {
 };
 
 const createBlogCategory = async (data) => {
-  const response = await axios.post(
-    `${base_url}/blogCategory/create`,
-    data,
-    config
-  );
-  console.log(response.data);
+  const response = await axios.post(`${base_url}/blogCategory/create`, data?.body, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 
@@ -26,20 +26,27 @@ const getBlogCategory = async (id) => {
 
 const updateBlogCategory = async (data) => {
   const response = await axios.put(
-    `${base_url}/blogCategory/update/${data.id}`,
+    `${base_url}/blogCategory/update/${data?.id}`,
     {
       categoryName: data.blogCategoryData.categoryName,
     },
-    config
+    {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  }
   );
   return response.data;
 };
 
-const deleteBlogCategory = async (id) => {
-  const response = await axios.delete(
-    `${base_url}/blogCategory/delete/${id}`,
-    config
-  );
+const deleteBlogCategory = async (data) => {
+  const response = await axios.delete(`${base_url}/blogCategory/delete/${data?.id}`, {
+    headers: {
+      Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+      Accept: "application/json",
+    },
+  });
   return response.data;
 };
 

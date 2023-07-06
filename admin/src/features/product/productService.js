@@ -3,9 +3,13 @@ import { base_url } from '../../utils/base_url';
 import {config} from '../../utils/axiosConfig.js'
   
 
-const createAProduct = async(body) => {
-    const response = await axios.post(`${base_url}/product/create`,body,config);
-    console.log(response.data);
+const createAProduct = async(data) => {
+    const response = await axios.post(`${base_url}/product/create`, data?.body, {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    });
     return response.data;
 }
 
@@ -31,13 +35,21 @@ const updateProduct = async (data) => {
       tags: data.productData.tags,
       images: data.productData.images,
     },
-    config
+    {
+      headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      },
+    }
   );
   return response.data;
 };
 
-const deleteProduct = async (id) => {
-  const response = await axios.delete(`${base_url}/product/delete/${id}`, config);
+const deleteProduct = async (data) => {
+  const response = await axios.delete(`${base_url}/product/delete/${data?.id}`,  {headers: {
+        Authorization: `Bearer ${data?.Token !== null ? data?.Token : ""}`,
+        Accept: "application/json",
+      }},);
   return response.data;
 };
 

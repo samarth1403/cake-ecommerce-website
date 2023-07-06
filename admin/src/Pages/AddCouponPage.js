@@ -24,6 +24,8 @@ const AddCouponPage = () => {
     return state.coupon;
   });
 
+  const {Token} = useSelector((state)=>state.auth)
+
     const correctDateFormat = (inputDate) => {
 const [year, month, day] = inputDate.split("-");
       return `${year}-${month.padStart(2, "0")}-${day.padStart(
@@ -41,7 +43,7 @@ const [year, month, day] = inputDate.split("-");
 
   useEffect(() => {
     if (couponId !== undefined) {
-      dispatch(getCoupon(couponId));
+      dispatch(getCoupon({ id: couponId , Token : Token}));
     } else {
       dispatch(resetCouponState());
     }
@@ -77,12 +79,12 @@ const [year, month, day] = inputDate.split("-");
     validationSchema: schema,
     onSubmit: (values) => {
       if(couponId !== undefined){
-        const data = {id:couponId, couponData: values}
+        const data = {id:couponId, couponData: values, Token : Token}
         dispatch(updateCoupon(data));
         dispatch(resetCouponState());
       }
       else{
-        dispatch(createCoupon(values));
+        dispatch(createCoupon({body:values,Token:Token}));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetCouponState());

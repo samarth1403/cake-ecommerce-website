@@ -10,11 +10,11 @@ const ViewProducts = () => {
   const location = useLocation();
   const orderId = location.pathname.split("/")[3];
   const dispatch = useDispatch();
-
+  const {Token} = useSelector((state)=>state.auth)
 
 
   useEffect(() => {
-    dispatch(getOrderByOrderId(orderId));
+    dispatch(getOrderByOrderId({ id: orderId , Token : Token}));
   }, []);
 
     

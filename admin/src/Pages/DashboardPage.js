@@ -10,15 +10,16 @@ const DashboardPage = () => {
   const dispatch = useDispatch();
   const [monthlyDataIncome, setMonthlyDataIncome] = useState([]);
   const [monthlyDataSales, setMonthlyDataSales] = useState([]);
+  const {Token} = useSelector((state)=>state.auth)
 
    const { orders } = useSelector((state) => {
      return state.order;
    });
 
   useEffect(() => {
-    dispatch(getMonthlyOrders());
-    dispatch(getYearlyOrders());
-    dispatch(getAllOrders())
+    dispatch(getMonthlyOrders({Token:Token}));
+    dispatch(getYearlyOrders({Token : Token}));
+    dispatch(getAllOrders({Token : Token}))
   }, []);
 
  
@@ -155,7 +156,9 @@ const DashboardPage = () => {
     ];
 
     const handleUpdateOrderStatus = (id,status) => {
-      dispatch(updateOrderStatus({id:id, status:status}))
+      dispatch(
+        updateOrderStatus({ id: id, body: { status: status }, Token: Token })
+      );
     }
 
     const data1 = [];

@@ -16,6 +16,7 @@ const ProdCategoryListPage = () => {
   const hideModal = () => {
     setOpen(false);
   }
+  const {Token} = useSelector((state)=>state.auth);
   const showModal = (data) => {
     setOpen(true);
     setProdCategoryId(data._id);
@@ -81,7 +82,7 @@ const ProdCategoryListPage = () => {
 
   const handleDeleteProdCategory = (id) => {
     setOpen(false);
-    dispatch(deleteProdCategory(id));
+    dispatch(deleteProdCategory({ id: id, Token: Token }));
     setTimeout(() => {
       dispatch(getAllprodCategories());
     }, 100);

@@ -22,6 +22,7 @@ const OccasionListPage = () => {
     setModalData(data);
   }
   const dispatch = useDispatch();
+  const { Token } = useSelector((state) => state.auth);
 
   const { occasions, isSuccess, isError, res } = useSelector((state) => {
     return state.occasion;
@@ -79,7 +80,7 @@ const OccasionListPage = () => {
 
   const handleDeleteOccasion = (id) => {
     setOpen(false);
-    dispatch(deleteOccasion(id));
+    dispatch(deleteOccasion({id:id, Token:Token}));
     setTimeout(()=>{
       dispatch(getAllOccasions());
     },100)

@@ -1,7 +1,7 @@
 import userModel from "../Models/userModel.js";
 //Get a wishlist
 export const getWishListController = async (req, res) => {
-  const { _id } = req.user;
+  const { _id } = req?.user;
   try {
     const foundUser = await userModel.findById(_id).populate("wishList");
     res.json({ gotWishlistOfUser: foundUser , res : {message : "WishList Got Successfully", success : true}});
@@ -13,9 +13,9 @@ export const getWishListController = async (req, res) => {
 //Add to WishList
 export const addToWishListController = async (req, res) => {
   
-  const { _id } = req.user;
+  const { _id } = req?.user;
   const { prodId } = req.body;
-  console.log(req.user);
+  console.log(req?.user);
   console.log(prodId);
   try {
     const user = await userModel.findById(_id);

@@ -9,7 +9,8 @@ import PopularProductList from '../Components/SubComponents/PopularProducts/Popu
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllOccasions } from '../features/occasions/occasionSlice';
 import { getAllprodCategories, getAllProducts } from "../features/product/productSlice";
-import { getCart } from "../features/user/userSlice";
+import { getCart, getWishlistOfUser } from "../features/user/userSlice";
+import HoriLine from "../Components/ReusableComponents/HoriLine";
 
 const HomePage = () => {
 
@@ -19,11 +20,16 @@ const HomePage = () => {
   const { occasions } = useSelector((state) => state.occasion);
 
     const [imgArray, setImgArray] = useState([]);
-  useEffect(() => {
+    useEffect(() => {
     dispatch(getAllOccasions())
     dispatch(getAllProducts())
     dispatch(getAllprodCategories())
-    dispatch(getCart({Token:Token}))
+    
+    if(Token !== undefined){
+      console.log(Token);
+      dispatch(getCart({ Token: Token }));
+      dispatch(getWishlistOfUser({Token:Token}))
+    }
   }, []);
 
     useEffect(() => {
@@ -40,23 +46,17 @@ const HomePage = () => {
     <>
       <HelmetMeta title={"Cake Website - Home"} />
       <Hero images={imgArray} />
-      <div className="flex justify-center">
-        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
-      </div>
+      <HoriLine />
       <PopularProductList />
       <CakeMarquee />
       {/* <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
       <ShoppingList /> */}
-      <div className="flex justify-center">
-        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
-      </div>
+      <HoriLine />
       <SweetTalk />
       <SocialPage />
-      <div className="flex justify-center">
-        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
-      </div>
+      <HoriLine />
     </>
   );
 }

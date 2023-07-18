@@ -12,7 +12,7 @@ const Hero = ({images}) => {
           </p>
         </div>
         <OccasionList images={images} />
-        <CakeTypesList />
+        {/* <CakeTypesList /> */}
       </>
     );
 };

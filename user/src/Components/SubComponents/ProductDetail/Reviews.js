@@ -4,6 +4,7 @@ import {toast} from "react-toastify"
 import {useDispatch, useSelector} from "react-redux"
 import { getProduct, rateAProduct } from '../../../features/product/productSlice';
 import {useLocation} from "react-router-dom";
+import HoriLine from '../../ReusableComponents/HoriLine';
 
 const Reviews = () => {
 
@@ -42,10 +43,10 @@ const Reviews = () => {
             //   background:
             //     "linear-gradient(89.14deg, #FFFA84 0.66%, #FFFEDB 99.26%)",
             // }}
-            className="bg-[#fff] w-[300px] h-auto flex flex-col flex-wrap justify-center items-start rounded-[20px] m-4 p-4"
+            className="bg-[#fff] min-[320px]:w-[280px] sm:w-[300px] h-auto flex flex-col flex-wrap justify-center items-start rounded-[20px] p-4"
             key={index}
           >
-            <p className="font-roboto font-bold text-[#0D103C] text-lg m-2">
+            <p className="font-roboto font-bold text-[#0D103C] text-lg p-2">
               {productReview?.postedBy?.firstName + " " +
                 productReview?.postedBy?.lastName}
             </p>
@@ -62,9 +63,9 @@ const Reviews = () => {
               fullIcon={<i className="fa fa-star"></i>}
               //   activeColor="#0D103C"
               activeColor="#ffd700"
-              classNames="mx-2"
+              classNames="px-2"
             />
-            <p className="font-roboto font-medium text-[#0D103C] text-lg m-2">
+            <p className="font-roboto font-medium text-[#0D103C] text-lg p-2">
               {productReview?.comment}
             </p>
           </div>
@@ -75,18 +76,18 @@ const Reviews = () => {
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">
       <div className="flex flex-col flex-no-wrap justify-center items-center">
-        <p className="font-roboto font-bold text-[#FEE77A] text-3xl m-6 text-center">
+        <p className="font-roboto font-bold text-[#FEE77A] text-3xl p-6 text-center">
           Write a Review
         </p>
         <div className="flex flex-row flex-wrap justify-center items-center">
-          <p className="font-roboto font-bold text-[#FEE77A] text-2xl m-4 text-center">
+          <p className="font-roboto font-bold text-[#FEE77A] text-2xl p-4 text-center">
             Rating :
           </p>
           <ReactStars
             count={5}
             // onChange={ratingChanged}
             value={star}
-            onChange={(e)=>setStar(e)}
+            onChange={(e) => setStar(e)}
             size={36}
             isHalf={true}
             edit={true}
@@ -99,9 +100,9 @@ const Reviews = () => {
         </div>
         <textarea
           value={comment}
-          onChange={(e)=>setComment(e.target.value)}
-          className="font-roboto font-[400] text-xl rounded-[15px] bg-[#fff] w-[300px] lg:w-[400px] h-[150px] text-[#0D103C]
-            text-start p-4 m-4"
+          onChange={(e) => setComment(e.target.value)}
+          className="font-roboto font-[400] text-xl rounded-[15px] bg-[#fff] min-[320px]:w-[280px] sm:w-[300px] lg:w-[400px] h-[150px] text-[#0D103C]
+            text-start p-4  my-8 "
           id="comment"
           type="text"
           placeholder="Enter Your Comment"
@@ -111,17 +112,15 @@ const Reviews = () => {
           style={{
             background: "linear-gradient(180deg, #FFEFEF 0%, #E5FE49 100%)",
           }}
-          className="w-[135px] h-[75px] font-roboto font-bold text-2xl text-[#0D103C] rounded-[20px]  px-4 m-4 align-left"
+          className="w-[135px] h-[75px] font-roboto font-bold text-2xl text-[#0D103C] rounded-[20px]  px-4 p-4 my-4 align-left"
         >
           Submit
         </button>
-        <div className="flex justify-center">
-          <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] my-8" />
-        </div>
-        <p className="font-roboto font-bold text-[#FEE77A] text-3xl m-6 text-center">
+        <HoriLine/>
+        <p className="font-roboto font-bold text-[#FEE77A] text-3xl p-6 my-4 text-center">
           Customer Reviews
         </p>
-        <div className="flex flex-row flex-wrap justify-center items-start m-4">
+        <div className="flex flex-row flex-wrap justify-center items-start p-4">
           {renderedCustomerReviewList}
         </div>
       </div>

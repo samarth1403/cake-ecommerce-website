@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import HoriLine from "../../../ReusableComponents/HoriLine";
 import EmptyCart from "../EmptyCart/EmptyCart";
 import OrderSummaryList from "../OrderSummary/OrderSummaryList";
 import PincodeCheck from "../PincodeCheck/PincodeCheck";
@@ -14,9 +15,7 @@ const NonEmptyCart = () => {
         <div>
           {/* <PincodeCheck /> */}
           <OrderSummaryList />
-          <div className="flex justify-center">
-            <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-12 mb-16" />
-          </div>
+          <HoriLine/>
         </div>
       ) : (
         <EmptyCart />

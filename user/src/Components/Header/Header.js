@@ -30,8 +30,13 @@ const Header = () => {
    });
 
   useEffect(() => {
-    dispatch(getCart({ Token: Token }));
-    dispatch(getWishlistOfUser({ Token: Token }));
+    console.log(Token)
+    if(Token !== undefined){
+      console.log(Token);
+      dispatch(getCart({ Token: Token }));
+      dispatch(getWishlistOfUser({ Token: Token }));
+    }
+
   }, [updatedUser, deletedCart]);
 
   const handleLogout = () => {
@@ -44,7 +49,7 @@ const Header = () => {
   return (
     <nav>
       <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4 ">
-        <div className="flex flex-row flex-wrap min-[320px]:justify-center sm:justify-between items-center w-[500px] h-[80px] mb-8">
+        <div className="flex flex-row flex-wrap min-[320px]:justify-center sm:justify-between items-center w-[500px] h-[80px] min-[320px]:mb-8 sm:mb-0">
           <Link to="/" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-4xl">
               Cakes
@@ -67,7 +72,7 @@ const Header = () => {
             </Navlink>
           </Link> */}
         </div>
-        <div className="flex flex-row flex-wrap justify-between items-center w-[380px] h-[80px] mx-2">
+        <div className="flex flex-row flex-wrap justify-between items-center min-[320px]:w-[300px] sm:w-[420px] h-[80px] mx-2 min-[320px]:mb-8 sm:mb-0">
           <Link
             to="/contact-us-page"
             className="my-2 mx-4"

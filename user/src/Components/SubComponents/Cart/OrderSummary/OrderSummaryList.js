@@ -17,7 +17,9 @@ const OrderSummaryList = () => {
   }, []);
   
   const getUserCart = () => {
-    dispatch(getCart({Token:Token}));
+     if (Token !== undefined) {
+       dispatch(getCart({ Token: Token }));
+     }
   };
 
   const {gotCart} = useSelector((state)=>{

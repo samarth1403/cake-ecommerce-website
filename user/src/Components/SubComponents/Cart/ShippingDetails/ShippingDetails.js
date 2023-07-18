@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { onShippingDetailsSubmit } from "../../../../features/order/orderSlice";
 import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
+import HoriLine from "../../../ReusableComponents/HoriLine";
 
 const ShippingDetails = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const ShippingDetails = () => {
   return (
     <div className="bg-[#0D103C]">
       <div className="flex flex-col flex-wrap justify-center items-center">
-        <p className="text-[#fff] font-roboto font-bold text-4xl m-8">
+        <p className="text-[#fff] font-roboto font-bold text-3xl p-8">
           2. Shipping Details
         </p>
         <form
@@ -46,10 +47,10 @@ const ShippingDetails = () => {
             background:
               "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.76) 0.01%, #C898F8 0.02%, #8A16FD 100%)",
           }}
-          className="w-[360px] lg:w-[600px] rounded-[25px] m-4 pt-6 flex flex-col flex-no-wrap justify-center items-center"
+          className="min-[320px]:w-[300px] sm:w-[600px] rounded-[25px] pt-6 flex flex-col flex-no-wrap justify-center items-center"
         >
           <InputWithBorder
-            className="w-[300px] lg:w-[500px] h-[75px]"
+            className="min-[320px]:w-[260px] sm:w-[300px] lg:w-[500px] h-[75px]"
             id="address"
             type="text"
             placeholder="Flat, Floor, Building Name / House Name, Area, Station, etc *"
@@ -64,7 +65,7 @@ const ShippingDetails = () => {
             ) : null}
           </div>
           <InputWithBorder
-            className="w-[300px] lg:w-[500px] h-[75px]"
+            className="min-[320px]:w-[260px] sm:w-[300px] lg:w-[500px] h-[75px]"
             id="landmark"
             type="text"
             placeholder="Area Name, Landmark, etc (optional)"
@@ -116,7 +117,7 @@ const ShippingDetails = () => {
             </div>
             <div className="felx flex-col justify-center items-center">
               <InputWithBorder
-                className="w-[300px] lg:w-[145px] h-[75px]"
+                className="min-[320px]:w-[260px] lg:w-[145px] h-[75px]"
                 id="state"
                 type="text"
                 placeholder="State"
@@ -132,14 +133,15 @@ const ShippingDetails = () => {
               </div>
             </div>
           </div>
-          <button type="submit" className="bg-[#84FF58] w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]">
+          <button
+            type="submit"
+            className="bg-[#84FF58] min-[320px]:w-[260px] sm:w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]"
+          >
             Proceed to Pay
           </button>
         </form>
       </div>
-      <div className="flex justify-center">
-        <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] my-12" />
-      </div>
+      <HoriLine/>
     </div>
   );
 };

@@ -18,12 +18,14 @@ const WishListItem = ({ wishlistItem }) => {
     dispatch(addToWishlist({prodId:id, Token:Token}));
     toast.success("Removed From Your Wishlist");
     setTimeout(() => {
-      dispatch(getWishlistOfUser({Token:Token}));
+      if(Token !== undefined){
+        dispatch(getWishlistOfUser({ Token: Token }));
+      }
     }, 100);
   }
   return (
     <div
-      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[310px] h-auto rounded-[33px] mx-8 mb-16 mt-4"
+      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[260px] h-auto rounded-[33px] mb-16 mt-4"
       style={{
         background: "linear-gradient(180deg, #FAFAFA 46.2%, #101567 100%)",
       }}
@@ -38,7 +40,7 @@ const WishListItem = ({ wishlistItem }) => {
         <img
           src={wishlistItem?.images[0]?.url}
           alt="Shopping Item"
-          className="w-[310px] h-[310px] rounded-t-[33px] mb-2"
+          className="w-[260px] h-[260px] rounded-t-[33px] mb-2"
         />
       </Link>
 

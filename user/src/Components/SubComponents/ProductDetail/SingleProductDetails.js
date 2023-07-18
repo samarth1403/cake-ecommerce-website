@@ -37,7 +37,9 @@ const SingleProductDetails = () => {
   useEffect(() => {
     getSingleProduct();
     setFlag(false);
-    dispatch(getCart());
+     if (Token !== undefined) {
+       dispatch(getCart({ Token: Token }));
+     }
   }, [productId]);
 
   const { gotProduct } = useSelector((state) => {
@@ -85,7 +87,9 @@ const SingleProductDetails = () => {
     
     setTimeout(()=>{
        ScrollToTop();
-       dispatch(getCart({Token:Token}))
+        if (Token !== undefined) {
+          dispatch(getCart({ Token: Token }));
+        }
     },100)
   }
 
@@ -107,19 +111,21 @@ const SingleProductDetails = () => {
     setTimeout(() => {
       navigate("/cart-page");
        ScrollToTop();
-      dispatch(getCart({Token:Token}));
+      if (Token !== undefined) {
+        dispatch(getCart({ Token: Token }));
+      }
     }, 100);
   };
 
   return (
     <div>
       <div className="flex flex-row flex-wrap justify-center items-start">
-        <div className="flex flex-col flex-wrap justify-center items-center m-8">
+        <div className="flex flex-col flex-wrap justify-center items-center p-8">
           <InnerImageZoom
             src={flag === false ? gotProduct?.images[0]?.url : productImage}
             alt="Cake"
             zoomType="hover"
-            className="w-[360px] h-[360px] sm:w-[450px] sm:h-[450px] rounded-[40px] mb-8"
+            className="min-[320px]:w-[260px] min-[320px]:h-[260px] sm:w-[360px] sm:h-[360px] sm:w-[450px] sm:h-[450px] rounded-[40px] mb-8"
           />
           {/* <div className="flex flex-row flex-wrap justify-center items-center">
             <img
@@ -144,9 +150,9 @@ const SingleProductDetails = () => {
           style={{
             background: "linear-gradient(180deg, #C1FFDE 0%, #0D103C 100%)",
           }}
-          className="flex flex-col flex-wrap justify-center items-center lg:items-start w-[360px] sm:w-[550px] p-4 rounded-[75px] my-8"
+          className="flex flex-col flex-wrap min-[320px]:justify-start min-[320px]:items-start sm:justify-start sm:items-start lg:justify-start lg:items-start min-[320px]:w-[260px] sm:w-[550px] p-4 rounded-[75px] my-8"
         >
-          <p className="font-roboto font-bold text-[#0D103C] text-3xl text-center mx-8 my-4 mt-6">
+          <p className="font-roboto font-bold text-[#0D103C] min-[320px]:text-xl sm:text-3xl text-center min-[320px]:px-2 sm:mx-8 my-4 mt-6">
             {gotProduct?.title}
           </p>
           <div className="flex flex-row flex-wrap justify-between items-center my-2">
@@ -177,15 +183,15 @@ const SingleProductDetails = () => {
 
           {alreadyAddedToCart === false ? (
             <>
-              <div className="flex flex-row flex-wrap justify-center md:justify-start items-center">
-                <p className="font-roboto font-bold text-xl ml-8 my-2 mr-4">
+              <div className="flex flex-row flex-wrap justify-start items-center mx-8 md:justify-start">
+                <p className="font-roboto font-bold text-xl my-2">
                   Enter Weight :
                 </p>
                 <input
                   onChange={(e) => setWeight(e.target.value)}
                   value={weight}
                   type="number"
-                  className="font-roboto font-bold text-xl text-center m-2 px-4 py-4 rounded-[20px] w-[60px]"
+                  className="font-roboto font-bold text-xl text-center p-2 px-4 py-4 rounded-[20px] w-[60px]"
                   style={{
                     background:
                       "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
@@ -230,7 +236,7 @@ const SingleProductDetails = () => {
                   })}
                 </div>
               </div>
-              <div className="flex flex-row flex-wrap justify-start items-center m-4">
+              <div className="flex flex-row flex-wrap justify-start items-center p-4 my-4">
                 <input
                   onChange={() => setVeg(true)}
                   type="radio"
@@ -283,28 +289,30 @@ const SingleProductDetails = () => {
                 })}
               </div>
               {alreadyAddedToCart === false && (
-                <div className="flex flex-row justify-center items-center mx-4 my-4">
-                  <p className="font-roboto font-bold text-xl mx-6">
+                <div className="flex flex-row flex-wrap justify-center items-center px-4 my-4">
+                  <p className="font-roboto font-bold text-xl mx-6 my-4">
                     Quantity :
                   </p>
-                  <img
-                    src={minusIcon}
-                    alt="Minus Icon"
-                    className="ml-2 cursor-pointer"
-                    onClick={() => setQuantity(quantity - 1)}
-                  />
-                  <input
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    id="quantity"
-                    className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
-                  />
-                  <img
-                    onClick={() => setQuantity(quantity + 1)}
-                    src={plusIcon}
-                    alt="Minus Icon"
-                    className=" cursor-pointer"
-                  />
+                  <div className="flex flex-row">
+                    <img
+                      src={minusIcon}
+                      alt="Minus Icon"
+                      className="ml-2 cursor-pointer"
+                      onClick={() => setQuantity(quantity - 1)}
+                    />
+                    <input
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                      id="quantity"
+                      className="w-[50px] h-[50px] sm:w-[75px] sm:h-[55px] p-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center mx-2"
+                    />
+                    <img
+                      onClick={() => setQuantity(quantity + 1)}
+                      src={plusIcon}
+                      alt="Minus Icon"
+                      className=" cursor-pointer"
+                    />
+                  </div>
                 </div>
               )}
               <p className="font-roboto font-bold  text-3xl mx-8 mt-6 ">
@@ -317,15 +325,15 @@ const SingleProductDetails = () => {
             </p>
           )}
 
-          <div className="flex flex-row flex-wrap justify-center items-center m-8">
+          <div className="flex flex-row flex-wrap justify-center items-center my-4">
             <button
               style={{
                 background: "linear-gradient(180deg, #FFEFEF 0%, #AE49FE 100%)",
               }}
-              className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-4 m-2"
-              onClick={() =>
-                {alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart();}
-              }
+              className="w-[200px] font-roboto font-bold text-xl text-center rounded-[25px] p-6 my-2"
+              onClick={() => {
+                alreadyAddedToCart ? navigate("/cart-page") : handleAddToCart();
+              }}
             >
               {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
             </button>

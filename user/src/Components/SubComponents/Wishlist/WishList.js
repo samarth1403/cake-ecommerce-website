@@ -16,7 +16,9 @@ const WishList = () => {
   }, []);
 
   const getWishlist = () => {
-    dispatch(getWishlistOfUser({ Token: Token }));
+    if(Token !== undefined){
+      dispatch(getWishlistOfUser({ Token: Token }));
+    }
   };
 
   const { gotWishlistOfUser } = useSelector((state) => {
@@ -32,7 +34,7 @@ const WishList = () => {
   });
   return (
     <>
-      <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] f text-5xl m-4">
+      <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] f text-4xl p-4">
         {gotWishlistOfUser?.wishList?.length === 0 ? (
           <p className="font-normal text-4xl">Your Wishlist is Empty</p>
         ) : (

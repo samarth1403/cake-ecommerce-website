@@ -123,24 +123,27 @@ const Footer = () => {
             </div>
           </div>
         </div> */}
-        <div className="flex flex-col flex-wrap  min-[320px]:justify-center sm:justify-start items-start mb-4 px-8">
-          <div className="flex flex-col flex-no-wrap justify-center items-start w-[200px]">
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl p-4">
-              CONTACT US :
-            </p>
-            <a href="tel:7499355194">
-              <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
-                +91 7499355194
+        <div className="flex flex-col flex-wrap justify-center items-center">
+          <div className="flex flex-col flex-wrap  min-[320px]:justify-center sm:justify-start items-start mb-4 px-8">
+            <div className="flex flex-col flex-no-wrap justify-center items-start w-[260px]">
+              <p className="font-roboto font-bold text-[#FFE04E] text-2xl p-4">
+                CONTACT US :
               </p>
-            </a>
-            <a href="mailto:samarthikkalaki@gmail.com">
-              <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
-                samarthikkalaki@gmail.com
-              </p>
-            </a>
+              <a href="tel:7499355194">
+                <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
+                  +91 7499355194
+                </p>
+              </a>
+              <a href="mailto:samarthikkalaki@gmail.com">
+                <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
+                  samarthikkalaki@gmail.com
+                </p>
+              </a>
+            </div>
           </div>
+          <FooterSignup />
         </div>
-        <div className="flex flex-col flex-no-wrap justify-center items-start w-[200px]">
+        <div className="flex flex-col flex-no-wrap justify-center items-start w-[260px]">
           <p className="font-roboto font-bold text-[#FFE04E] text-2xl p-4">
             ADDRESS :
           </p>
@@ -156,7 +159,6 @@ const Footer = () => {
         </div>
       </div>
       <div className="flex flex-col flex-no-wrap justify-center items-center">
-        <FooterSignup />
         <div className="flex flex-row flex-no-wrap justify-center items-center my-4">
           <Link to="/" onClick={() => ScrollToTop()}>
             <img

@@ -13,6 +13,7 @@ import { config } from "../../../../utils/axiosConfig";
 import { loadScript } from "../../../../utils/loadScript";
 import logo from '../../../../images/DoneIcon.svg'
 import { ScrollToTop } from "../../../ReusableComponents/ScrollToTop";
+import HoriLine from "../../../ReusableComponents/HoriLine";
 
 const MakePayment = () => {
   const [totalCost, setTotalCost] = useState();
@@ -30,7 +31,9 @@ const MakePayment = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getCart({Token:Token}));
+    if(Token !== undefined){
+      dispatch(getCart({ Token: Token }));
+    }
   }, []);
 
   
@@ -186,17 +189,17 @@ const MakePayment = () => {
             background:
               "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.76) 0.01%, #C58AFF 0.02%, #E1C6FC 100%)",
           }}
-          className="w-[360px] sm:w-[500px] md:w-[600px] rounded-[50px] m-4 p-4 m-8 p-6"
+          className="min-[320px]:w-[260px] sm:w-[500px] md:w-[600px] rounded-[50px] p-4 p-6"
         >
-          <p className="font-roboto font-bold text-[#0D103C] text-3xl text-left m-6">
+          <p className="font-roboto font-bold text-[#0D103C] text-3xl text-left p-6">
             Order Summary
           </p>
           {renderedOrderSummaryList}
-          <div className="flex flex-col flex-no-wrap justify-center items-center m-4">
+          <div className="flex flex-col flex-no-wrap justify-center items-center mx-4 p-4">
             <p className="font-roboto font-bold text-[#0D103C] text-xl text-center m-4 ">
               -----------------------------------------------------------------------
             </p>
-            <div className="flex flex-row flex-no-wrap justify-evenly items-center">
+            <div className="flex flex-row flex-no-wrap justify-center items-center">
               <p className="font-roboto font-bold text-[#0D103C] text-3xl mr-16 sm:mr-24 m-2 ">
                 Total Cost
               </p>
@@ -206,7 +209,7 @@ const MakePayment = () => {
             </div>
             <button
               onClick={displayRazorpay}
-              className="bg-[#84FF58] w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]"
+              className="bg-[#84FF58] min-[320px]:w-[240px] sm:w-[300px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-6 shadow-[6px_6px_2px_#0D103C]"
             >
               Proceed to Pay
             </button>
@@ -214,9 +217,7 @@ const MakePayment = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
-        <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] my-12" />
-      </div>
+      <HoriLine/>
     </>
   );
 };

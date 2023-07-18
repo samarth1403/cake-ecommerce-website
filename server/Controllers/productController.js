@@ -126,7 +126,7 @@ export const deleteAProductController = async (req, res) => {
 
 //Giving Rating to Product
 export const rateAProductController = async (req, res) => {
-  const { _id } = req.user;
+  const { _id } = req?.user;
   const { star, comment, prodId } = req.body;
 
   try {

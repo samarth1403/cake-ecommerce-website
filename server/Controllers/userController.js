@@ -203,7 +203,7 @@ export const deleteAUserController = async(req , res) => {
 
 //Update A User
 export const updateAUserController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
         const updatedUser = await userModel.findByIdAndUpdate(_id
@@ -262,7 +262,7 @@ export const unblockAUserController = async(req , res) => {
 
 //Updating Password
 export const changePasswordController = async (req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     const {password} = req.body;
     validateMongodbId(_id);
     const user = await userModel.findById(_id);
@@ -324,7 +324,7 @@ export const resetPasswordController = async (req , res) => {
 
 //Save the address
 export const saveUserAddressController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
         const updatedAddress = await userModel.findByIdAndUpdate(_id,{
@@ -343,7 +343,7 @@ export const saveUserAddressController = async(req , res) => {
 //Add to Cart Controller 
 export const userCartController = async(req , res) => {
     const {productId , color , price , quantity , veg , weight, shape} = req.body;
-    const {_id} = req.user;
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
         let newCart = await new cartModel({
@@ -402,7 +402,7 @@ export const userCartController = async(req , res) => {
 
 //delete Product from A Cart Controller
 export const deleteProductFromCartController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     const { cartProductId } = req.params;
     validateMongodbId(_id);
     try {
@@ -419,8 +419,7 @@ export const deleteProductFromCartController = async(req , res) => {
 }
 //Get A Cart Controller
 export const getACartController = async(req , res) => {
-    const {_id} = req.user;
-    console.log(req.user);
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
          //const cart = await cartModel.find({ orderBy: _id }.populate("products.product");Its mine
@@ -435,7 +434,7 @@ export const getACartController = async(req , res) => {
 
 //Update quantity from cart
 export const updateQuantityFromCartController = async(req , res) => {
-    const { _id } = req.user;
+    const { _id } = req?.user;
     const { cartProductId , quantityFromCart} = req.params;
     validateMongodbId(_id);
     try {
@@ -458,7 +457,7 @@ export const updateQuantityFromCartController = async(req , res) => {
 
 //empty the cart
 export const emptyCartController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
         const deletedCart = await cartModel.deleteMany({userId:_id});
@@ -472,7 +471,7 @@ export const emptyCartController = async(req , res) => {
 
 //Applying Coupon
 export const applyCouponController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     const {couponName} = req.body;
     validateMongodbId(_id);
     try {
@@ -499,7 +498,7 @@ export const applyCouponController = async(req , res) => {
 
 export const createOrderController = async(req , res) => {
         const {contactInfo , shippingInfo, orderItems , totalPrice , totalPriceAfterDiscount , paymentInfo} = req.body;
-        const {_id} = req.user;
+        const {_id} = req?.user;
         try {
             const createdOrder = await orderModel.create({
                 contactInfo , shippingInfo, orderItems , totalPrice , totalPriceAfterDiscount , paymentInfo, user:_id
@@ -513,7 +512,7 @@ export const createOrderController = async(req , res) => {
 //Creating an Order
 // export const createOrderController = async(req , res) => {
 //     const {COD , couponApplied} = req.body;
-//     const {_id} = req.user;
+//     const {_id} = req?.user;
 //     validateMongodbId(_id);
 //     try {
 //         if(!COD){
@@ -563,7 +562,7 @@ export const createOrderController = async(req , res) => {
 
 //Getting orders
 export const getMyOrdersController = async(req , res) => {
-    const {_id} = req.user;
+    const {_id} = req?.user;
     validateMongodbId(_id);
     try {
         const gotMyOrders = await orderModel

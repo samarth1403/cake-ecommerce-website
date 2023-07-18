@@ -17,7 +17,9 @@ const OrderSummaryItem = ({ productInCart }) => {
   const handleDeleteProductFromCart = (id) => {
     dispatch(deleteProductFromCart({ cartProductId: id, Token: Token }));
     setTimeout(() => {
-      dispatch(getCart({ Token: Token }));
+     if(Token !== undefined){
+       dispatch(getCart({ Token: Token }));
+     }
     }, 100);
   };
   useEffect(() => {
@@ -46,7 +48,7 @@ const OrderSummaryItem = ({ productInCart }) => {
         background:
           "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.76) 0.01%, #C58AFF 0.02%, #E1C6FC 100%)",
       }}
-      className="flex flex-row flex-wrap justify-center lg:justify-between items-center w-[400px] sm:w-[500px] md:w-[700px] lg:w-[900px] rounded-[50px] m-4 p-4"
+      className="flex flex-row flex-wrap justify-center lg:justify-between items-center min-[320px]:w-[300] sm:w-[500px] md:w-[700px] lg:w-[900px] rounded-[50px] m-4 p-4"
     >
       <img
         src={productInCart?.productId?.images[0]?.url}
@@ -57,30 +59,32 @@ const OrderSummaryItem = ({ productInCart }) => {
         <p className="font-roboto font-bold text-[#0D103C] text-xl mx-4">
           {productInCart?.productId?.title}
         </p>
-        <div className="flex flex-row justify-start items-center mx-4 my-2">
+        <div className="flex flex-row flex-wrap justify-start items-center mx-4 my-2">
           <p className="font-roboto font-bold text-[#0D103C] text-xl">
             Quantity :
           </p>
-          <img
-            src={minusIcon}
-            className="cursor-pointer"
-            alt="Minus Icon"
-            onClick={() => setQuantityFromCart(quantityFromCart - 1)}
-          />
-          <input
-            id="quantity"
-            onChange={(e) => {
-              setQuantityFromCart(parseInt(e.target.value));
-            }}
-            value={quantityFromCart}
-            className="w-[60px] h-[60px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
-          />
-          <img
-            src={plusIcon}
-            className="cursor-pointer"
-            alt="Plus Icon"
-            onClick={() => setQuantityFromCart(quantityFromCart + 1)}
-          />
+          <div className="flex flex-row">
+            <img
+              src={minusIcon}
+              className="cursor-pointer"
+              alt="Minus Icon"
+              onClick={() => setQuantityFromCart(quantityFromCart - 1)}
+            />
+            <input
+              id="quantity"
+              onChange={(e) => {
+                setQuantityFromCart(parseInt(e.target.value));
+              }}
+              value={quantityFromCart}
+              className="w-[60px] h-[60px] sm:w-[75px] sm:h-[55px] m-2 rounded-[10px] bg-[#17F0BC] font-roboto font-bold text-2xl text-center"
+            />
+            <img
+              src={plusIcon}
+              className="cursor-pointer"
+              alt="Plus Icon"
+              onClick={() => setQuantityFromCart(quantityFromCart + 1)}
+            />
+          </div>
         </div>
         <div className="flex flex-col justify-center items-start m-4">
           <p className="font-roboto font-bold text-[#0D103C] text-lg">

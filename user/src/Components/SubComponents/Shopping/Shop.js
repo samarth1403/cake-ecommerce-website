@@ -31,7 +31,7 @@ const Shop = () => {
 
   
   return (
-    <div className="flex flex-row flex-wrap justify-center items-center m-8">
+    <div className="flex flex-row flex-wrap justify-center items-center px-8 pb-4">
       {categories &&
         [...new Set(categories)]?.map((category) => {
           return (

@@ -45,19 +45,19 @@ const Signup = () => {
     
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">
-      <p className="font-roboto font-bold text-[#fff] text-4xl m-6">
+      <p className="font-roboto font-bold text-[#fff] text-3xl my-6">
         Create Account
       </p>
-      
+
       <form
         onSubmit={formik.handleSubmit}
         style={{
           background: "linear-gradient(180deg, #ACE7FF 0%, #53FFB8 100%)",
         }}
-        className="flex flex-col flex-no-wrap justify-center items-center w-[360px] lg:w-[500px] rounded-[25px] m-4 pt-6 "
+        className="flex flex-col flex-no-wrap justify-center items-center min-[320px]:w-[280px] sm:w-[360px] lg:w-[500px] rounded-[25px] pt-6 "
       >
         <Input
-          className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
+          className="bg-[#0D103C] min-[320px]:w-[250px] sm:w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
           id="firstName"
           type="text"
           placeholder="First Name"
@@ -72,7 +72,7 @@ const Signup = () => {
           ) : null}
         </div>
         <Input
-          className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
+          className="bg-[#0D103C] min-[320px]:w-[250px] sm:w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
           id="lastName"
           type="text"
           placeholder="Last Name"
@@ -88,7 +88,7 @@ const Signup = () => {
         </div>
 
         <Input
-          className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
+          className="bg-[#0D103C] min-[320px]:w-[250px] sm:w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4  m-4"
           id="email"
           type="text"
           placeholder="Email"
@@ -103,7 +103,7 @@ const Signup = () => {
           ) : null}
         </div>
         <Input
-          className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4 m-4"
+          className="bg-[#0D103C] min-[320px]:w-[250px] sm:w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4 m-4"
           id="mobile"
           type="number"
           placeholder="Phone Number"
@@ -118,7 +118,7 @@ const Signup = () => {
           ) : null}
         </div>
         <Input
-          className="bg-[#0D103C] w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4 m-4"
+          className="bg-[#0D103C] min-[320px]:w-[250px] sm:w-[300px] lg:w-[400px] h-[75px] text-[#fff] px-4 m-4"
           id="password"
           type="password"
           placeholder="Password"
@@ -136,24 +136,24 @@ const Signup = () => {
           <button
             onClick={() => formik.resetForm()}
             style={{ boxShadow: "8px 8px 4px #0D103C" }}
-            className="bg-[#fff] w-[135px] h-[75px] font-roboto font-bold text-2xl text-[#0D103C] rounded-[20px]  px-4 mx-4 mt-4 mb-8"
+            className="bg-[#fff] w-[105px] h-[75px] font-roboto font-bold text-2xl text-[#0D103C] rounded-[20px]  px-4 mx-4 mt-4 mb-8"
           >
             Reset
           </button>
           <button
             type="submit"
             style={{ boxShadow: "8px 8px 4px #0D103C" }}
-            className="bg-[#fff] w-[135px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
+            className="bg-[#fff] w-[105px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
           >
             Sign Up
           </button>
         </div>
-        <button
+        {/* <button
           style={{ boxShadow: "8px 8px 4px #0D103C" }}
           className="bg-[#fff] w-[305px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mb-8"
         >
           Sign Up With Google
-        </button>
+        </button> */}
       </form>
     </div>
   );

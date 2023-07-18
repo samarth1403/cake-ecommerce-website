@@ -43,7 +43,7 @@ const OrderSummaryTotal = () => {
             background:
               "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.76) 0.01%, #C58AFF 0.02%, #E1C6FC 100%)",
           }}
-          className="flex flex-col flex-wrap justify-center items-center w-[360px] md:w-[600px] rounded-[50px] m-8"
+          className="flex flex-col flex-wrap justify-center items-center min-[320px]:w-[300px] md:w-[600px] rounded-[50px]"
         >
           <p className="font-roboto font-bold text-[#0D103C] text-3xl m-8">
             Price Details
@@ -52,7 +52,7 @@ const OrderSummaryTotal = () => {
             style={{
               background: "linear-gradient(90deg, #FFF177 0%, #FFFFFF 100%)",
             }}
-            className="flex flex-row flex-no-wrap justify-between items-center w-[340px] md:w-[500px] rounded-[50px] p-4"
+            className="flex flex-row flex-no-wrap justify-between items-center min-[320px]:w-[280px] md:w-[500px] rounded-[50px] p-4"
           >
             <div className="flex flex-col flex-no-wrap justify-start items-start">
               <p className="font-roboto font-bold text-[#0D103C] text-2xl m-4">
@@ -89,12 +89,12 @@ const OrderSummaryTotal = () => {
             Order
           </p>
           <div className="flex flex-row flex-wrap justify-center items-center m-4">
-            <Link to="/shop-page" onClick={()=>ScrollToTop()}>
+            <Link to="/shop-page" onClick={() => ScrollToTop()}>
               <button className="bg-[#fff] w-[225px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-xl px-4 mx-4 mt-2 mb-4 shadow-[6px_6px_2px_#0D103C]">
                 Continue Shopping
               </button>
             </Link>
-            <Link to="/cart-page/contact-details" onClick={()=>ScrollToTop()}>
+            <Link to="/cart-page/contact-details" onClick={() => ScrollToTop()}>
               <button className="bg-[#84FF58] w-[225px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-2 mb-4 shadow-[6px_6px_2px_#0D103C]">
                 Checkout
               </button>

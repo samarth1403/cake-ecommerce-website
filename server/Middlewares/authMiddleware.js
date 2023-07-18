@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import userModel from '../Models/userModel.js';
+
 export const authMiddleware = async(req , res , next) => {
     let token;
     if(req?.headers?.authorization?.startsWith("Bearer")){
@@ -14,10 +15,11 @@ export const authMiddleware = async(req , res , next) => {
         } catch (error) {
             // throw new Error("Not Authorized , Token Expired , Please Login Again");
             res.json({
-              res: {
-                message: "Not Authorized , Token Expired , Please Login Again", success : false,
-              },
-            });
+          res: {
+            message:"Not Authorized , Token Expired , Please Login Again",
+            success: false,
+          },
+        });
         }
     }
     else{

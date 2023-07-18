@@ -1,18 +1,19 @@
 import React from "react";
 import ButtonRYG from "../../ReusableComponents/ButtonRYG";
 import ReactStars from "react-rating-stars-component";
-import { AiOutlineHeart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AiFillHeart } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../../features/product/productSlice";
-import { useNavigate } from "react-router-dom";
 import { ScrollToTop } from "../../ReusableComponents/ScrollToTop";
+import { toast } from "react-toastify";
 
 const PopularProduct = ({ shoppingItem }) => {
     const { Token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleAddToWishlist = (prodId) => {
+    toast.success("Cake added to your Wishlist");
     dispatch(addToWishlist({ prodId: prodId, Token: Token }));
   };
   return (
@@ -22,7 +23,10 @@ const PopularProduct = ({ shoppingItem }) => {
         background: "linear-gradient(90deg, #53FFB8 0%, #ACE7FF 100%)",
       }}
     >
-      <Link to={`/product-details/${shoppingItem._id}`} onClick={()=>ScrollToTop()}>
+      <Link
+        to={`/product-details/${shoppingItem._id}`}
+        onClick={() => ScrollToTop()}
+      >
         <img
           src={shoppingItem?.images[0]?.url}
           alt="Shopping Item"
@@ -65,7 +69,7 @@ const PopularProduct = ({ shoppingItem }) => {
           className="absolute top-4 right-4 "
           onClick={() => handleAddToWishlist(shoppingItem._id)}
         >
-          <AiOutlineHeart className="text-4xl" />
+          <AiFillHeart className="text-3xl text-[#FF0000]" />
         </button>
       </div>
     </div>

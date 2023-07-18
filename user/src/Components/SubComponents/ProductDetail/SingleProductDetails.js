@@ -121,7 +121,7 @@ const SingleProductDetails = () => {
             zoomType="hover"
             className="w-[360px] h-[360px] sm:w-[450px] sm:h-[450px] rounded-[40px] mb-8"
           />
-          <div className="flex flex-row flex-wrap justify-center items-center">
+          {/* <div className="flex flex-row flex-wrap justify-center items-center">
             <img
               src={gotProduct?.images[0]?.url}
               alt="Cake"
@@ -138,7 +138,7 @@ const SingleProductDetails = () => {
                 handleClick(gotProduct?.images[1]?.url);
               }}
             />
-          </div>
+          </div> */}
         </div>
         <div
           style={{
@@ -329,7 +329,7 @@ const SingleProductDetails = () => {
             >
               {alreadyAddedToCart === false ? "Add To Cart" : "Go to Cart"}
             </button>
-            <button
+            {/* <button
               style={{
                 background: "linear-gradient(180deg, #FFEFEF 0%, #E5FE49 100%)",
               }}
@@ -339,7 +339,7 @@ const SingleProductDetails = () => {
               }
             >
               Buy Now
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ const CakeTypesList = () => {
    useEffect(() => {
      let arr = [];
      if(prodCategories !== undefined){
-      for (let index = 1; index <= 10; index++) {
+      for (let index = 1; index <= 8; index++) {
         let element = prodCategories[index];
         arr.push(element?.subCategoryName);
       }

@@ -12,7 +12,7 @@ const NonEmptyCart = () => {
     <>
       {gotCart?.length !== 0 ? (
         <div>
-          <PincodeCheck />
+          {/* <PincodeCheck /> */}
           <OrderSummaryList />
           <div className="flex justify-center">
             <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-12 mb-16" />

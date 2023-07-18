@@ -7,6 +7,7 @@ import {
   emptyCart,
   getCart,
   paymentVerification,
+  resetCreateOrder,
 } from "../../../../features/user/userSlice";
 import { config } from "../../../../utils/axiosConfig";
 import { loadScript } from "../../../../utils/loadScript";
@@ -54,13 +55,17 @@ const MakePayment = () => {
     setTotalCost(totalPrice);
     setOrderedProducts(items);
   }, [gotCart]);
-
+ console.log(createdOrder);
   useEffect(()=>{
     if(createdOrder && res.success){
       dispatch(emptyCart({Token:Token}));
       navigate("/cart-page/congratulation");
       ScrollToTop();
+      setTimeout(() => {
+        dispatch(resetCreateOrder());
+      }, 1000);
     }
+    
   },[createdOrder])
 
   const displayRazorpay = async () => {
@@ -83,63 +88,64 @@ const MakePayment = () => {
       return;
     }
     // Getting the order details back
-    const { amount, id: order_id, currency } = result?.data?.order;
+    const { amount, id: order_id, currency } = result.data.order;
+    console.log(result?.data?.order);
 
-    const options = {
-      key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard
-      amount: amount,
-      currency: currency,
-      name: "Samarth Ikkalaki",
-      description: "Test Transaction",
-      image: { logo },
-      order_id: order_id,
-      handler: async function (response) {
-        const data = {
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
+    try {
+      if(result?.data){
+        const options = {
+          key: "rzp_test_o0FyMR0OMCy1aR", // Enter the Key ID generated from the Dashboard
+          amount: amount,
+          currency: currency,
+          name: "Samarth Ikkalaki",
+          description: "Test Transaction",
+          image: { logo },
+          order_id: order_id,
+          handler: async function (response) {
+            const data = {
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+            };
+            dispatch(
+              createOrder({
+                body: {
+                  contactInfo,
+                  shippingInfo,
+                  totalPrice,
+                  paymentInfo: data,
+                  totalPriceAfterDiscount: totalPrice,
+                  orderItems: orderedProducts,
+                },
+                Token: Token,
+              })
+            );
+            dispatch(emptyCart({ Token: Token }));
+          },
+          prefill: {
+            name: "Samarth Ikkalaki",
+            email: "samarthikkalaki@example.com",
+            contact: "7499355194",
+          },
+          notes: {
+            address: "Samarth Ikkalaki Office",
+          },
+          theme: {
+            color: "#61dafb",
+          },
         };
-          // console.log({
-          //   contactInfo,
-          //   shippingInfo,
-          //   totalPrice,
-          //   paymentInfo:data,
-          //   totalPriceAfterDiscount: totalPrice,
-          //   orderItems: orderedProducts,
-          // });
-        dispatch(
-          createOrder({
-            body: {
-              contactInfo,
-              shippingInfo,
-              totalPrice,
-              paymentInfo: data,
-              totalPriceAfterDiscount: totalPrice,
-              orderItems: orderedProducts,
-            },Token:Token
-          })
-        );
-       //dispatch(emptyCart())
-      },
-      prefill: {
-        name: "Samarth Ikkalaki",
-        email: "samarthikkalaki@example.com",
-        contact: "7499355194",
-      },
-      notes: {
-        address: "Samarth Ikkalaki Office",
-      },
-      theme: {
-        color: "#61dafb",
-      },
-    };
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      }
+    } catch (error) {
+       return false;
+    }
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+    
   };
 
-  const renderedOrderSummaryList = gotCart?.map((item) => {
+  const renderedOrderSummaryList = gotCart?.map((item,index) => {
     return (
-      <div className="mb-6">
+      <div className="mb-6" key={index}>
         <div className="flex flex-row flex-wrap justify-between items-center mx-2">
           <p className="font-roboto font-bold text-[#0D103C] text-2xl m-2">
             {item?.productId?.title}

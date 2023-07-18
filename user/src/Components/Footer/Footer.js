@@ -32,7 +32,11 @@ const Footer = () => {
 
   const renderedPolicyItemList = policyItemList.map((policyItem,index) => {
     return (
-      <Link to="/" key={index} onClick={()=>ScrollToTop()}>
+      <Link
+        to="/under-construction-page"
+        key={index}
+        onClick={() => ScrollToTop()}
+      >
         <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
           {policyItem}
         </p>
@@ -41,85 +45,107 @@ const Footer = () => {
   });
   return (
     <>
-        <div className="flex flex-row flex-wrap justify-center items-start">
-          {/* SHOP */}
-          <div className="my-4 mx-8">
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
-              SHOP
-            </p>
-            <div className="flex flex-col flex-wrap justify-start items-start">
-              {renderedShoppingItemCakeList}
-            </div>
-          </div>
-          {/* ABOUT */}
-          <div className="my-4 mx-8">
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
-              ABOUT
-            </p>
-            <div className="flex flex-col flex-wrap justify-start items-start mb-4">
-              {renderedAboutItemList}
-            </div>
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
-              POLICY
-            </p>
-            <div className="flex flex-col flex-wrap justify-start items-start">
-              {renderedPolicyItemList}
-            </div>
-          </div>
-          <div className="flex flex-col flex-wrap justify-start items-start mb-4 mx-8">
-            <div className="flex flex-col flex-no-wrap justify-center items-start w-[360px]">
-              <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
-                ADDRESS :
-              </p>
-              <a href="/">
-                <p className="font-roboto font-[500] text-[#fff] text-lg m-4">
-                  9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd,
-                  Clover Park, Pune, Maharashtra 411014
-                </p>
-              </a>
-            </div>
-            <div className="flex flex-col flex-no-wrap justify-center items-start">
-              <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
-                CONTACT US :
-              </p>
-              <a href="tel:7499355194">
-                <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
-                  +91 7499355194
-                </p>
-              </a>
-              <a href="mailto:samarthikkalaki@gmail.com">
-                <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
-                  samarthikkalaki@gmail.com
-                </p>
-              </a>
-            </div>
+      <div className="flex flex-row flex-wrap justify-center items-start">
+        {/* SHOP */}
+        <div className="my-4 mx-8">
+          <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
+            SHOP
+          </p>
+          <div className="flex flex-col flex-wrap justify-start items-start">
+            {renderedShoppingItemCakeList}
           </div>
         </div>
+        {/* ABOUT */}
+        <div className="my-4 mx-8">
+          <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
+            ABOUT
+          </p>
+          <div className="flex flex-col flex-wrap justify-start items-start mb-4">
+            <Link to="/about-page" onClick={() => ScrollToTop()}>
+              <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
+                Us
+              </p>
+            </Link>
+            <Link to="/contact-us-page" onClick={() => ScrollToTop()}>
+              <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
+                Contact Us
+              </p>
+            </Link>
+            <Link to="/under-construction-page" onClick={() => ScrollToTop()}>
+              <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
+                FAQ
+              </p>
+            </Link>
+            <Link to="/under-construction-page" onClick={() => ScrollToTop()}>
+              <p className="font-roboto font-[500] text-[#fff] text-lg m-1.5">
+                Customer Reviews
+              </p>
+            </Link>
+          </div>
+          <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
+            POLICY
+          </p>
+          <div className="flex flex-col flex-wrap justify-start items-start">
+            {renderedPolicyItemList}
+          </div>
+        </div>
+        <div className="flex flex-col flex-wrap justify-start items-start mb-4 mx-8">
+          <div className="flex flex-col flex-no-wrap justify-center items-start w-[360px]">
+            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
+              ADDRESS :
+            </p>
+            <a
+              href="https://www.google.com/maps/place/Phoenix+Fountainhead/@18.561895,73.9143073,17z/data=!3m1!4b1!4m6!3m5!1s0x3bc2c141117e8ea1:0xcc485d0fa68e7bc1!8m2!3d18.561895!4d73.916496!16s%2Fg%2F11btrrgvt2?entry=ttu"
+              target="_blank"
+            >
+              <p className="font-roboto font-[500] text-[#fff] text-lg m-4">
+                9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd, Clover
+                Park, Pune, Maharashtra 411014
+              </p>
+            </a>
+          </div>
+          <div className="flex flex-col flex-no-wrap justify-center items-start">
+            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
+              CONTACT US :
+            </p>
+            <a href="tel:7499355194">
+              <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+                +91 7499355194
+              </p>
+            </a>
+            <a href="mailto:samarthikkalaki@gmail.com">
+              <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+                samarthikkalaki@gmail.com
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
       <div className="flex flex-col flex-no-wrap justify-center items-center">
         <FooterSignup />
         <div className="flex flex-row flex-no-wrap justify-center items-center my-4">
-          <Link to="/" onClick={()=>ScrollToTop()}>
+          <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={InstagramW}
               alt="Instagram Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="/" onClick={()=>ScrollToTop()}>
+          <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={FacebookW}
               alt="Facebook Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="/" onClick={()=>ScrollToTop()}>
+          <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={PinterestW}
               alt="Pinterest Icon"
               className="w-[50px] h-[50px] mx-4"
             />
           </Link>
-          <Link to="/" onClick={()=>ScrollToTop()}>
+          <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={YoutubeW}
               alt="Youtube Icon"

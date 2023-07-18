@@ -159,6 +159,7 @@ export const resetPassword = createAsyncThunk(
 );
 
 export const resetUserState = createAction("reset/userState");
+export const resetCreateOrder = createAction("reset/createOrder");
 
 const userSlice = createSlice({
   name: "user",
@@ -369,9 +370,6 @@ const userSlice = createSlice({
        state.isError = false;
        state.gotMyOrders = action.payload?.gotMyOrders;
        state.res = action.payload?.res;
-       if (state.gotMyOrders) {
-         toast.success("My orders Got Successfully");
-       }
      });
      builder.addCase(getMyOrders.rejected, (state, action) => {
        state.isLoading = false;
@@ -483,6 +481,9 @@ const userSlice = createSlice({
            });
 
     builder.addCase(resetUserState, () => initialState);
+    builder.addCase(resetCreateOrder, (state,action) =>{
+         state.createdOrder = null;
+    });
   },
 });
 

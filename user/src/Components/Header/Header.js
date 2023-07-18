@@ -5,7 +5,7 @@ import person from '../../images/person.svg';
 import cart from '../../images/cart.svg';
 import heart from '../../images/HeartIcon.svg';
 import { BsTelephoneFill, BsFillCartFill } from "react-icons/bs";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOutCircle } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, getWishlistOfUser } from '../../features/user/userSlice';
@@ -19,22 +19,20 @@ const Header = () => {
   const dispatch = useDispatch()
   const {Token} = useSelector((state)=>state.user)
 
-  const { gotCart, user, userData, gotWishlistOfUser } = useSelector(
+  const { gotCart, user,deletedCart, userData, gotWishlistOfUser } = useSelector(
     (state) => {
       return state.user;
     }
   );
 
-   const { updatedUser } = useSelector(
-     (state) => {
-       return state.product;
-     }
-   );
+   const { updatedUser,} = useSelector((state) => {
+     return state.product;
+   });
 
   useEffect(() => {
     dispatch(getCart({ Token: Token }));
     dispatch(getWishlistOfUser({ Token: Token }));
-  }, [updatedUser]);
+  }, [updatedUser, deletedCart]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -46,12 +44,7 @@ const Header = () => {
   return (
     <nav>
       <div className="flex flex-row flex-wrap justify-evenly items-center bg-[#0D103C] max-w-full h-auto mx-auto px-6 py-6 sm:px-6 lg:px-4">
-        <div className="flex flex-row flex-wrap justify-between items-center w-[600px] h-[80px] ">
-          <Link to="/about-page" onClick={() => ScrollToTop()}>
-            <Navlink href="/something" className="text-2xl">
-              About
-            </Navlink>
-          </Link>
+        <div className="flex flex-row flex-wrap justify-between items-center w-[500px] h-[80px] ">
           <Link to="/my-orders" onClick={() => ScrollToTop()}>
             <Navlink href="/something" className="text-2xl">
               My Orders
@@ -126,7 +119,7 @@ const Header = () => {
               className="font-roboto font-bold text-xl text-center text-white mx-2"
               onClick={handleLogout}
             >
-              <BiLogOut className="text-5xl text-[#D9D9D9]" />
+              <BiLogOutCircle className="text-5xl text-[#D9D9D9]" />
             </button>
           )}
         </div>

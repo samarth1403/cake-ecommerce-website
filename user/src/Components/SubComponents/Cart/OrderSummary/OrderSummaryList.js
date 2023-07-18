@@ -35,9 +35,9 @@ const OrderSummaryList = () => {
     
   return (
     <div className="flex flex-col flex-wrap justify-center items-center">
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] my-8" />
-      </div>
+      </div> */}
       <p className="font-roboto font-bold text-[#fff] text-4xl m-6 mb-8">
         Order Summary
       </p>

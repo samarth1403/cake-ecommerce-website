@@ -26,6 +26,7 @@ import MyOrders from "./Pages/MyOrders";
 import Profile from "./Pages/Profile";
 import Signup from "./Components/SubComponents/Login/Signup/Signup";
 import Signin from "./Components/SubComponents/Login/Signin/Signin";
+import UnderContructionPage from "./Pages/UnderContructionPage";
 
 const App = () => {
   return (
@@ -34,6 +35,11 @@ const App = () => {
         <Routes>
           <Route key="layout" path="/" element={<Layout />}>
             <Route key="/" index element={<HomePage />} />
+            <Route
+              key="under-construction-page"
+              path="under-construction-page"
+              element={<UnderContructionPage />}
+            />
             <Route
               key="/product-details"
               path="product-details"
@@ -115,7 +121,7 @@ const App = () => {
                 }
               />
               <Route
-               key="make-payment"
+                key="make-payment"
                 path="make-payment"
                 element={
                   <PrivateRoute>
@@ -123,12 +129,20 @@ const App = () => {
                   </PrivateRoute>
                 }
               />
-              <Route key="congratulation" path="congratulation" element={<Congratulation />} />
+              <Route
+                key="congratulation"
+                path="congratulation"
+                element={<Congratulation />}
+              />
             </Route>
             <Route key="blog-page" path="blog-page" element={<BlogList />} />
-            <Route key="blog-page/:id" path="blog-page/:id" element={<Blog />} />
             <Route
-            key="my-orders"
+              key="blog-page/:id"
+              path="blog-page/:id"
+              element={<Blog />}
+            />
+            <Route
+              key="my-orders"
               path="/my-orders"
               element={
                 <PrivateRoute>
@@ -137,7 +151,7 @@ const App = () => {
               }
             />
             <Route
-            key="my-profile"
+              key="my-profile"
               path="/my-profile"
               element={
                 <PrivateRoute>

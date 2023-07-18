@@ -1,7 +1,7 @@
 import React from "react";
 import ButtonRYG from '../../ReusableComponents/ButtonRYG';
 import ReactStars from "react-rating-stars-component";
-import {AiOutlineHeart} from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, getProduct } from "../../../features/product/productSlice";
@@ -30,7 +30,10 @@ const ShoppingItem = ({ shoppingItem }) => {
       }}
     >
       <img
-        onClick={() => {handleClick(shoppingItem?._id); ScrollToTop();}}
+        onClick={() => {
+          handleClick(shoppingItem?._id);
+          ScrollToTop();
+        }}
         src={shoppingItem?.images[0]?.url}
         alt="Shopping Item"
         className="w-[310px] h-[310px] rounded-t-[33px] mb-2 cursor-pointer"
@@ -60,16 +63,22 @@ const ShoppingItem = ({ shoppingItem }) => {
             className="absolute top-4 right-4"
             onClick={() => handleAddToWishlist(shoppingItem?._id)}
           >
-            <AiOutlineHeart className="text-4xl" />
+            <AiFillHeart className="text-3xl text-[#FF0000]" />
           </button>
         </div>
         <div className="flex flex-row flex-no-wrap justify-between px-2 pt-3 pb-6">
-          <Link to={`/product-details/${shoppingItem?._id}`} onClick={()=>ScrollToTop()}>
+          <Link
+            to={`/product-details/${shoppingItem?._id}`}
+            onClick={() => ScrollToTop()}
+          >
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Add to Cart
             </ButtonRYG>
           </Link>
-          <Link to={`/product-details/${shoppingItem?._id}`} onClick={()=>ScrollToTop()}>
+          <Link
+            to={`/product-details/${shoppingItem?._id}`}
+            onClick={() => ScrollToTop()}
+          >
             <ButtonRYG className="px-4 mr-4 py-2 rounded-[12px]">
               Buy Now
             </ButtonRYG>

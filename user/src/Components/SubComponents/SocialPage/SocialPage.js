@@ -16,8 +16,8 @@ const SocialPage = () => {
      ScrollToTop();
   }
   return (
-    <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center px-32 py-16">
-      <p className="font-roboto font-bold leading-normal text-[#FFE04E] text-3xl text-center m-6">
+    <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center min-[320px]:p-4 sm:px-32 sm:py-16">
+      <p className="font-roboto font-bold leading-normal text-[#FFE04E] text-3xl text-center p-6">
         Follow Us On
       </p>
       <SocialBox className="m-2" onClick={handleClick}>
@@ -44,7 +44,7 @@ const SocialPage = () => {
       <SocialBox className="m-2" onClick={handleClick}>
         <img src={YoutubeC} alt="Youtube Icon" className="w-[50px] h-[50px]" />
       </SocialBox>
-      <p className=" font-roboto font-bold leading-normal text-[#FFE04E] text-2xl m-4">
+      <p className=" font-roboto font-bold leading-normal text-[#FFE04E] text-2xl p-4">
         @SamarthIkkalaki
       </p>
     </div>

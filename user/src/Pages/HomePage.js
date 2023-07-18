@@ -41,7 +41,7 @@ const HomePage = () => {
       <HelmetMeta title={"Cake Website - Home"} />
       <Hero images={imgArray} />
       <div className="flex justify-center">
-        <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
+        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
       <PopularProductList />
       <CakeMarquee />
@@ -50,12 +50,12 @@ const HomePage = () => {
       </div>
       <ShoppingList /> */}
       <div className="flex justify-center">
-        <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
+        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
       <SweetTalk />
       <SocialPage />
       <div className="flex justify-center">
-        <hr className="w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
+        <hr className="min-[320px]:w-[280px] w-[360px] sm:w-[500px] md:w-[700px] lg-w-[1000px] mt-8 mb-16" />
       </div>
     </>
   );

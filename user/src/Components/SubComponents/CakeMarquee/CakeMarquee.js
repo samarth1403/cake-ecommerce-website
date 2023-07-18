@@ -20,31 +20,33 @@ const CakeMarquee = () => {
             className="m-4"
             key={product?._id}
             to={`/product-details/${product?._id}`}
-            onClick={()=>ScrollToTop()}
+            onClick={() => ScrollToTop()}
           >
             <img
               src={product?.images[0]?.url}
               alt="Cake Images Item"
-              className="w-[320px] h-[320px] rounded-[50px] cursor-pointer"
+              className="min-[320px]:w-[200px] min-[320px]:h-[200px]  min-[320px]:rounded-[25px] sm:w-[240px] sm:h-[240px] sm:rounded-[50px] cursor-pointer"
             />
           </Link>
         );
     })
   return (
     <div className="flex flex-col flex-no-wrap justify-center items-center">
-      <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] text-5xl ">
+      <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] min-[320px]:text-3xl sm:text-4xl ">
         Our Specials
       </p>
-      <div className="w-[360px] sm:w-[500px] md:w-[700px] lg:w-[1100px] m-12">
-        <Marquee
-          autoFill
-          pauseOnHover
-          gradient
-          gradientColor={[13, 16, 60]}
-          gradientWidth={100}
-        >
-          {renderedCakeImagesList}
-        </Marquee>
+      <div className="flex flex-col flex-no-wrap justify-center items-center">
+        <div className="w-[320px] sm:w-[500px] md:w-[900px] lg:w-[1150px] my-6">
+          <Marquee
+            autoFill
+            pauseOnHover
+            gradient
+            gradientColor={[13, 16, 60]}
+            gradientWidth={100}
+          >
+            {renderedCakeImagesList}
+          </Marquee>
+        </div>
       </div>
     </div>
   );

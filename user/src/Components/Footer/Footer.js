@@ -89,36 +89,70 @@ const Footer = () => {
             {renderedPolicyItemList}
           </div>
         </div>
-        <div className="flex flex-col flex-wrap justify-start items-start mb-4 mx-8">
-          <div className="flex flex-col flex-no-wrap justify-center items-start w-[360px]">
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
+        {/* <div className="my-4 mx-8">
+          <div className="flex flex-col flex-wrap justify-start items-start">
+            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
               ADDRESS :
             </p>
-            <a
-              href="https://www.google.com/maps/place/Phoenix+Fountainhead/@18.561895,73.9143073,17z/data=!3m1!4b1!4m6!3m5!1s0x3bc2c141117e8ea1:0xcc485d0fa68e7bc1!8m2!3d18.561895!4d73.916496!16s%2Fg%2F11btrrgvt2?entry=ttu"
-              target="_blank"
-            >
-              <p className="font-roboto font-[500] text-[#fff] text-lg m-4">
-                9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd, Clover
-                Park, Pune, Maharashtra 411014
-              </p>
-            </a>
+
+            <div className="flex flex-col flex-wrap justify-start items-start mb-4">
+              <a
+                href="https://www.google.com/maps/place/Phoenix+Fountainhead/@18.561895,73.9143073,17z/data=!3m1!4b1!4m6!3m5!1s0x3bc2c141117e8ea1:0xcc485d0fa68e7bc1!8m2!3d18.561895!4d73.916496!16s%2Fg%2F11btrrgvt2?entry=ttu"
+                target="_blank"
+              >
+                <p className="font-roboto font-[500] text-[#fff] text-lg m-4">
+                  9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd,
+                  Clover Park, Pune, Maharashtra 411014
+                </p>
+              </a>
+            </div>
+            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-1.5">
+              CONTACT US :
+            </p>
+            <div className="flex flex-col flex-wrap justify-start items-start">
+              <a href="tel:7499355194">
+                <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+                  +91 7499355194
+                </p>
+              </a>
+              <a href="mailto:samarthikkalaki@gmail.com">
+                <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+                  samarthikkalaki@gmail.com
+                </p>
+              </a>
+            </div>
           </div>
-          <div className="flex flex-col flex-no-wrap justify-center items-start">
-            <p className="font-roboto font-bold text-[#FFE04E] text-2xl m-4">
+        </div> */}
+        <div className="flex flex-col flex-wrap  min-[320px]:justify-center sm:justify-start items-start mb-4 px-8">
+          <div className="flex flex-col flex-no-wrap justify-center items-start w-[200px]">
+            <p className="font-roboto font-bold text-[#FFE04E] text-2xl p-4">
               CONTACT US :
             </p>
             <a href="tel:7499355194">
-              <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+              <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
                 +91 7499355194
               </p>
             </a>
             <a href="mailto:samarthikkalaki@gmail.com">
-              <p className="font-roboto font-[500] text-[#fff] text-lg mx-4 my-2">
+              <p className="font-roboto font-[500] text-[#fff] text-lg px-4 my-2">
                 samarthikkalaki@gmail.com
               </p>
             </a>
           </div>
+        </div>
+        <div className="flex flex-col flex-no-wrap justify-center items-start w-[200px]">
+          <p className="font-roboto font-bold text-[#FFE04E] text-2xl p-4">
+            ADDRESS :
+          </p>
+          <a
+            href="https://www.google.com/maps/place/Phoenix+Fountainhead/@18.561895,73.9143073,17z/data=!3m1!4b1!4m6!3m5!1s0x3bc2c141117e8ea1:0xcc485d0fa68e7bc1!8m2!3d18.561895!4d73.916496!16s%2Fg%2F11btrrgvt2?entry=ttu"
+            target="_blank"
+          >
+            <p className="font-roboto font-[500] text-[#fff] text-lg p-4">
+              9th Floor, Tower 2, Phoenix Fountainhead, 207, Nagar Rd, Clover
+              Park, Pune, Maharashtra 411014
+            </p>
+          </a>
         </div>
       </div>
       <div className="flex flex-col flex-no-wrap justify-center items-center">
@@ -128,33 +162,33 @@ const Footer = () => {
             <img
               src={InstagramW}
               alt="Instagram Icon"
-              className="w-[50px] h-[50px] mx-4"
+              className="w-[60px] h-[60px] px-2"
             />
           </Link>
           <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={FacebookW}
               alt="Facebook Icon"
-              className="w-[50px] h-[50px] mx-4"
+              className="w-[60px] h-[60px] px-2"
             />
           </Link>
           <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={PinterestW}
               alt="Pinterest Icon"
-              className="w-[50px] h-[50px] mx-4"
+              className="w-[60px] h-[60px] px-2"
             />
           </Link>
           <Link to="/" onClick={() => ScrollToTop()}>
             <img
               src={YoutubeW}
               alt="Youtube Icon"
-              className="w-[50px] h-[50px] mx-4  hover:rounded-[10px]"
+              className="w-[60px] h-[60px] px-2"
             />
           </Link>
         </div>
       </div>
-      <p className="font-roboto font-bold leading-normal text-[#FFE04E] text-3xl text-center m-8">
+      <p className="font-roboto font-bold leading-normal text-[#FFE04E] text-3xl text-center py-8 px-4">
         " Celebrate your life and all the moments that make it special. "
       </p>
     </>

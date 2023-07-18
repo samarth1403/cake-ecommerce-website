@@ -18,7 +18,7 @@ const PopularProduct = ({ shoppingItem }) => {
   };
   return (
     <div
-      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[320px] h-auto rounded-[15px] mx-8 mb-16 mt-4"
+      className="relative flex flex-col flex-no-wrap flex-shrink-0 justify-start items-center w-[240px] sm: h-auto rounded-[15px] mx-8 mb-16 mt-4"
       style={{
         background: "linear-gradient(90deg, #53FFB8 0%, #ACE7FF 100%)",
       }}
@@ -30,7 +30,7 @@ const PopularProduct = ({ shoppingItem }) => {
         <img
           src={shoppingItem?.images[0]?.url}
           alt="Shopping Item"
-          className="w-[320px] h-[320px] rounded-t-[15px] mb-2"
+          className="w-[240px] h-[240px] rounded-t-[15px] mb-2"
         />
       </Link>
 

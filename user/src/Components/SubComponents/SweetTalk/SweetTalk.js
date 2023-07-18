@@ -14,7 +14,7 @@ export default function App() {
   return (
     <>
       <div className="flex flex-row flex-wrap justify-center items-center">
-        <p className="text-[#FEE77A] font-roboto font-bold text-4xl">
+        <p className="leading-snug ont-roboto font-bold text-center items-center text-[#FEE77A] min-[320px]:text-3xl sm:text-4xl ">
           A Little Sweet Talk
         </p>
       </div>
@@ -31,23 +31,23 @@ export default function App() {
         className="mySwiper"
         style={{
           "--swiper-pagination-color": "rgb(255, 255, 0)",
-          "--swiper-pagination-bullet-size":"10px",
-          "--swiper-pagination-bullet-inactive-color":"#fff",
-          "--swiper-pagination-bullet-inactive-size":"6px",
+          "--swiper-pagination-bullet-size": "10px",
+          "--swiper-pagination-bullet-inactive-color": "#fff",
+          "--swiper-pagination-bullet-inactive-size": "6px",
         }}
       >
-        {sweetTalkList.map((sweetTalk) => {
+        {sweetTalkList.map((sweetTalk, index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <div className="flex flex-row flex-wrap justify-center items-center">
                 <div
                   style={{
                     background:
                       "linear-gradient(90deg, #53FFB8 0%, #ACE7FF 100%)",
                   }}
-                  className="flex flex-row flex-wrap justify-center items-center w-[600px] h-auto p-16 m-16 rounded-[30px] "
+                  className="flex flex-row flex-wrap justify-center items-center min-[320px]:w-[260px] sm:w-[500px] h-auto min-[320px]:p-8 sm:p-16 my-12 min-[320px]:rounded-[10px] sm:rounded-[30px] "
                 >
-                  <p className="font-roboto font-bold leading-[150%] text-[#0D103C] text-2xl text-center">
+                  <p className="font-roboto font-bold leading-[150%] text-[#0D103C] min-[320px]:text-lg sm:text-2xl text-center">
                     {sweetTalk}
                   </p>
                 </div>

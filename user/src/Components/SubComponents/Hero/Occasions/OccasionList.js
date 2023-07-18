@@ -35,7 +35,7 @@ const OccasionList = ({images}) => {
   return (
     <>
       <div className="flex flex-col flex-no-wrap justify-center items-center">
-        <div className="w-[360px] sm:w-[500px] md:w-[900px] lg:w-[1150px] my-6">
+        <div className="w-[320px] sm:w-[500px] md:w-[900px] lg:w-[1150px] my-6">
           <Marquee
             autoFill
             pauseOnHover
@@ -47,7 +47,6 @@ const OccasionList = ({images}) => {
           </Marquee>
         </div>
       </div>
-      <div className="flex flex-row flex-wrap justify-center items-center m-8"></div>
     </>
   );
 };

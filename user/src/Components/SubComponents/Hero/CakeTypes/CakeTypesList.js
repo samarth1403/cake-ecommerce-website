@@ -25,7 +25,7 @@ const CakeTypesList = () => {
         );
       });
   return (
-    <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center mx-16 pl-24 pr-16 py-4 my-4">
+    <div className="bg-[#0D103C] flex flex-row flex-wrap justify-center items-center min-[320px]:px-8 sm:px-16 sm:pl-24 sm:pr-16 py-4 my-4">
     {renderedCakeTypesList}
     </div>
   );

@@ -5,13 +5,14 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import { registerUser, resetUserState } from '../../../../features/user/userSlice';
 import { useNavigate } from "react-router-dom";
+import Spinner from '../../../ReusableComponents/Spinner';
 
 const Signup = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-   const { user, registeredUser, res } = useSelector((state) => state.user);
+   const { user, registeredUser, res, isLoading } = useSelector((state) => state.user);
 
    useEffect(() => {
      if (res?.success && registeredUser) {
@@ -145,7 +146,7 @@ const Signup = () => {
             style={{ boxShadow: "8px 8px 4px #0D103C" }}
             className="bg-[#fff] w-[105px] h-[75px] text-[#0D103C] rounded-[20px] font-roboto font-bold text-2xl px-4 mx-4 mt-4 mb-8"
           >
-            Sign Up
+            {isLoading === true ? <Spinner /> : "Sign Up"}
           </button>
         </div>
         {/* <button
